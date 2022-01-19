@@ -1,0 +1,328 @@
+/* PC HEADER */
+#headers {
+	width: 100%;
+	height: 100px;
+	background-color: #121212;
+	margin: 0 auto;
+	position: fixed;
+	z-index: 1000;
+}
+
+#headers #header-body {
+	width: 90%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+#headers #header-body #header-contents {
+	display: inline-block;
+	width: 1024px;
+	margin: 0 auto;
+}
+
+#headers #header-body #header-contents .logo {
+	float: left;
+	margin: 35px auto;
+}
+
+#headers #header-body #header-contents .menu-contents {
+	float: right;
+	margin: 30px auto;
+}
+
+#headers #header-body #header-contents .menu-contents .menu-item {
+	width: 100px;
+	text-align: center;
+	display: inline-block;
+	font-family: sans-serif;
+	font-size: 16px;
+	color: white;
+	position: relative;
+	box-sizing: border-box;
+}
+
+.menu-item {
+	color: white;
+}
+
+#headers #header-body #header-contents .menu-contents #quick-ticket {
+	padding: 0 18px;
+	background: #f16a1a;
+	line-height: 46px;
+	border-radius: 5px;
+}
+
+#mobile-headers {
+	display: none;
+}
+
+/* 영화관찾기 메뉴 - PC */
+.cinema {
+	display: none;
+	width: 100%;
+	height: 300px;
+	position: fixed;
+	top: 100px;
+	z-index: 1001;
+	background: #202020;
+}
+
+.cinema-search {
+	width: 100%;
+	display: flex;
+	margin: 0 auto;
+	padding: 20px 0 20px 0;
+}
+
+.search-box {
+	width: 1000px;
+	height: 50px;
+	margin: 0 auto;
+	background: #333333;
+	position: relative;
+}
+
+.cinema-search-item {
+	margin: 5px 0 0 40px;
+	width: 75%;
+	height: 40px;
+	border: 0px;
+	border-radius: 10px;
+	background: #333333;
+	font-size: 15px;
+	color: #fff;
+}
+
+.close-btn {
+	position: absolute;
+	right: 10px;
+	width: 80px;
+	height: 40px;
+	color: #fff;
+	background: #f16a1a;
+	border-radius: 5px;
+	border: 0;
+	margin: 5px;
+}
+
+.cinema-search-item:focus {
+	 outline: none;
+}
+
+.cinema-address-items {
+	display: flex;
+	width: 700px;
+	margin: 0 auto;
+}
+
+.cinema-address-item {
+ 	width: 50px;
+	height: 50px;
+	text-align: center; 
+	color: #7b4b1a;
+	font-size: 20px;
+	margin: 0 auto;
+}
+
+.cinema-address-items .on {
+	color: #f16a1a;
+	text-decoration: underline;
+	text-underline-position: under;
+}
+
+.cinema-address-item:hover { 
+	color: #f16a1a; 
+	font-weight: bold;
+	text-decoration: underline;
+	text-underline-position: under;
+}
+
+.cinema-local-result {
+	display: flex;
+	width: 980px;
+	margin: 0 auto;
+	flex-direction: row;
+	flex-wrap: wrap;
+	margin-top: 10px;	
+}
+
+.cinema-local-item {
+	min-width: 120px;
+	height: 30px;
+	margin: 0 16px 10px 0;
+	color: #fff;
+	font-size: 11pt;
+}
+
+/* MOBILE HEADER */
+@media screen and (max-width:1100px) {
+	.cinema {
+		top: 65px;
+	}
+	.cinema-search, .cinema-address {
+		padding: 20px 0 20px 0;
+	}
+	#headers {
+		display: none;
+	}
+	#mobile-headers {
+		width: 100%;
+		height: 65px;
+		background: #121212;
+		margin: auto;
+		display: inline-block;
+		position: fixed;
+		z-index: 10000;
+	}
+	#mobile-headers .mobile_menu {
+		height: 65px;
+		margin-top: 18px;
+		margin-left: 20px;
+		position: relative;
+		box-sizing: border-box;
+		float: left;
+	}
+	#mobile-headers .logo {
+		display: block;
+		float: right;
+	}
+	#mobile-headers .ticket_content {
+		float: right;
+		margin-top: 18px;
+	}
+	#mobile-headers .ico-m-ticket, .ico-m-my {
+		width: 25px;
+		height: 25px;
+		margin-right: 15px;
+	}
+	.menu-collapse {
+		width: 300px;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: -100%;
+		background: #000;
+		border-top: none;
+		transition: 0.3s;
+		margin: 0;
+		display: block;
+		overflow-y: auto;
+		padding: 0;
+		box-sizing: border-box;
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
+		overflow-x: visible;
+		z-index: 10001;
+	}
+	.menu-collapse.side-open {
+		left: 0;
+		z-index: 1002;
+	}
+	.menu-collapse .menu-header {
+		display: block;
+		position: relative;
+		z-index: 1003;
+		margin: 30px 0 20px 0;
+	}
+	.menu-collapse .menu-header button.menu-toggle {
+		width: 24px;
+		height: 24px;
+		background: url(../images/ico_close_modal.png) no-repeat transparent;
+		background-size: cover;
+		padding: 0;
+		border: none;
+		margin: 0 0 0 calc(90% - 20px);
+		cursor: pointer;
+	}
+	.mobile_menu button.menu-toggle {
+		width: 24px;
+		height: 24px;
+		background: url(../images/ico_m.png) no-repeat transparent;
+		background-size: cover;
+		padding: 0;
+		border: none;
+		margin: 0 16px 20px 0;
+		cursor: pointer;
+	}
+	.menu-collapse+button.menu-dim {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: #000;
+		z-index: -1;
+		opacity: 0;
+		visibility: hidden;
+		transition: 0.3s;
+		border: none;
+	}
+	.menu-collapse .side-open+button.menu-dim {
+		opacity: 1;
+		visibility: visible;
+	}
+	menu-collapse .menu-contents {
+		display: flex;
+		align-items: center;
+		width: calc(100% - 40px);
+		height: 100%;
+		flex-flow: column nowrap;
+		padding: 0 20px 20px;
+		margin: 0;
+		overflow: auto;
+	}
+	.menu-collapse .menu-contents .menu-logo {
+		line-height: 12px;
+		padding: 30px 0 30px 20px;
+		background: #000;
+		font-size: 20px;
+	}
+	.menu-collapse .menu-contents .menu-items {
+		line-height: 20px;
+		color: black;
+		padding: 10px 0 0 20px;
+		vertical-align: middle;
+	}
+	.menu-collapse .menu-contents .menu-items .menu-item {
+		display: block;
+		margin-bottom: 25px;
+		cursor: pointer;
+		font-size: 18px;
+		font-weight: normal;
+		padding: 5px;
+	}
+	.menu-collapse .menu-contents .menu-items .menu-items-img-text {
+		display: flex;
+	}
+	.menu-collapse .menu-contents .menu-items .menu-items-img-text .menu-item-img {
+		width: 25px;
+		height: 25px;
+		margin-right: 20px;
+	}
+	.menu-collapse .menu-contents .menu-items .menu-items-img-text #side-home-menu {
+		color: #f16a1a;
+	}
+
+	.cinema {
+		height: 100%;
+	}
+	.search-box {
+		width: 90%;
+	}
+	.cinema-address-items {
+		width: 30%;
+		display: block;
+		float:left;
+	}
+	.cinema-address-item {
+		display: block;
+	}
+	.cinema-local-result {
+		width: 70%;
+		display: block;
+		float: right;
+		margin-top: 0px;
+	}
+	.cinema-local-item {
+		display: block;
+	}
+}

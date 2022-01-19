@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.movie.mappers.member">
+
+	<!-- 회원 -->
+	<insert id="signup_action"
+		parameterType="org.movie.DTO.MemberDTO">
+		insert into member values (#{member_id}, #{member_pw},
+		#{member_name},
+		#{phone_number}, #{gender}, #{birth})
+	</insert>
+
+	<!-- 로그인기능 -->
+	<select id="login_action" resultType="org.movie.DTO.MemberDTO">
+		select * from member
+		where member_id=#{id} and member_pw=#{pw}
+	</select>
+
+</mapper>

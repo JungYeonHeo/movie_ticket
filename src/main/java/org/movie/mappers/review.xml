@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.movie.mappers.review">
+
+	<select id="reviewSelect" resultType="org.movie.DTO.ReviewDTO">
+		select * from review where movie_id = #{movie_id}
+	</select>
+	
+	<select id="memberReviewSelect" resultType="org.movie.DTO.ReviewDTO">
+		select * from review where member_id = #{member_id}
+	</select>
+	
+	<update id="likeCountUpdate">
+		update review set recommend_count = #{count} where review_id = #{search}
+	</update>
+	
+	<insert id="reviewInsert">
+		insert into review(review_id, member_id, movie_id, review_rate, review_text) value(#{review_id}, #{member_id}, #{movie_id}, #{score}, #{text})
+	</insert>
+	
+</mapper>

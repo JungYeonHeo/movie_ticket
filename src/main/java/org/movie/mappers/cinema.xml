@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.movie.mappers.cinema">
+
+	<select id="cinemaSelectAll" resultType="org.movie.DTO.CinemaDTO">
+		select * from cinema
+	</select>
+	
+	<select id="cinemaSelectOne" resultType="org.movie.DTO.CinemaDTO">
+		select * from cinema where cinema_id = #{cinema_id}
+	</select>
+	
+	<select id="cinemaSearch" resultType="org.movie.DTO.CinemaDTO">
+		select * from cinema where ${target} like CONCAT('%', #{search},'%')
+	</select>
+	
+	<select id="cinemaShowingSearch" resultType="org.movie.DTO.CinemaDTO">
+		select * from cinema where cinema_id = any(select distinct cinema_id from cinema_showing where movie_id = #{movie_id})
+	</select>
+	
+	<select id="cinemaShowingMovieList" resultType="org.movie.DTO.MovieDTO">
+		select * from movie where movie_id = any(select movie_id from cinema_showing where cinema_id = #{cinema_id}) and <![CDATA[opening_date <= now() and closing_date >= now()]]>
+	</select>
+	
+	<select id="cinemaNotShowingMovieList" resultType="org.movie.DTO.MovieDTO">
+		select * from movie where movie_id = any(select movie_id from cinema_showing where cinema_id = #{cinema_id}) and <![CDATA[opening_date >= now()]]>
+	</select>
+	
+	<select id="cinemaImagesList" resultType="org.movie.DTO.CinemaImageDTO">
+		select * from cinema_images where cinema_id = #{cinema_id}
+	</select>
+	
+</mapper>

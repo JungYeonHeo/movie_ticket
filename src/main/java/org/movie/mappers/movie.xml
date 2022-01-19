@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.movie.mappers.movie">
+
+	<!-- 영화목록 -->
+	<select id="movieSelectNowShowing" resultType="org.movie.DTO.MovieDTO">
+		select * from movie where <![CDATA[opening_date <= now() and closing_date >= now()]]>
+	</select>
+
+	<select id="movieSelectNotShowing" resultType="org.movie.DTO.MovieDTO">
+		select * from movie where <![CDATA[opening_date >= now()]]>
+	</select>
+	
+	<!-- 인기  -->
+	<select id="movieSelectNowShowingTop10" resultType="org.movie.DTO.MovieDTO">
+		select * from movie where <![CDATA[opening_date <= now() and closing_date >= now()]]> limit 10
+	</select>
+	
+	<select id="movieSelectNoTShowingTop10" resultType="org.movie.DTO.MovieDTO">
+		select * from movie where <![CDATA[opening_date >= now()]]> limit 10
+	</select>
+	
+	<!-- 검색 -->
+	<select id="movieGenreShowingSearch" resultType="org.movie.DTO.MovieDTO">
+		select * from movie where movie_id = any(select movie_id from movie_genre where genre_id = #{search}) and <![CDATA[opening_date <= now() and closing_date >= now()]]>
+	</select>
+	
+	<select id="movieGenreNotShowingSearch" resultType="org.movie.DTO.MovieDTO">
+		select * from movie where movie_id = any(select movie_id from movie_genre where genre_id = #{search}) and <![CDATA[opening_date >= now()]]>
+	</select>
+	
+	<select id="movieTitleShowingSearch" resultType="org.movie.DTO.MovieDTO">
+		select * from movie where title_ko like CONCAT('%', #{search},'%') and <![CDATA[opening_date <= now() and closing_date >= now()]]>
+	</select>
+	
+	<select id="movieTitleNotShowingSearch" resultType="org.movie.DTO.MovieDTO">
+		select * from movie where title_ko like CONCAT('%', #{search},'%') and <![CDATA[opening_date >= now()]]>
+	</select>
+	
+	<!-- 영화 상세 -->
+	<select id="movieSelectOne" resultType="org.movie.DTO.MovieDTO">
+		select * from movie where movie_id = #{movie_id}
+	</select>
+	
+	<select id="movieSelectDirector" resultType="org.movie.DTO.DirectorDTO">
+		select * from movie_director where movie_id = #{movie_id}
+	</select>
+	
+	<select id="movieSelectActor" resultType="org.movie.DTO.ActorDTO">
+		select * from movie_actor where movie_id = #{movie_id}
+	</select>
+	
+	<select id="movieSelectImage" resultType="String">
+		select movie_images from movie_images where movie_id = #{movie_id}
+	</select>
+	
+	<select id="movieSelectTrailer" resultType="org.movie.DTO.TrailerDTO">
+		select * from movie_trailer where movie_id = #{movie_id}
+	</select>
+	
+</mapper>
