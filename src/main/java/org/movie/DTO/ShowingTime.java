@@ -1,14 +1,14 @@
 package org.movie.DTO;
 
-public class B {
+public class ShowingTime {
 
 	private String cinema_showing_id;
 	private String showing_time;
 	
-	public B() {
+	public ShowingTime() {
 	}
 
-	public B(String cinema_showing_id, String showing_time) {
+	public ShowingTime(String cinema_showing_id, String showing_time) {
 		super();
 		this.cinema_showing_id = cinema_showing_id;
 		this.showing_time = showing_time;

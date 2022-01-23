@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-import org.movie.DTO.B;
+import org.movie.DTO.ShowingTime;
 import org.movie.DTO.CinemaDTO;
 import org.movie.DTO.MemberDTO;
 import org.movie.DTO.MovieDTO;
@@ -55,8 +55,8 @@ public class TicketDAO {
 		return ticketCinemaList;
 	}
 
-	public B ticketShowingTimeList(HashMap<String, Object> map) {
-		B ticketShowingTimeList = session.selectOne(ticketMapper + ".ticketShowingTimeList", map);
+	public ShowingTime ticketShowingTimeList(HashMap<String, Object> map) {
+		ShowingTime ticketShowingTimeList = session.selectOne(ticketMapper + ".ticketShowingTimeList", map);
 		return ticketShowingTimeList;
 	}
 	

@@ -29,7 +29,7 @@
 		select * from cinema order by cinema_name asc
 	</select>
 	
-	<select id="ticketShowingTimeList" resultType="org.movie.DTO.B">
+	<select id="ticketShowingTimeList" resultType="org.movie.DTO.ShowingTime">
 		select cinema_showing_id, showing_time from cinema_showing where movie_id = (select movie_id from movie where title_ko = #{title_ko}) and cinema_id = (select cinema_id from cinema where cinema_name = #{cinema_name}) and showing_date = #{showing_date}
 	</select>
 	

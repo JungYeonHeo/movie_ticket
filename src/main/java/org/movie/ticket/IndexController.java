@@ -1,6 +1,5 @@
 package org.movie.ticket;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -17,7 +16,6 @@ import org.movie.DAO.MovieDAO;
 import org.movie.DAO.ReviewDAO;
 import org.movie.DAO.TicketDAO;
 import org.movie.DTO.ActorDTO;
-import org.movie.DTO.B;
 import org.movie.DTO.CinemaDTO;
 import org.movie.DTO.CinemaImageDTO;
 import org.movie.DTO.DirectorDTO;
@@ -25,7 +23,7 @@ import org.movie.DTO.GenreDTO;
 import org.movie.DTO.MemberDTO;
 import org.movie.DTO.MovieDTO;
 import org.movie.DTO.ReviewDTO;
-import org.movie.DTO.TicketDTO;
+import org.movie.DTO.ShowingTime;
 import org.movie.DTO.TrailerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -289,16 +287,16 @@ public class IndexController {
 	}
 	
 	@RequestMapping(value="/cinema_showing_action", method=RequestMethod.GET)
-	public @ResponseBody B cinema_showing_action(String title_ko, String cinema_name, String showing_date) {
+	public @ResponseBody ShowingTime cinema_showing_action(String title_ko, String cinema_name, String showing_date) {
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("title_ko",  title_ko);
 		map.put("cinema_name",  cinema_name);
 		map.put("showing_date", showing_date);
-		B ticketShowingTimeList = ticketdao.ticketShowingTimeList(map);
+		ShowingTime ticketShowingTimeList = ticketdao.ticketShowingTimeList(map);
 		
 		if (ticketShowingTimeList == null) {
-			System.out.println("정보X");
+			System.out.println("정보가 없습니다.");
 		}
 		return ticketShowingTimeList;
 	}

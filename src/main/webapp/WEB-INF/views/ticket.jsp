@@ -146,15 +146,12 @@ var cinema_name = ""
 var showing_date = ""
 var month = ""
 var cinema_showing_id = 0;
+
 $(document).on("click", ".movie", function(){
 	$(this).parent().children("li").removeClass("selecton");  
     $(this).addClass("selecton");
-	var movie_arr = $(this).text().trim().split(" ");
-	for (var i = 1; i < movie_arr.length; i++) {
-		title_ko += movie_arr[i].trim()
-	}
-	
-	console.log(title_ko)
+	title_ko = $(this).text().trim().slice(4).trim();
+    console.log(title_ko)
 });
 
 $(document).on("click", ".cine_list li", function(){
@@ -166,7 +163,7 @@ $(document).on("click", ".cine_list li", function(){
 });
 
 $(document).on("click", ".day", function(){
-	$(this).parent().children("b").removeClass("selecton");  
+	$(this).parent().children("li").removeClass("selecton");  
     $(this).addClass("selecton");
 	var day = $(this).text()
 	if (${month} < 10) {
@@ -177,7 +174,6 @@ $(document).on("click", ".day", function(){
 	showing_date = ${year} + "-" + month + "-" + day.trim();
 	console.log(showing_date)
 });
-
 
 $(document).on("click", "li", function(){
 	if (title_ko != "" && cinema_name != ""  && showing_date != "") {
@@ -190,7 +186,11 @@ $(document).on("click", "li", function(){
 		       	$('.text').html('')
 				var add = resultData['showing_time']
 		       	cinema_showing_id = resultData['cinema_showing_id']
-		       	$('.text').append(add); 
+		       	if (resultData['showing_time'] == null) {
+			       	$('.text').append('상영정보가 없습니다'); 
+		       	} else {
+			       	$('.text').append(add); 
+		       	}
 		   	} 
 		})
 	} 
@@ -212,8 +212,7 @@ $(document).on("propertychange change keyup paste input", ".adult", function(){
 });
 
 $(".pay").click(function () {
-	// 영화 상영 정보, 인원, 좌석, 가격
-	
+	seat = $(".inputseat").val().trim()
 	$.ajax ({
 	    method: 'GET',
 	    url: 'pay_action',
