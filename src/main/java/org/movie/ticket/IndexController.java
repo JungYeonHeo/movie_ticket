@@ -23,7 +23,7 @@ import org.movie.DTO.GenreDTO;
 import org.movie.DTO.MemberDTO;
 import org.movie.DTO.MovieDTO;
 import org.movie.DTO.ReviewDTO;
-import org.movie.DTO.ShowingTime;
+import org.movie.DTO.ShowingTimeDTO;
 import org.movie.DTO.TrailerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -287,13 +287,13 @@ public class IndexController {
 	}
 	
 	@RequestMapping(value="/cinema_showing_action", method=RequestMethod.GET)
-	public @ResponseBody ShowingTime cinema_showing_action(String title_ko, String cinema_name, String showing_date) {
+	public @ResponseBody ShowingTimeDTO cinema_showing_action(String title_ko, String cinema_name, String showing_date) {
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("title_ko",  title_ko);
 		map.put("cinema_name",  cinema_name);
 		map.put("showing_date", showing_date);
-		ShowingTime ticketShowingTimeList = ticketdao.ticketShowingTimeList(map);
+		ShowingTimeDTO ticketShowingTimeList = ticketdao.ticketShowingTimeList(map);
 		
 		if (ticketShowingTimeList == null) {
 			System.out.println("정보가 없습니다.");
