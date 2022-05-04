@@ -43,6 +43,7 @@
 	color: #fff;
 }
 
+/* 영화 선택 */
 .wrapper .container .movie_box {
 	height: 623px;
 	position: relative;
@@ -110,6 +111,7 @@
 	margin-left: 5px;
 }
 
+/* 영화관 선택 */
 .wrapper .container .cinema_box {
 	height: 623px;
 	position: relative;
@@ -167,6 +169,7 @@
 	color: #fff;
 }
 
+/* 날짜 */
 .wrapper .container .date_box {
 	height: 623px;
 	position: relative;
@@ -236,6 +239,7 @@
     font-size: 26px;
 }
 
+/* 상영시간 */
 .wrapper .container .time_box {
 	height: 623px;
 	position: relative;
@@ -253,7 +257,7 @@
 	border-bottom: 1px solid #e1e1e1;
 }
 
-.time_box .showing-time-slot-list li {
+.time_box .showing-time-slot-list div {
 	height: 27px;
 	padding: 5px 0 0 7px;
 } 
@@ -263,6 +267,7 @@
 	color: #fff;
 }
 
+/* 좌석, 수량, 가격 */ 
 .count {
 	position: absolute;
 	bottom: 130px;

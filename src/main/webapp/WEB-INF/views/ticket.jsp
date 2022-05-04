@@ -108,16 +108,16 @@
 </body>
 
 <script type="text/javascript">
-var youth = 0;
-var adult = 0;
-var seat = "";
+var youth = 0
+var adult = 0
+var seat = ""
 var price = 0;
 var title_ko = ""
 var cinema_name = ""
 var showing_date = ""
 var month = ""
-var cinema_showing_id = 0;
-var cinema_showing_id_bool = false;
+var cinema_showing_id = 0
+var cinema_showing_id_bool = false
 
 // 영화 선택 
 $(document).on("click", ".movie", function() {
@@ -168,26 +168,18 @@ $(document).on("click", "li", function() {
 		       		cinema_showing_id_bool = true
 		       		var add_showing_time_list = ''
 		       		$.each(resultData, function(index, data) {
-			       		add_showing_time_list = "<li class='time-slot' onclick=\"time_slot_select(" + index + ", " + data['cinema_showing_id'] + ");\"><b>" + data['showing_time'] + "</b></li>"
-		       		})
+			       		add_showing_time_list = "<div class='time-slot' onclick=\"time_slot_select(" + index + ", " + data['cinema_showing_id'] + ");\"><b>" + data['showing_time'] + "</b></div>"
+		       		}) 
 			       	$('.showing-time-slot-list').append(add_showing_time_list)
 		       	}
 		   	} 
 		})
 	} 
 });
-
-// 시간대 선택
-/* $(document).on("click", ".time-slot", function() { 
-	if (cinema_showing_id_bool) {
-		$(this).parent().children("li").removeClass("selecton")  
- 	    $(this).addClass("selecton")
-	}
-}); */	
-
+	
 function time_slot_select(index, showing_id) {
 	cinema_showing_id = showing_id 
-	$(".time-slot").eq(index).addClass("selecton")
+	$(".time-slot").eq(index).addClass("selecton").siblings().removeClass('selecton');
 	console.log($(".time-slot").eq(index).text())	
 	console.log("상영 ID: " + cinema_showing_id)
 }
