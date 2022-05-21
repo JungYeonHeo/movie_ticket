@@ -18,14 +18,14 @@
 	background: #fff;
 }
 
-.login{
+.login {
 	padding-top: 100px;
 	margin: 0 auto;
 	width: 400px;
 	text-align: center;
 }
 
-.logintext{
+.logintext {
 	text-decoration: none; 
 	font-size: 20pt;
 	margin: 0 auto;
@@ -33,18 +33,18 @@
 	height: 40px;
 }
 
-.findid, .findpw{
+.findid, .findpw {
 	font-size: 12pt;
 }
 
-.warningid, .warningpw{
+.warningid, .warningpw {
 	font-size: 12pt;
 	color: #f16a1a;
 	display: none;
 	text-align: left;
 }
 
-.inputid, .inputpw{
+.inputid, .inputpw {
 	width: 400px;
 	height: 40px;
 	border-radius: 10px;

@@ -15,9 +15,9 @@
 		<div class="container">
 			<div class="login">
 				<div class="logintext">로그인</div>
-				<input class="inputid" type="text" placeholder="ID를 입력해주세요.">
+				<input class="inputid" type="text" autofocus required placeholder="ID를 입력해주세요.">
 				<p class="warningid">id값을 입력해주세요.</p>
-				<input class="inputpw" type="password" placeholder="비밀번호를 입력해주세요.">
+				<input class="inputpw" type="password" autofocus required placeholder="비밀번호를 입력해주세요.">
 				<p class="warningpw">비밀번호를 입력해주세요.</p>
 				<button class="loginbutton">로그인 하기</button>
 				<div style="width: 160px; display: flex; margin: 0 auto;">
@@ -31,14 +31,13 @@
 </body>
 <script type="text/javascript">
 	$(".loginbutton").click(function() {
-		if ($(".inputid").val() == "" || $(".inputpw").val() == "") {
+		if ($(".inputid").val().trim() == "" || $(".inputpw").val().trim() == "") {
 			if ($(".inputid").val() == "") {
 				$(".warningid").css("display", "block");
 			}
 			if ($(".inputpw").val() == "") {
 				$(".warningpw").css("display", "block");
 			}
-
 		} else {
 			$.ajax({
 				method : 'GET',

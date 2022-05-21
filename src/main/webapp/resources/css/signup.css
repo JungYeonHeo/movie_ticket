@@ -10,40 +10,51 @@
 
 .container {
 	width: 100%;
-	height: 100%; /*384px*/
+	height: 100%; 
 	display: block;
 	top: 100px;
 	position: relative;
-	padding-bottom: 80px;
+	padding-bottom: 180px;
+	margin-bottom: 180px;
+	background: #fff;
 }
 
-.signup{
+.signup {
 	padding-top: 80px;
 	margin: 0 auto;
 	width: 400px;
+	height: 100%;
 	text-align: center;
 }
 
-.signuptext{
+.signuptext {
 	text-decoration: none; 
 	font-size: 20pt;
 	margin: 0 auto;
 	font-weight: bold;
-	height: 40px;
-	color: white !important;
+	height: 80px;
 }
 
-.warningid, .warningpw, .warningpw_check, .warningname, .warningphonenumber, .warningbirth, .warninggender{
+.p-warning {
 	font-size: 12pt;
-	color: #f16a1a;
+	color: #f16a1a; 
 	display: none;
+	text-align: left;
+	
+	
+	
 }
 
-input {
+input[type=text], input[type=password], input[type=date] {
 	width: 400px;
 	height: 40px;
 	border-radius: 10px;
 	margin-bottom: 10px;
+}
+
+input[type=radio] {
+	width: 20px;
+	height: 20px;
 }
 
 input:focus {
@@ -56,6 +67,7 @@ button {
 	padding: 0 18px;
 	background: #f16a1a;
 	color: #ffffff;
+	font-weight: bold;
 	border-radius: 5px;
 	border: 0px;
 }

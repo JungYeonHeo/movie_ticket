@@ -4,73 +4,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<%@ include file="head.jsp"%>
-<link type="text/css" rel="stylesheet" href="resources/css/signup.css">
-<title>대체로 맑음 - 회원가입</title>
+	<meta charset="UTF-8">
+	<%@ include file="head.jsp"%>
+	<link type="text/css" rel="stylesheet" href="resources/css/signup.css">
+	<title>대체로 맑음 - 회원가입</title>
 </head>
 <body>
-
 	<div id="wrap">
 		<%@ include file="header.jsp"%>
-
 		<div class="container">
-
-<!-- 			<div class="signuptable"> -->
-<!-- 				<table border="1"> -->
-<!-- 					<th>1.본인인증</th> -->
-<!-- 					<th>2.약관동의</th> -->
-<!-- 					<th>3.정보입력</th> -->
-<!-- 					<th>4.가입완료</th> -->
-<!-- 				</table> -->
-<!-- 			</div> -->
-
 			<div class="signup">
-				<div class="signuptext">회원가입하기</div>
-				<input class="inputid" type="text" placeholder="ID를 입력해주세요.">
-				<div class="warningid">id값을 입력해주세요.</div>
-				<input class="inputpw" type="text" placeholder="비밀번호를 입력해주세요.">
-				<div class="warningpw">비밀번호를 입력해주세요.</div>
-				<input class="inputpw_check" type="text" placeholder="비밀번호를 확인해주세요.">
-				<div class="warningpw_check">비밀번호를 확인해주세요.</div>
-				<input class="inputname" type="text" placeholder="이름을 확인해주세요.">
-				<div class="warningname">이름을 확인해주세요.</div>
-				<input class="inputphonenumber" type="text" placeholder="000-0000-0000 형식으로 입력해주세요.">
-				<div class="warningphonenumber">전화번호를 확인해주세요.</div>
-				<input class="inputbirth" type="text" placeholder="19xx-xx-xx 형식으로 입력해주세요.">
-				<div class="warningbirth">생년월일을 확인해주세요.</div>
-				<input class="inputgender" type="text" placeholder="F/M 형식으로 입력해주세요.">
-				<div class="warninggender">성별을 확인해주세요.</div>
-
+				<div class="signuptext">회원가입</div>
+				<input class="inputid" type="text" autofocus required placeholder="ID를 입력해주세요.">
+				<div class='p-warning' id="warningid">id값을 입력해주세요.</div>
+				
+				<input class="inputpw" type="password" autofocus required placeholder="비밀번호를 입력해주세요.">
+				<div class='p-warning' id="warningpw">비밀번호를 입력해주세요.</div>
+				
+				<input class="inputpw_check" type="password" autofocus required placeholder="비밀번호를 확인해주세요.">
+				<div class='p-warning' id="warningpw_check">비밀번호를 확인해주세요.</div>
+				
+				<input class="inputname" type="text" autofocus required placeholder="이름을 확인해주세요.">
+				<div class='p-warning' id="warningname">이름을 확인해주세요.</div>
+				
+				<input class="inputphonenumber" type="text" autofocus required placeholder="010-0000-0000 형식으로 입력해주세요.">
+				<div class='p-warning' id="warningphonenumber">전화번호를 확인해주세요.</div>
+				
+				<input class="inputbirth" type="date" autofocus required>
+				<div class='p-warning' id="warningbirth">생년월일을 확인해주세요.</div>
+				
+				<input class="inputgender" type="radio" value='F'>여성
+				<input class="inputgender" type="radio" value='M'>남성
+				<div class='p-warning' id="warninggender">성별을 확인해주세요.</div>
 				<button class="signupbutton">회원가입 하기</button>
 			</div>
 		</div>
+		<%@ include file="footer.jsp"%>
 	</div>
-	<br><br><br><br><br><br>
-	<%@ include file="footer.jsp"%>
 </body>
 <script type="text/javascript">
 $(".signupbutton").click(function() {
 	if ($(".inputid").val() == "") {
-		$(".warningid").css("display", "block");
+		$("#warningid").css("display", "block");
 	}
 	if ($(".inputpw").val() == "") {
-		$(".warningpw").css("display", "block");
+		$("#warningpw").css("display", "block");
 	}
 	if ($(".inputpw_check").val() == "") {
-		$(".warningpw_check").css("display", "block");
+		$("#warningpw_check").css("display", "block");
 	}
 	if ($(".inputname").val() == "") {
-		$(".warningname").css("display", "block");
+		$("#warningname").css("display", "block");
 	}
 	if ($(".inputphonenumber").val() == "") {
-		$(".warningphonenumber").css("display", "block");
+		$("#warningphonenumber").css("display", "block");
 	}
 	if ($(".inputbirth").val() == "") {
-		$(".warningbirth").css("display", "block");
+		$("#warningbirth").css("display", "block");
 	}
 	if ($(".inputgender").val() == "") {
-		$(".warninggender").css("display", "block");
+		$("#warninggender").css("display", "block");
 	}
 		
 	$.ajax ({
@@ -84,7 +77,7 @@ $(".signupbutton").click(function() {
         	if (resultData == 1) {
         		alert('회원가입 실패')
         	} else {
-        		alert('회원가입 성공')
+        		alert('회원가입 되었습니다.')
         		location.href=""
 	       	}
         }
