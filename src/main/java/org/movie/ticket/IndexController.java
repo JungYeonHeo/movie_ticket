@@ -276,8 +276,7 @@ public class IndexController {
 		LocalDate now = LocalDate.now(); 
 		int year = now.getYear(); 
 		int month = now.getMonth().getValue(); 
-		int day = now.getMonthValue(); 
-//		int dayOfMonth = now.getDayOfMonth(); 
+		int day = now.getDayOfMonth(); 
 
 		model.addAttribute("year", year);
 		model.addAttribute("month", month);

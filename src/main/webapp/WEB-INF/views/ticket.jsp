@@ -7,7 +7,7 @@
 	<%@ include file="head.jsp"%>
 	<meta charset="UTF-8">
 	<link type="text/css" rel="stylesheet" href="resources/css/ticket.css">
-	<title>대체로 맑음</title>
+	<title>대체로 맑음 - 예매</title>
 </head>
 <body>
 	<%@ include file="header.jsp"%>
@@ -70,43 +70,15 @@
 										${year} 
 									</h3>
 								</span>
-<%-- 								<c:forEach begin="${day}" end="${day + 7}" step="1" > --%>
-									<ul id="" style="cursor: pointer;">
+								<c:set var="index" value="${day}"/>	
+ 								<c:forEach begin="1" end="7" step="1" > 
+									<ul style="cursor: pointer;">
 										<li class="day">
-											<b>19</b>
+											<b><c:out value="${day}"/></b>
 										</li>
 									</ul>
-									<ul id="" style="cursor: pointer;">
-										<li class="day">
-											<b>20</b>
-										</li>
-									</ul>
-									<ul id="" style="cursor: pointer;">
-										<li class="day">
-											<b>21</b>
-										</li>
-									</ul>
-									<ul id="" style="cursor: pointer;">
-										<li class="day">
-											<b>22</b>
-										</li>
-									</ul>
-									<ul id="" style="cursor: pointer;">
-										<li class="day">
-											<b>23</b>
-										</li>
-									</ul>
-									<ul id="" style="cursor: pointer;">
-										<li class="day">
-											<b>24</b>
-										</li>
-									</ul>
-									<ul id="" style="cursor: pointer;">
-										<li class="day">
-											<b>25</b>
-										</li>
-									</ul>
-<%-- 								</c:forEach> --%>
+									<c:set var="day" value="${day + 1}"/>
+ 								</c:forEach> 
 							</div>
 						</div>
 					</div>
