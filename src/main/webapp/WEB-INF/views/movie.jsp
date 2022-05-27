@@ -182,8 +182,9 @@ function drawingMovieList(resultData) {
         	+ "<img class='contents-item-review-img' src='resources/images/ic-star-small-on.png' alt='별모양'>"
         	+ "<div class='contents-item-review-member'>일반</div>"
         	+ "<div class='contents-item-review-score'>" + data['gen_avg_rate'] + "</div>"
-        	+ "<div class='contents-item-review-member'>평론가</div>"
-        	+ "<div class='contents-item-review-score'>" + data['critic_avg_rate'] + "</div></div>"
+/*         	+ "<div class='contents-item-review-member'>평론가</div>"
+        	+ "<div class='contents-item-review-score'>" + data['critic_avg_rate'] + "</div>" */
+        	+ "</div>"
         	+ "<button class='contents-item-btn'>예매하기 →</button></div>";
     })
     
