@@ -71,14 +71,14 @@
 									</h3>
 								</span>
 								<c:set var="index" value="${day}"/>	
- 								<c:forEach begin="1" end="7" step="1" > 
-									<ul style="cursor: pointer;">
+								<ul style="cursor: pointer;">
+ 									<c:forEach begin="1" end="7" step="1" > 
 										<li class="day">
 											<b><c:out value="${day}"/></b>
 										</li>
-									</ul>
-									<c:set var="day" value="${day + 1}"/>
- 								</c:forEach> 
+										<c:set var="day" value="${day + 1}"/>
+ 									</c:forEach> 
+ 								</ul>
 							</div>
 						</div>
 					</div>
@@ -120,7 +120,7 @@ var month = ""
 var cinema_showing_id = 0;
 
 // 영화 선택 
-$(document).on("click", ".movie", function(){
+$(document).on("click", ".movie", function() {
 	$(this).parent().children("li").removeClass("selecton") 
     $(this).addClass("selecton")
 	title_ko = $(this).text().trim().slice(4).trim();
@@ -128,7 +128,7 @@ $(document).on("click", ".movie", function(){
 })
 
 // 영화관 선택
-$(document).on("click", ".cine_list li", function(){
+$(document).on("click", ".cine_list li", function() {
 	$(this).parent().children("li").removeClass("selecton")
     $(this).addClass("selecton")
     cinema_name = $(this).text()
@@ -137,7 +137,8 @@ $(document).on("click", ".cine_list li", function(){
 })
 
 // 날짜 선택
-$(document).on("click", ".day", function(){
+$(document).on("click", ".day", function() {
+	console.log($(this).parent().children("li"))
 	$(this).parent().children("li").removeClass("selecton")  
     $(this).addClass("selecton")
 	var day = $(this).text()
@@ -151,7 +152,7 @@ $(document).on("click", ".day", function(){
 })
 
 // 영화, 영화관, 날짜를 모두 선택하면 선택한 조건에 맞는 상영시간대를 가져옴 
-$(document).on("click", "li", function(){
+$(document).on("click", "li", function() {
 	if (title_ko != "" && cinema_name != ""  && showing_date != "") {
 		$.ajax ({
 		    method: 'GET',
@@ -173,7 +174,7 @@ $(document).on("click", "li", function(){
 })
 
 // 청소년 수 입력에 따른 가격 변동
-$(document).on("propertychange change keyup paste input", ".youth", function(){ 
+$(document).on("propertychange change keyup paste input", ".youth", function() { 
 	youth = $(".youth").val()
 	adult = $(".adult").val()
 	price = youth * 7000 + adult * 10000
@@ -181,7 +182,7 @@ $(document).on("propertychange change keyup paste input", ".youth", function(){
 })
 
 // 어른 수 입력에 따른 가격 변동
-$(document).on("propertychange change keyup paste input", ".adult", function(){ 
+$(document).on("propertychange change keyup paste input", ".adult", function() { 
 	youth = $(".youth").val()
 	adult = $(".adult").val()
 	price = $(".youth").val() * 7000 + $(".adult").val() * 10000
@@ -189,7 +190,7 @@ $(document).on("propertychange change keyup paste input", ".adult", function(){
 })
 
 // 결제하기버튼: DB에 예매 정보 저장
-$(".pay").click(function () {
+$(".pay").click(function() {
 	seat = $(".inputseat").val().trim()
 	$.ajax ({
 	    method: 'GET',
