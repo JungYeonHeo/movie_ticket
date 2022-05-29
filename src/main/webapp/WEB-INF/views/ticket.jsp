@@ -119,24 +119,27 @@ var showing_date = ""
 var month = ""
 var cinema_showing_id = 0;
 
+// 영화 선택 
 $(document).on("click", ".movie", function(){
-	$(this).parent().children("li").removeClass("selecton");  
-    $(this).addClass("selecton");
+	$(this).parent().children("li").removeClass("selecton") 
+    $(this).addClass("selecton")
 	title_ko = $(this).text().trim().slice(4).trim();
     console.log(title_ko)
-});
+})
 
+// 영화관 선택
 $(document).on("click", ".cine_list li", function(){
-	$(this).parent().children("li").removeClass("selecton");  
-    $(this).addClass("selecton");
+	$(this).parent().children("li").removeClass("selecton")
+    $(this).addClass("selecton")
     cinema_name = $(this).text()
     cinema_name = cinema_name.trim()
     console.log(cinema_name)
-});
+})
 
+// 날짜 선택
 $(document).on("click", ".day", function(){
-	$(this).parent().children("li").removeClass("selecton");  
-    $(this).addClass("selecton");
+	$(this).parent().children("li").removeClass("selecton")  
+    $(this).addClass("selecton")
 	var day = $(this).text()
 	if (${month} < 10) {
 		month = "0" + ${month}
@@ -145,8 +148,9 @@ $(document).on("click", ".day", function(){
 	}
 	showing_date = ${year} + "-" + month + "-" + day.trim();
 	console.log(showing_date)
-});
+})
 
+// 영화, 영화관, 날짜를 모두 선택하면 선택한 조건에 맞는 상영시간대를 가져옴 
 $(document).on("click", "li", function(){
 	if (title_ko != "" && cinema_name != ""  && showing_date != "") {
 		$.ajax ({
@@ -166,23 +170,25 @@ $(document).on("click", "li", function(){
 		   	} 
 		})
 	} 
+})
 
-});
-
+// 청소년 수 입력에 따른 가격 변동
 $(document).on("propertychange change keyup paste input", ".youth", function(){ 
 	youth = $(".youth").val()
 	adult = $(".adult").val()
 	price = youth * 7000 + adult * 10000
 	$(".price").text("금액: " + price + "원")
-});
+})
 
+// 어른 수 입력에 따른 가격 변동
 $(document).on("propertychange change keyup paste input", ".adult", function(){ 
 	youth = $(".youth").val()
 	adult = $(".adult").val()
 	price = $(".youth").val() * 7000 + $(".adult").val() * 10000
 	$(".price").text("금액: " + price + "원")
-});
+})
 
+// 결제하기버튼: DB에 예매 정보 저장
 $(".pay").click(function () {
 	seat = $(".inputseat").val().trim()
 	$.ajax ({
@@ -191,12 +197,10 @@ $(".pay").click(function () {
 	    data: {"cinema_showing_id": cinema_showing_id, "youth": youth, "adult": adult, "seat": seat, "price": price},
 	    contentType: "application/json; charset:UTF-8", 
 	    success: function(resultData) { 
-			alert("결제되었습니다.");
-			location.href = "mypage";
+			alert("결제되었습니다.")
+			location.href = "mypage"
 	   	} 
-	})
-	
-});
+	})	
+})
 </script>
-
 </html>
