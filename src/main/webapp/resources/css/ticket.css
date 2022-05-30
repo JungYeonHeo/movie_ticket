@@ -231,6 +231,14 @@
     font-size: 26px;
 }
 
+.wrapper .container .time_box {
+	height: 623px;
+	position: relative;
+	width: 252px;
+	border-right: 1px solid #e1e1e1;
+	float: left;
+}
+
 .time_box h2 {
 	padding: 24px 0 16px;
 	text-align: center;
@@ -247,11 +255,12 @@
 	color: #333;
 }
 
-.text {
-/* 	position: absolute; */
-/* 	top: 85px; */
-/* 	right: 5px; */
-	padding-left: 10px;
+.showing-time-slot-list li {
+	height: 32.39px;
+} 
+
+.showing-time-slot-list li b {
+	padding: 6px 16px 6px
 }
 
 .count {

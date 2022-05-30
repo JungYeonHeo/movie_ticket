@@ -85,9 +85,9 @@
 				</div>
 				<div class="time_box">
 					<h2>상영시간/인원/좌석</h2>
-					<ul id="" style="cursor: pointer;">
+					<ul class="showing-time-slot-list" style="cursor: pointer;">
 						<li>
-							<b class="text">상영정보를 선택해주세요</b>
+							<b>상영정보를 선택해주세요</b>
 						</li>
 					</ul>
 					<div class="addInfor">
@@ -118,6 +118,7 @@ var cinema_name = ""
 var showing_date = ""
 var month = ""
 var cinema_showing_id = 0;
+var cinema_showing_id_bool = false;
 
 // 영화 선택 
 $(document).on("click", ".movie", function() {
@@ -138,7 +139,6 @@ $(document).on("click", ".cine_list li", function() {
 
 // 날짜 선택
 $(document).on("click", ".day", function() {
-	console.log($(this).parent().children("li"))
 	$(this).parent().children("li").removeClass("selecton")  
     $(this).addClass("selecton")
 	var day = $(this).text()
@@ -160,19 +160,32 @@ $(document).on("click", "li", function() {
 		    data: {"title_ko": title_ko, "cinema_name": cinema_name, "showing_date": showing_date},
 		    contentType: "application/json; charset:UTF-8", 
 		    success: function(resultData) { 
-		       	$('.text').html('')
-				var add = resultData['showing_time']
-		       	cinema_showing_id = resultData['cinema_showing_id']
-		       	if (resultData['showing_time'] == null) {
-			       	$('.text').append('상영정보가 없습니다'); 
+		       	$('.showing-time-slot-list').html('')
+				var showing_time_list = resultData['showing_time']
+		       	cinema_showing_id = resultData['cinema_showing_id'] // 상영정보 고유 번호 담기 
+		       	if (showing_time_list == null) {
+		       		cinema_showing_id_bool = false
+		       		no_showing_time = "<li><b>상영정보가 없습니다</b></li>"
+			       	$('.showing-time-slot-list').append(no_showing_time)
 		       	} else {
-			       	$('.text').append(add); 
+		       		cinema_showing_id_bool = true
+		       		add_showing_time_list = "<li><b>" + showing_time_list + "</b></li>"
+			       	$('.showing-time-slot-list').append(add_showing_time_list)
 		       	}
 		   	} 
 		})
 	} 
 })
 
+// 시간대 선택
+$(document).on("click", ".showing-time-slot-list li", function() {
+	if (cinema_showing_id_bool) {
+		$(this).parent().children("li").removeClass("selecton")  
+	    $(this).addClass("selecton")
+	    // cinema_showing_id = resultData['cinema_showing_id'] 상영정보  변수에저장
+	}
+})	
+	
 // 청소년 수 입력에 따른 가격 변동
 $(document).on("propertychange change keyup paste input", ".youth", function() { 
 	youth = $(".youth").val()
