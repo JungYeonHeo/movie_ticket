@@ -286,13 +286,14 @@ public class IndexController {
 	}
 	
 	@RequestMapping(value="/cinema_showing_action", method=RequestMethod.GET)
-	public @ResponseBody ShowingTimeDTO cinema_showing_action(String title_ko, String cinema_name, String showing_date) {
+	public @ResponseBody List<ShowingTimeDTO> cinema_showing_action(String title_ko, String cinema_name, String showing_date) {
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("title_ko",  title_ko);
 		map.put("cinema_name",  cinema_name);
 		map.put("showing_date", showing_date);
-		ShowingTimeDTO ticketShowingTimeList = ticketdao.ticketShowingTimeList(map);
+//		ShowingTimeDTO ticketShowingTimeList = ticketdao.ticketShowingTimeList(map);
+		List<ShowingTimeDTO> ticketShowingTimeList = ticketdao.ticketShowingTimeList(map);
 		
 		if (ticketShowingTimeList == null) {
 			System.out.println("정보가 없습니다.");

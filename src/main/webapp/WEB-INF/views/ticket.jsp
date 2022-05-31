@@ -108,7 +108,6 @@
 </body>
 
 <script type="text/javascript">
-var cinema_showing_id = 0;
 var youth = 0;
 var adult = 0;
 var seat = "";
@@ -124,9 +123,9 @@ var cinema_showing_id_bool = false;
 $(document).on("click", ".movie", function() {
 	$(this).parent().children("li").removeClass("selecton") 
     $(this).addClass("selecton")
-	title_ko = $(this).text().trim().slice(4).trim();
+	title_ko = $(this).text().trim().slice(4).trim()
     console.log(title_ko)
-})
+});
 
 // 영화관 선택
 $(document).on("click", ".cine_list li", function() {
@@ -135,7 +134,7 @@ $(document).on("click", ".cine_list li", function() {
     cinema_name = $(this).text()
     cinema_name = cinema_name.trim()
     console.log(cinema_name)
-})
+});
 
 // 날짜 선택
 $(document).on("click", ".day", function() {
@@ -147,9 +146,9 @@ $(document).on("click", ".day", function() {
 	} else {
 		month = ${month}
 	}
-	showing_date = ${year} + "-" + month + "-" + day.trim();
+	showing_date = ${year} + "-" + month + "-" + day.trim()
 	console.log(showing_date)
-})
+});
 
 // 영화, 영화관, 날짜를 모두 선택하면 선택한 조건에 맞는 상영시간대를 가져옴 
 $(document).on("click", "li", function() {
@@ -161,30 +160,37 @@ $(document).on("click", "li", function() {
 		    contentType: "application/json; charset:UTF-8", 
 		    success: function(resultData) { 
 		       	$('.showing-time-slot-list').html('')
-				var showing_time_list = resultData['showing_time']
-		       	cinema_showing_id = resultData['cinema_showing_id'] // 상영정보 고유 번호 담기 
-		       	if (showing_time_list == null) {
+		       	if (resultData.length == 0) {
 		       		cinema_showing_id_bool = false
 		       		no_showing_time = "<li><b>상영정보가 없습니다</b></li>"
 			       	$('.showing-time-slot-list').append(no_showing_time)
 		       	} else {
 		       		cinema_showing_id_bool = true
-		       		add_showing_time_list = "<li><b>" + showing_time_list + "</b></li>"
+		       		var add_showing_time_list = ''
+		       		$.each(resultData, function(index, data) {
+			       		add_showing_time_list = "<li class='time-slot' onclick=\"time_slot_select(" + index + ", " + data['cinema_showing_id'] + ");\"><b>" + data['showing_time'] + "</b></li>"
+		       		})
 			       	$('.showing-time-slot-list').append(add_showing_time_list)
 		       	}
 		   	} 
 		})
 	} 
-})
+});
 
 // 시간대 선택
-$(document).on("click", ".showing-time-slot-list li", function() {
+/* $(document).on("click", ".time-slot", function() { 
 	if (cinema_showing_id_bool) {
 		$(this).parent().children("li").removeClass("selecton")  
-	    $(this).addClass("selecton")
-	    // cinema_showing_id = resultData['cinema_showing_id'] 상영정보  변수에저장
+ 	    $(this).addClass("selecton")
 	}
-})	
+}); */	
+
+function time_slot_select(index, showing_id) {
+	cinema_showing_id = showing_id 
+	$(".time-slot").eq(index).addClass("selecton")
+	console.log($(".time-slot").eq(index).text())	
+	console.log("상영 ID: " + cinema_showing_id)
+}
 	
 // 청소년 수 입력에 따른 가격 변동
 $(document).on("propertychange change keyup paste input", ".youth", function() { 
@@ -192,7 +198,7 @@ $(document).on("propertychange change keyup paste input", ".youth", function() {
 	adult = $(".adult").val()
 	price = youth * 7000 + adult * 10000
 	$(".price").text("금액: " + price + "원")
-})
+});
 
 // 어른 수 입력에 따른 가격 변동
 $(document).on("propertychange change keyup paste input", ".adult", function() { 
@@ -200,7 +206,7 @@ $(document).on("propertychange change keyup paste input", ".adult", function() {
 	adult = $(".adult").val()
 	price = $(".youth").val() * 7000 + $(".adult").val() * 10000
 	$(".price").text("금액: " + price + "원")
-})
+});
 
 // 결제하기버튼: DB에 예매 정보 저장
 $(".pay").click(function() {
@@ -215,6 +221,6 @@ $(".pay").click(function() {
 			location.href = "mypage"
 	   	} 
 	})	
-})
+});
 </script>
 </html>

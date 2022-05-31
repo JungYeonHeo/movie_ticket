@@ -38,6 +38,11 @@
 	position: relative;
 }
 
+.selecton {
+	background-color: #f16a1a;
+	color: #fff;
+}
+
 .wrapper .container .movie_box {
 	height: 623px;
 	position: relative;
@@ -248,19 +253,14 @@
 	border-bottom: 1px solid #e1e1e1;
 }
 
-.time_box .time {
-	text-align: center;
-	font-size: 20px;
-	font-weight: 700;
-	color: #333;
-}
-
-.showing-time-slot-list li {
-	height: 32.39px;
+.time_box .showing-time-slot-list li {
+	height: 27px;
+	padding: 5px 0 0 7px;
 } 
 
-.showing-time-slot-list li b {
-	padding: 6px 16px 6px
+.time_box .time-slot:hover {
+    background-color: #f16a1a;
+	color: #fff;
 }
 
 .count {
@@ -309,9 +309,4 @@
 	right: 5px;
 	border-radius: 10px;
 	border: 0px;
-}
-
-.selecton {
-	background-color: #f16a1a;
-	color: #fff;
 }

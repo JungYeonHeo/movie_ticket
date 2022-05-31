@@ -55,8 +55,8 @@ public class TicketDAO {
 		return ticketCinemaList;
 	}
 
-	public ShowingTimeDTO ticketShowingTimeList(HashMap<String, Object> map) {
-		ShowingTimeDTO ticketShowingTimeList = session.selectOne(ticketMapper + ".ticketShowingTimeList", map);
+	public List<ShowingTimeDTO> ticketShowingTimeList(HashMap<String, Object> map) {
+		List<ShowingTimeDTO> ticketShowingTimeList = session.selectList(ticketMapper + ".ticketShowingTimeList", map);
 		return ticketShowingTimeList;
 	}
 	
@@ -64,7 +64,4 @@ public class TicketDAO {
 		session.insert(ticketMapper + ".ticketInsert", map);
 	}
 
-	
-	
-	
 }
