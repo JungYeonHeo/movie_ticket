@@ -35,20 +35,20 @@
 				</div>
 				<div class="cinema_box">
 					<h2>영화관</h2>
-<!-- 					<div class="local_wrapper" style="position: relative;"> -->
-<!-- 						<ul class="local_list"> -->
-<!-- 							<li class="active" id="AreaCd_" style="cursor: pointer;">전체</li> -->
-<!-- 							<li class="" id="AreaCd_KR-11" style="cursor: pointer;">서울</li> -->
-<!-- 							<li class="" id="AreaCd_KR-41" style="cursor: pointer;">경기</li> -->
-<!-- 							<li class="" id="AreaCd_KR-28" style="cursor: pointer;">인천</li> -->
-<!-- 							<li class="" id="AreaCd_KR-44" style="cursor: pointer;">충남</li> -->
-<!-- 							<li class="" id="AreaCd_KR-27" style="cursor: pointer;">대구</li> -->
-<!-- 							<li class="" id="AreaCd_KR-47" style="cursor: pointer;">경북</li> -->
-<!-- 							<li class="" id="AreaCd_KR-48" style="cursor: pointer;">경남</li> -->
-<!-- 							<li class="" id="AreaCd_KR-45" style="cursor: pointer;">전북</li> -->
-<!-- 							<li class="" id="AreaCd_KR-29" style="cursor: pointer;">광주</li> -->
-<!-- 						</ul> -->
-<!-- 					</div> -->
+					<div class="local_wrapper" style="position: relative;">
+						<ul class="local_list">
+							<li class="active" id="AreaCd_" style="cursor: pointer;" onclick="searchCinema('address', '', 0)">전체</li>
+							<li class="" id="AreaCd_KR-11" style="cursor: pointer;" onclick="searchCinema('address', '서울', 1)">서울</li>
+							<li class="" id="AreaCd_KR-41" style="cursor: pointer;" onclick="searchCinema('address', '경기', 2)">경기</li>
+							<li class="" id="AreaCd_KR-28" style="cursor: pointer;" onclick="searchCinema('address', '인천', 3)">인천</li>
+							<li class="" id="AreaCd_KR-44" style="cursor: pointer;" onclick="searchCinema('address', '충남', 4)">충남</li>
+							<li class="" id="AreaCd_KR-27" style="cursor: pointer;" onclick="searchCinema('address', '대구', 5)">대구</li>
+							<li class="" id="AreaCd_KR-47" style="cursor: pointer;" onclick="searchCinema('address', '경북', 6)">경북</li>
+							<li class="" id="AreaCd_KR-48" style="cursor: pointer;" onclick="searchCinema('address', '경상남도', 7)">경남</li>
+							<li class="" id="AreaCd_KR-45" style="cursor: pointer;" onclick="searchCinema('address', '전북', 8)">전북</li>
+							<li class="" id="AreaCd_KR-29" style="cursor: pointer;" onclick="searchCinema('address', '광주', 9)">광주</li>
+						</ul>
+					</div>
 					<div class="local_wrapper_2" style="position: relative;">
 						<ul class="cine_list">
 							<c:forEach var="dto" items="${ticketCinemaList}">
@@ -127,6 +127,28 @@ $(document).on("click", ".movie", function() {
     console.log(title_ko)
 });
 
+// 영화관 지역 선택
+function searchCinema(target, search, num) {
+	// 영화관 지역 효과 
+    $(".local_list").children("li").eq(num).addClass("active").siblings().removeClass("active")
+    // 영화관 효과 지우기
+	$(".cine_list").children("li").removeClass("selecton")
+    
+    $.ajax ({
+        method: 'GET',
+        url: 'cinema_search_menu',
+        data: {"target": target, "search": search},
+        success: function(dataList) {
+        	$('.cine_list').html('')
+        	var addTag = ''
+        	$.each(dataList, function(index, data){
+        		addTag += "<li class=''>" + data['cinema_name'] +"</li>"
+            })
+            $('.cine_list').append(addTag)
+        }
+    })
+}
+
 // 영화관 선택
 $(document).on("click", ".cine_list li", function() {
 	$(this).parent().children("li").removeClass("selecton")
@@ -176,10 +198,11 @@ $(document).on("click", "li", function() {
 		})
 	} 
 });
-	
+
+// 상영시간대 선택
 function time_slot_select(index, showing_id) {
 	cinema_showing_id = showing_id 
-	$(".time-slot").eq(index).addClass("selecton").siblings().removeClass('selecton');
+	$(".time-slot").eq(index).addClass("selecton").siblings().removeClass("selecton")
 	console.log($(".time-slot").eq(index).text())	
 	console.log("상영 ID: " + cinema_showing_id)
 }

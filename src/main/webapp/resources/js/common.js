@@ -41,7 +41,7 @@ function searchAddress(target, search, num) {
 	searchCinema(target, search)
 }
 
-//헤더 영화관 찾기 메뉴 - 검색과 지역 클릭 결과
+// 헤더 영화관 찾기 메뉴 - 검색과 지역 클릭 결과
 function searchCinema(target, search) {
     $.ajax ({
         method: 'GET',
@@ -49,7 +49,7 @@ function searchCinema(target, search) {
         data: {"target": target, "search": search},
         success: function(dataList) {
         	$('.cinema-local-result').html('')
-        	var addTag = '';
+        	var addTag = ''
         	$.each(dataList, function(index, data){
         		addTag += "<a class='cinema-local-item' href='cinema_detail?no=" + data['cinema_id'] +"'>" + data['cinema_name'] +"</a>"
             })
