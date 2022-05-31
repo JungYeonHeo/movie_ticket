@@ -257,6 +257,11 @@
 	border-bottom: 1px solid #e1e1e1;
 }
 
+.time_box .showing-time-slot-list li {
+	height: 27px;
+	padding: 5px 0 0 7px;
+} 
+
 .time_box .showing-time-slot-list div {
 	height: 27px;
 	padding: 5px 0 0 7px;
