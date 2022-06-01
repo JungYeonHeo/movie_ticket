@@ -84,22 +84,13 @@
 					</div>
 				</div>
 				<div class="time_box">
-					<h2>상영시간/인원/좌석</h2>
+					<h2>상영시간</h2>
 					<ul class="showing-time-slot-list" style="cursor: pointer;">
 						<li>
 							<b>상영정보를 선택해주세요</b>
 						</li>
 					</ul>
-					<div class="addInfor">
-						<div class="count">
-							청소년 <input type="number" class="youth" value="0"/> 
-							성인 <input type="number" class="adult" value="0"/>
-						</div>
-						<div class="seat"> A-F, 1-10을 조합해서 선택 <br>
-						좌석: <input class="inputseat" type="text"></div>
-						<div class="price">금액 : 0원</div>
-						<button class="pay">결제하기</button>
-					</div>
+					<button class="next-button" disabled="disabled">좌석, 수량 선택</button>
 				</div>
 			</div>
 		</div>
@@ -133,7 +124,17 @@ function ticket_search_cinema(target, search, num) {
     $(".local_list").children("li").eq(num).addClass("active").siblings().removeClass("active")
     // 영화관 효과 지우기
 	$(".cine_list").children("li").removeClass("selecton")
-    
+	// 상영시간 효과 지우기 
+	$(".showing-time-slot-list").children("div").removeClass("selecton")
+	$('.showing-time-slot-list').html('')
+	$('.showing-time-slot-list').append("<li><b>상영정보를 선택해주세요</b></li>")
+	// 좌석, 수량 선택 버튼 비활성화
+	$(".next-button").prop("disabled", true)
+	$(".next-button").css("background", "#ccc")
+	
+	cinema_name = ""
+	cinema_showing_id = 0
+	  
     $.ajax ({
         method: 'GET',
         url: 'cinema_search_menu',
@@ -206,7 +207,15 @@ function time_slot_select(index, showing_id) {
 	console.log($(".time-slot").eq(index).text())	
 	console.log("상영 ID: " + cinema_showing_id)
 }
-	
+
+// 좌석, 수량 선택 버튼 활성화 (상영시간을 항상 가장 마지막에 누르게 되기 때문에 time-slot을 기준으로 함)
+$(document).on("click", ".time-slot", function() {
+	 if (title_ko != "" && cinema_name != ""  && showing_date != "" && cinema_showing_id != 0) {
+		$(".next-button").prop("disabled", false)
+		$(".next-button").css("background", "#f16a1a")
+	 } 
+});
+
 // 청소년 수 입력에 따른 가격 변동
 $(document).on("propertychange change keyup paste input", ".youth", function() { 
 	youth = $(".youth").val()
