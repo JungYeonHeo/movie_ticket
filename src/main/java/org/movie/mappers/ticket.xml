@@ -13,8 +13,10 @@
 		ticket.total_price, ticket.payment, ticket.state, ticket.ticket_date
 		from ticket inner join cinema_showing
 		on ticket.cinema_showing_id = cinema_showing.cinema_showing_id 
-		inner join cinema 
-		on cinema_showing.cinema_id = cinema.cinema_id 
+		inner join cinema_seat 
+		on cinema_showing.cinema_seat_id = cinema_seat.cinema_seat_id 
+		inner join cinema
+		on cinema_seat.cinema_id = cinema.cinema_id 
 		inner join movie 
 		on cinema_showing.movie_id = movie.movie_id
 		where member_id = #{id}
@@ -30,7 +32,10 @@
 	</select>
 	
 	<select id="ticketShowingTimeList" resultType="org.movie.DTO.ShowingTimeDTO">
-		select cinema_showing_id, showing_time from cinema_showing where movie_id = (select movie_id from movie where title_ko = #{title_ko}) and cinema_id = (select cinema_id from cinema where cinema_name = #{cinema_name}) and showing_date = #{showing_date}
+		select cinema_showing_id, showing_time from cinema_showing 
+		where movie_id = (select movie_id from movie where title_ko = #{title_ko}) 
+		and cinema_seat_id = any(select cinema_seat_id from cinema_seat where cinema_id = (select cinema_id from cinema where cinema_name = #{cinema_name})) 
+		and showing_date = #{showing_date}
 	</select>
 	
 	<insert id="ticketInsert">

@@ -21,11 +21,19 @@
 	</select>
 	
 	<select id="cinemaShowingMovieList" resultType="org.movie.DTO.MovieDTO">
-		select * from movie where movie_id = any(select movie_id from cinema_showing where cinema_id = #{cinema_id}) and <![CDATA[opening_date <= now() and closing_date >= now()]]>
+		select * from movie 
+		where movie_id = any(select movie_id from cinema_showing 
+		where cinema_seat_id = any(select cinema_seat_id from cinema_seat 
+		where cinema_id = #{cinema_id})) 
+		and <![CDATA[opening_date <= now() and closing_date >= now()]]>
 	</select>
 	
 	<select id="cinemaNotShowingMovieList" resultType="org.movie.DTO.MovieDTO">
-		select * from movie where movie_id = any(select movie_id from cinema_showing where cinema_id = #{cinema_id}) and <![CDATA[opening_date >= now()]]>
+		select * from movie 
+		where movie_id = any(select movie_id from cinema_showing 
+		where cinema_seat_id = any(select cinema_seat_id from cinema_seat 
+		where cinema_id = #{cinema_id})) 
+		and <![CDATA[opening_date >= now()]]>
 	</select>
 	
 	<select id="cinemaImagesList" resultType="org.movie.DTO.CinemaImageDTO">
