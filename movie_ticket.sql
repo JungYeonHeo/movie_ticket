@@ -43,15 +43,25 @@ create table cinema ( -- 영화관
 	cinema_intro_img varchar(100),
     primary key(cinema_id)
 );
+create table cinema_seat ( -- 영화관_좌석
+	cinema_seat_id int not null auto_increment,
+	cinema_id varchar(20) not null,
+    theater char(1) not null,
+    seat_num int not null,
+    seat_row int not null,
+    seat_column int not null,
+    primary key(cinema_seat_id),
+	foreign key(cinema_id) REFERENCES cinema(cinema_id) 
+);
 create table cinema_showing ( -- 영화상영정보
     cinema_showing_id int not null auto_increment,
     movie_id varchar(20) not null,
-    cinema_id varchar(20) not null,
+    cinema_seat_id int not null,
     showing_date date not null,
     showing_time varchar(20) not null,
     primary key(cinema_showing_id),
     foreign key(movie_id) REFERENCES movie(movie_id),
-    foreign key(cinema_id) REFERENCES cinema(cinema_id) 
+    foreign key(cinema_seat_id) REFERENCES cinema_seat(cinema_seat_id)
 );
 create table ticket ( -- 예매
     ticket_id int not null auto_increment,
@@ -70,7 +80,6 @@ create table ticket ( -- 예매
     constraint ticket_cinema_showing_id FOREIGN KEY (cinema_showing_id)
     REFERENCES cinema_showing(cinema_showing_id) ON UPDATE CASCADE
 );
-
 create table review ( -- 리뷰
     review_id varchar(40) not null, -- memberid + movieid 조합
     member_id varchar(20) not null,
@@ -282,7 +291,7 @@ values
 -- 영화_예고편 (영화ID, 영상, 영상설명, 날짜)
 insert into movie_trailer
 values
-('1001', 'resources/videos/1001_trailer1.mp4', '무삭제 클립', '2021.12.29'),
+('1001', 'rescinema_showingources/videos/1001_trailer1.mp4', '무삭제 클립', '2021.12.29'),
 ('1001', 'resources/videos/1001_trailer2.mp4', '2차 예고편', '2021.11.22'),
 ('1001', 'resources/videos/1001_trailer3.mp4', '티저 예고편', '2021.08.31'),
 ('1002', 'resources/videos/1002_trailer1.mp4', 'R.P.M 제작기 영상', '2022.01.06'),
@@ -474,34 +483,75 @@ values
 ('oooo', '개인정보처리방침 변경 안내', '안녕하세요 인디앤아트시네마 입니다.\n인디앤아트시네마 개인정보처리방침 내용이 변경됨에 따라 다음과 같이 안내드립니다.\n변경된 내용은 2020년 10월 27일(화)부터 시행 예정이니 이용에 참고하여 주시기 바랍니다.\n \n- 인디앤아트시네마 개인정보 처리 방침 변경 안내 -\n \n<b>1. 적용대상</b>\n - 개인정보처리방침 3조 (개인정보의 제3자 제공)\n \n<b>2. 개정내용</b> - 제공받는 자 추가\n(더숲아트시네마, 광주극장, 아트하우스모모, 인디플러스천안, 에무시네마앤카페,\n필름포럼, 헤이리시네마)\n \n<b>3. 변경일시</b> - 2020년 10월27일(화)', '기타'),
 ('pppp', '개인정보처리방침 변경 안내', '안녕하세요 인디앤아트시네마 입니다.\n인디앤아트시네마 개인정보처리방침 내용이 변경됨에 따라 다음과 같이 안내드립니다.\n변경된 내용은 2020년 10월 27일(화)부터 시행 예정이니 이용에 참고하여 주시기 바랍니다.\n \n- 인디앤아트시네마 개인정보 처리 방침 변경 안내 -\n \n<b>1. 적용대상</b>\n - 개인정보처리방침 3조 (개인정보의 제3자 제공)\n \n<b>2. 개정내용</b> - 제공받는 자 추가\n(더숲아트시네마, 광주극장, 아트하우스모모, 인디플러스천안, 에무시네마앤카페,\n필름포럼, 헤이리시네마)\n \n<b>3. 변경일시</b> - 2020년 10월27일(화)', '기타');
 
-select * from movie;
+-- 영화관_좌석
+insert into cinema_seat (cinema_id, theater, seat_num, seat_row, seat_column)
+values 
+('aaaa', 'A', 100, 10, 10),
+('aaaa', 'B', 100, 10, 10),
+('aaaa', 'C', 100, 10, 10),
+('aaaa', 'D', 100, 10, 10),
+('aaaa', 'E', 100, 10, 10),
+('aaaa', 'F', 100, 10, 10),
+('aaaa', 'G', 100, 10, 10),
+('bbbb', 'A', 100, 10, 10),
+('bbbb', 'B', 100, 10, 10),
+('bbbb', 'C', 100, 10, 10),
+('bbbb', 'D', 100, 10, 10),
+('cccc', 'A', 100, 10, 10),
+('cccc', 'B', 100, 10, 10),
+('cccc', 'C', 100, 10, 10),
+('cccc', 'D', 100, 10, 10),
+('dddd', 'A', 100, 10, 10),
+('dddd', 'B', 100, 10, 10),
+('dddd', 'C', 100, 10, 10),
+('dddd', 'D', 100, 10, 10),
+('eeee', 'A', 100, 10, 10),
+('eeee', 'B', 100, 10, 10),
+('eeee', 'C', 100, 10, 10),
+('eeee', 'D', 100, 10, 10),
+('ffff', 'A', 100, 10, 10),
+('ffff', 'B', 100, 10, 10),
+('ffff', 'C', 100, 10, 10),
+('ffff', 'D', 100, 10, 10),
+('gggg', 'A', 100, 10, 10),
+('gggg', 'B', 100, 10, 10),
+('gggg', 'C', 100, 10, 10),
+('gggg', 'D', 100, 10, 10),
+('hhhh', 'A', 100, 10, 10),
+('hhhh', 'B', 100, 10, 10),
+('hhhh', 'C', 100, 10, 10),
+('hhhh', 'D', 100, 10, 10),
+('iiii', 'A', 100, 10, 10),
+('iiii', 'B', 100, 10, 10),
+('iiii', 'C', 100, 10, 10),
+('iiii', 'D', 100, 10, 10);
 
 -- 영화 상영 정보
-insert into cinema_showing (movie_id, cinema_id, showing_date, showing_time)
+insert into cinema_showing (movie_id, cinema_seat_id, showing_date, showing_time)
 values
-('1001', 'aaaa', '2022-01-19', '17:40 ~ 21:58'),
-('1001', 'bbbb', '2022-01-19', '15:00 ~ 16:18'),
-('1001', 'cccc', '2022-01-19', '16:20 ~ 17:50'),
-('1001', 'dddd', '2022-01-20', '18:40 ~ 20:00'),
-('1001', 'eeee', '2022-01-21', '12:40 ~ 14:58'),
-('1001', 'ffff', '2022-01-22', '19:40 ~ 21:00'),
-('1002', 'aaaa', '2022-01-19', '13:40 ~ 14:58'),
-('1002', 'bbbb', '2022-01-20', '19:00 ~ 20:37'),
-('1002', 'cccc', '2022-01-21', '20:00 ~ 21:37'),
-('1002', 'dddd', '2022-01-22', '21:40 ~ 22:37'),
-('1003', 'eeee', '2022-01-19', '11:40 ~ 13:58'),
-('1003', 'ffff', '2022-01-19', '14:00 ~ 15:58'),
-('1003', 'gggg', '2022-01-19', '16:00 ~ 17:58'),
-('1003', 'aaaa', '2022-01-20', '13:40 ~ 14:58'),
-('1003', 'cccc', '2022-01-21', '13:40 ~ 14:58'),
-('1003', 'cccc', '2022-01-22', '13:40 ~ 14:58'),
-('2001', 'nnnn', '2022-01-19', '13:40 ~ 14:58'),
-('2001', 'nnnn', '2022-01-21', '13:40 ~ 14:58'),
-('2001', 'nnnn', '2022-01-22', '13:40 ~ 14:58'),
-('2001', 'nnnn', '2022-01-24', '13:40 ~ 14:58'),
-('2001', 'nnnn', '2022-01-26', '13:40 ~ 14:58'),
-('2002', 'ffff', '2022-01-20', '13:40 ~ 14:58'),
-('2002', 'ffff', '2022-01-22', '13:40 ~ 14:58'),
+('1001', 1, '2022-01-19', '17:40 ~ 21:58'),
+('1001', 8, '2022-01-19', '15:00 ~ 16:18'),
+('1001', 12, '2022-01-19', '16:20 ~ 17:50'),
+('1001', 16, '2022-01-20', '18:40 ~ 20:00'),
+('1001', 20,  '2022-01-21', '12:40 ~ 14:58'),
+('1001', 24, '2022-01-22', '19:40 ~ 21:00'),
+('1002', 2, '2022-01-19', '13:40 ~ 14:58'),
+('1002', 9, '2022-01-20', '19:00 ~ 20:37'),
+('1002', 12, '2022-01-21', '20:00 ~ 21:37'),
+('1002', 17, '2022-01-22', '21:40 ~ 22:37'),
+('1003', 20, '2022-01-19', '11:40 ~ 13:58'),
+('1003', 24, '2022-01-19', '14:00 ~ 15:58'),
+('1003', 28, '2022-01-19', '16:00 ~ 17:58'),
+('1003', 1, '2022-01-20', '13:40 ~ 14:58'),
+('1003', 13, '2022-01-21', '13:40 ~ 14:58'),
+('1003', 12, '2022-01-22', '13:40 ~ 14:58'),
+('2001', 28, '2022-01-19', '13:40 ~ 14:58'),
+('2001', 28, '2022-01-21', '13:40 ~ 14:58'),
+('2001', 28, '2022-01-22', '13:40 ~ 14:58'),
+('2001', 28, '2022-01-24', '13:40 ~ 14:58'),
+('2001', 28, '2022-01-26', '13:40 ~ 14:58'),
+('2002', 24, '2022-01-20', '13:40 ~ 14:58');
+/* ('2002', 'ffff', '2022-01-22', '13:40 ~ 14:58'),
 ('2002', 'ffff', '2022-01-23', '13:40 ~ 14:58'),
 ('2002', 'ffff', '2022-01-25', '13:40 ~ 14:58'),
 ('2002', 'ffff', '2022-01-26', '13:40 ~ 14:58'),
@@ -576,7 +626,7 @@ values
 ('2020', 'kkkk', '2022-01-19', '13:40 ~ 14:58'),
 ('2020', 'kkkk', '2022-01-22', '13:40 ~ 14:58'),
 ('2020', 'kkkk', '2022-01-23', '13:40 ~ 14:58'),
-('2020', 'kkkk', '2022-01-24', '13:40 ~ 14:58');
+('2020', 'kkkk', '2022-01-24', '13:40 ~ 14:58'); */
 
 INSERT INTO member 
 values 
@@ -637,7 +687,7 @@ values
 
 select * from cinema_showing;
 select * from movie;
-
+select * from member;
 select * from ticket;
 select * from review;
 
@@ -647,4 +697,8 @@ cinema_id ='aaaa' and
 showing_date = '2022-01-19';
 
 select movie_id from movie where title_ko = '스파이더맨-노웨이홈';
-select cinema_showing_id, showing_time from cinema_showing where movie_id = (select movie_id from movie where title_ko = '스파이더맨-노웨이홈') and cinema_id = (select cinema_id from cinema where cinema_name = '광주극장') and showing_date = '2022-01-19'
+
+select cinema_showing_id, showing_time from cinema_showing
+where movie_id = (select movie_id from movie where title_ko = '스파이더맨-노웨이홈') 
+and cinema_seat_id = any(select cinema_seat_id from cinema_seat where cinema_id = (select cinema_id from cinema where cinema_name = '광주극장'))
+and showing_date = '2022-01-19'
