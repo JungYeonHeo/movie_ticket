@@ -27,8 +27,10 @@
 	font-size: 20px;
 	font-weight: 700;
 	padding-top: 14px;
+	color: #fff;
 }
 
+/* 영화선택 */
 .wrapper .container {
 	height: 623px;
 	overflow: hidden;
@@ -36,6 +38,17 @@
 	color: #333;
 	background-color: #fff;
 	position: relative;
+}
+
+/* 좌석, 수량 선택 */
+.wrapper .container2 {
+	height: 623px;
+	overflow: hidden;
+	font-size: 14px;
+	color: #333;
+	background-color: #fff;
+	position: relative;
+	display: none;
 }
 
 .selecton {
@@ -271,42 +284,7 @@
     background-color: #f16a1a;
 	color: #fff;
 }
-
-/* 좌석, 수량, 가격 */ 
-.count {
-	position: absolute;
-	bottom: 130px;
-	right: 5px;
-}
-
-.youth, .adult {
-	width: 60px;
-	height: 30px;
-	border-radius: 10px;
-	top: 50px;
-	right: 5px;
-}
-
-.price {
-	font-size: 25pt;
-	font-weight: bold;
-	position: absolute;
-	bottom: 95px;
-	right: 5px;
-}
-
-.seat {
-	position: absolute;
-	bottom: 190px;
-	right: 5px;
-}
-
-.inputseat {
-	width: 150px;
-	height: 30px;
-	border-radius: 10px;
-}
-
+ 
 .next-button {
 	width: 230px;
 	height: 80px;
@@ -319,4 +297,130 @@
 	border: 0px;
 	background: #ccc;
 	color: #fff;
+} 
+
+/* 수량 선택 */
+.wrapper .container2 .num-box {
+	height: 623px;
+	position: relative;
+	width: 332px;
+	border-right: 1px solid #e1e1e1;
+	float: left;
+	overflow: auto;
+}
+
+.wrapper .container2 .num-box h2 {
+	padding: 24px 0 16px;
+	text-align: center;
+	font-size: 20px;
+	font-weight: 700;
+	color: #333;
+	border-bottom: 1px solid #e1e1e1;
+}
+
+.wrapper .container2 .num-box .count {
+	padding: 30px;
+}
+
+.wrapper .container2 .num-box .count p {
+	font-size: 12pt;
+	font-weight: bold;
+	padding: 10px 0;
+}
+
+.wrapper .container2 .num-box .youth, .adult {
+	width: 250px;
+	height: 30px;
+	border-radius: 10px;
+}
+
+.wrapper .container2 .num-box .num {
+	font-size: 20pt;
+	font-weight: bold;
+	position: absolute;
+	bottom: 130px;
+	right: 15px;
+}
+
+.wrapper .container2 .num-box .price-button {
+	width: 260px;
+	height: 100px;
+	font-size: 25pt;
+	font-weight: bold;
+	position: absolute;
+	bottom: 20px;
+	right: 15px;
+	border-radius: 10px;
+	border: 0px;
+	background: #ccc;
+	color: #fff;
+}
+
+.wrapper .container2 .num-box .price-button p {
+	font-size: 12pt;
+	font-weight: bold;
+	padding: 5px;
+}
+
+/* 좌석 선택 */
+.wrapper .container2 .seat-box {
+	height: 623px;
+	position: relative;
+	width: 664px;
+	border-right: 1px solid #e1e1e1;
+	float: left;
+	overflow: auto;
+}
+
+.wrapper .container2 .seat-box h2 {
+	padding: 24px 0 16px;
+	text-align: center;
+	font-size: 20px;
+	font-weight: 700;
+	color: #333;
+	border-bottom: 1px solid #e1e1e1;
+}
+
+.wrapper .container2 .seat-box .seat-group {
+	text-align: center;
+	padding: 30px;
+}
+
+.wrapper .container2 .seat-box .screen {
+	margin: 0 auto;
+	width: 500px;
+	height: 20px;
+	background: #000;
+	color: #fff;
+	text-align: center;
+	margin-bottom: 40px;
+	padding: 5px;
+}
+
+.wrapper .container2 .seat-box .column_name {
+	width: 30px;
+	height: 30px;
+	font-size: 15pt;
+	font-weight: bold;
+	margin: 5px;
+	text-align: center;  
+	border: 0;
+	background-color: #fff;
+}
+
+.wrapper .container2 .seat-box .rect {
+	width: 30px;
+	height: 30px;
+	border-radius: 5px;
+	background-color: #1d1d1d;
+	border: 0;
+	margin: 5px; 
+}
+
+.wrapper .container2 .seat-box .rect:hover {
+	background-color: #f16a1a;
+}
+
+.wrapper .container2 .seat-box .active {
+	background-color: #f16a1a;
 }

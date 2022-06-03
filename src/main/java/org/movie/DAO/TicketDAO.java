@@ -10,6 +10,7 @@ import org.movie.DTO.MemberDTO;
 import org.movie.DTO.MovieDTO;
 import org.movie.DTO.MypageDTO;
 import org.movie.DTO.ReviewDTO;
+import org.movie.DTO.SeatInforDTO;
 import org.movie.DTO.TicketDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -62,6 +63,11 @@ public class TicketDAO {
 	
 	public void ticketInsert(HashMap<String, Object> map) {
 		session.insert(ticketMapper + ".ticketInsert", map);
+	}
+
+	public SeatInforDTO ticketSeatInfor(int cinema_seat_id) {
+		SeatInforDTO ticketSeatInfor = session.selectOne(ticketMapper + ".ticketSeatInfor" , cinema_seat_id);
+		return ticketSeatInfor;
 	}
 
 }

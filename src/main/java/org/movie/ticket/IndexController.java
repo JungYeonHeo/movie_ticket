@@ -23,6 +23,7 @@ import org.movie.DTO.GenreDTO;
 import org.movie.DTO.MemberDTO;
 import org.movie.DTO.MovieDTO;
 import org.movie.DTO.ReviewDTO;
+import org.movie.DTO.SeatInforDTO;
 import org.movie.DTO.ShowingTimeDTO;
 import org.movie.DTO.TrailerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -292,7 +293,6 @@ public class IndexController {
 		map.put("title_ko",  title_ko);
 		map.put("cinema_name",  cinema_name);
 		map.put("showing_date", showing_date);
-//		ShowingTimeDTO ticketShowingTimeList = ticketdao.ticketShowingTimeList(map);
 		List<ShowingTimeDTO> ticketShowingTimeList = ticketdao.ticketShowingTimeList(map);
 		
 		if (ticketShowingTimeList == null) {
@@ -301,6 +301,13 @@ public class IndexController {
 		return ticketShowingTimeList;
 	}
 	
+	@RequestMapping(value="/seat_infor_action", method=RequestMethod.GET)
+	public @ResponseBody SeatInforDTO seat_infor_action(int cinema_seat_id) {
+
+		SeatInforDTO ticketSeatInfor = ticketdao.ticketSeatInfor(cinema_seat_id);
+		return ticketSeatInfor;
+	}
+		
 	@RequestMapping(value="/pay_action", method=RequestMethod.GET)
 	public @ResponseBody void pay_action(String cinema_showing_id, int youth, int adult, String seat, int price, HttpSession httpss) {
 		

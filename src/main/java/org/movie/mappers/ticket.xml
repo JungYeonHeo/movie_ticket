@@ -32,10 +32,14 @@
 	</select>
 	
 	<select id="ticketShowingTimeList" resultType="org.movie.DTO.ShowingTimeDTO">
-		select cinema_showing_id, showing_time from cinema_showing 
+		select cinema_showing_id, cinema_seat_id, showing_time from cinema_showing 
 		where movie_id = (select movie_id from movie where title_ko = #{title_ko}) 
 		and cinema_seat_id = any(select cinema_seat_id from cinema_seat where cinema_id = (select cinema_id from cinema where cinema_name = #{cinema_name})) 
 		and showing_date = #{showing_date}
+	</select>
+	
+	<select id="ticketSeatInfor" resultType="org.movie.DTO.SeatInforDTO">
+		select * from cinema_seat where cinema_seat_id = #{cinema_seat_id}
 	</select>
 	
 	<insert id="ticketInsert">

@@ -93,20 +93,47 @@
 					<button class="next-button" disabled="disabled">좌석, 수량 선택</button>
 				</div>
 			</div>
+			<div class="container2">
+				<div class="num-box">
+					<h2>수량</h2>
+					<div class="count">
+						<p>청소년</p> 
+						<input type="number" class="youth" value="0" min="0" max="10" /> 
+						<p>성인</p> 
+						<input type="number" class="adult" value="0" min="0" max="10"/>
+						
+					</div>
+					<p class="num">총 0명</p>
+					<button class="price-button" disabled="disabled">금액 : 0원 <p>결제하기 →</p></button>
+				</div>
+				<div class="seat-box">
+					<h2>좌석</h2>
+					<div class="seat-group">
+						<div class="screen">스크린</div>
+						<div class="seats"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<%@ include file="footer.jsp"%>
 </body>
-
 <script type="text/javascript">
 var youth = 0
 var adult = 0
+var people = 0
 var seat = ""
 var price = 0;
 var title_ko = ""
 var cinema_name = ""
 var showing_date = ""
 var month = ""
+var row = 0
+var column = 0
+var select_seat_num = 0
+var seat_nums = new Array()
+var row_name = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
+var cinema_seat_id = 0
 var cinema_showing_id = 0
 var cinema_showing_id_bool = false
 
@@ -191,7 +218,7 @@ $(document).on("click", "li", function() {
 		       		cinema_showing_id_bool = true
 		       		var add_showing_time_list = ''
 		       		$.each(resultData, function(index, data) {
-			       		add_showing_time_list = "<div class='time-slot' onclick=\"time_slot_select(" + index + ", " + data['cinema_showing_id'] + ");\"><b>" + data['showing_time'] + "</b></div>"
+			       		add_showing_time_list = "<div class='time-slot' onclick=\"time_slot_select(" + index + ", " + data['cinema_showing_id'] + ", " + data['cinema_seat_id'] + ");\"><b>" + data['showing_time'] + "</b></div>"
 		       		}) 
 			       	$('.showing-time-slot-list').append(add_showing_time_list)
 		       	}
@@ -201,8 +228,9 @@ $(document).on("click", "li", function() {
 });
 
 // 상영시간대 선택
-function time_slot_select(index, showing_id) {
+function time_slot_select(index, showing_id, seat_id) {
 	cinema_showing_id = showing_id 
+	cinema_seat_id = seat_id
 	$(".time-slot").eq(index).addClass("selecton").siblings().removeClass("selecton")
 	console.log($(".time-slot").eq(index).text())	
 	console.log("상영 ID: " + cinema_showing_id)
@@ -216,12 +244,47 @@ $(document).on("click", ".time-slot", function() {
 	 } 
 });
 
+// "좌석, 수량 선택" 버튼 
+$(document).on("click", ".next-button", function() {
+	$(".container").css("display", "none")
+	$(".container2").css("display", "flex")
+	
+	// 좌석 정보 가져오기 
+	$.ajax ({
+	    method: 'GET',
+	    url: 'seat_infor_action',
+	    data: {"cinema_seat_id": cinema_seat_id},
+	    contentType: "application/json; charset:UTF-8", 
+	    success: function(resultData) { 
+			row = resultData['seat_row']
+			column = resultData['seat_column']
+			var addTag = ""
+			addTag += "<button class='column_name' style='color: #fff;'>0</button>"
+			for (var i = 1; i < column + 1; i++) {
+				addTag += "<button class='column_name'>" + i + "</button>"
+			}
+			addTag += "<br>"	
+			for (var i = 0; i < row; i++) {
+				addTag += "<button class='column_name'>" + row_name[i] + "</button>"
+				for (var j = 0; j < column; j++) {
+					addTag += "<button class='rect'></button>"
+				}
+				addTag += "<br>"
+			} 
+			$(".seats").append(addTag)
+	   	} 
+	})
+});
+
 // 청소년 수 입력에 따른 가격 변동
 $(document).on("propertychange change keyup paste input", ".youth", function() { 
 	youth = $(".youth").val()
 	adult = $(".adult").val()
 	price = youth * 7000 + adult * 10000
-	$(".price").text("금액: " + price + "원")
+	people = Number(youth) + Number(adult)
+	$(".num").text("총 " + people + "명")
+	$(".price-button").text("금액: " + price + "원")
+	$(".price-button").append("<p>결제하기 →</p>")
 });
 
 // 어른 수 입력에 따른 가격 변동
@@ -229,13 +292,56 @@ $(document).on("propertychange change keyup paste input", ".adult", function() {
 	youth = $(".youth").val()
 	adult = $(".adult").val()
 	price = $(".youth").val() * 7000 + $(".adult").val() * 10000
-	$(".price").text("금액: " + price + "원")
+	people = Number(youth) + Number(adult)
+	$(".num").text("총 " + people + "명")
+	$(".price-button").text("금액: " + price + "원")
+	$(".price-button").append("<p>결제하기 →</p>")
+	
 });
 
-// 결제하기버튼: DB에 예매 정보 저장
-$(".pay").click(function() {
-	seat = $(".inputseat").val().trim()
-	$.ajax ({
+// 좌석 선택 완료
+$(document).on("click", ".rect", function() {
+	
+	if (people == 0) {
+		return alert("수량을 먼저 선택해주세요.")
+	}
+	
+	if (select_seat_num < people) {
+		if ($(this).hasClass("active")) {
+			$(this).removeClass("active")
+			select_seat_num -= 1
+		} else {
+			$(this).addClass("active")
+			select_seat_num += 1
+		}
+	} else {
+		if ($(this).hasClass("active")) {
+			$(this).removeClass("active")
+			select_seat_num -= 1
+		}
+	}
+	
+	if (select_seat_num == people) {
+		$(".price-button").prop("disabled", false)
+		$(".price-button").css("background", "#f16a1a")	
+	} else {
+		$(".price-button").prop("disabled", true)
+		$(".price-button").css("background", "#ccc")	
+	}
+	
+	var num = $(".rect").index(this)
+	seat_nums.push(num)
+});
+
+// 결제하기 버튼: DB에 예매 정보 저장
+$(".price-button").click(function() {
+	for (var i = 0; i < seat_nums.length; i++) {
+		seat += row_name[seat_nums[i] / column] + String(seat_nums[i] % column + 1) + ", "
+	}
+	seat = seat.slice(0, -2)
+	console.log(seat)
+	
+ 	$.ajax ({
 	    method: 'GET',
 	    url: 'pay_action',
 	    data: {"cinema_showing_id": cinema_showing_id, "youth": youth, "adult": adult, "seat": seat, "price": price},
