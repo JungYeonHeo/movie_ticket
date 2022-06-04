@@ -302,10 +302,17 @@ public class IndexController {
 	}
 	
 	@RequestMapping(value="/seat_infor_action", method=RequestMethod.GET)
-	public @ResponseBody SeatInforDTO seat_infor_action(int cinema_seat_id) {
+	public @ResponseBody String seat_infor_action(int cinema_seat_id, int cinema_showing_id) {
 
 		SeatInforDTO ticketSeatInfor = ticketdao.ticketSeatInfor(cinema_seat_id);
-		return ticketSeatInfor;
+		List<String> reservedSeats = ticketdao.reservedSeats(cinema_showing_id);
+		
+		JsonObject seatResult = new JsonObject();
+		Gson gson = new Gson();
+		seatResult.addProperty("SeatInfor", gson.toJson(ticketSeatInfor));
+		seatResult.addProperty("reservedSeats", gson.toJson(reservedSeats));
+		String result = gson.toJson(seatResult);
+		return result;
 	}
 		
 	@RequestMapping(value="/pay_action", method=RequestMethod.GET)

@@ -252,11 +252,25 @@ $(document).on("click", ".next-button", function() {
 	$.ajax ({
 	    method: 'GET',
 	    url: 'seat_infor_action',
-	    data: {"cinema_seat_id": cinema_seat_id},
+	    data: {"cinema_seat_id": cinema_seat_id, "cinema_showing_id": cinema_showing_id},
 	    contentType: "application/json; charset:UTF-8", 
 	    success: function(resultData) { 
-			row = resultData['seat_row']
-			column = resultData['seat_column']
+	    	
+        	var result = JSON.parse(resultData);
+        	var SeatInfor = JSON.parse(result.SeatInfor);
+        	var reservedSeats = JSON.parse(result.reservedSeats);
+        	var reservedSeat = new Array()
+        	
+			row = SeatInfor['seat_row']
+			column = SeatInfor['seat_column']
+			
+			for (var i = 0; i < reservedSeats.length; i++) {
+				reservedSeat = reservedSeat.concat(reservedSeats[i].split(", "))
+			}
+			
+        	reservedSeat_Set = [...new Set(reservedSeat)]
+        	console.log(reservedSeat_Set)
+			
 			var addTag = ""
 			addTag += "<button class='column_name' style='color: #fff;'>0</button>"
 			for (var i = 1; i < column + 1; i++) {
@@ -266,7 +280,11 @@ $(document).on("click", ".next-button", function() {
 			for (var i = 0; i < row; i++) {
 				addTag += "<button class='column_name'>" + row_name[i] + "</button>"
 				for (var j = 0; j < column; j++) {
-					addTag += "<button class='rect'></button>"
+					if (reservedSeat_Set.includes(row_name[i] + String(j+1))) {
+						addTag += "<button class='rect disable' disabled='disabled'></button>"
+					} else {
+						addTag += "<button class='rect on'></button>"
+					}
 				}
 				addTag += "<br>"
 			} 

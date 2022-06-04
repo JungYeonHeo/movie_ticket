@@ -417,10 +417,15 @@
 	margin: 5px; 
 }
 
-.wrapper .container2 .seat-box .rect:hover {
+.wrapper .container2 .seat-box .active {
 	background-color: #f16a1a;
 }
 
-.wrapper .container2 .seat-box .active {
+.wrapper .container2 .seat-box .on:hover {
 	background-color: #f16a1a;
+}
+
+.wrapper .container2 .seat-box .disable {
+	background-color: gray;
+	
 }

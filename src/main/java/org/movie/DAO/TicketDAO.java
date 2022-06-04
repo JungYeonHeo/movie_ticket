@@ -70,4 +70,9 @@ public class TicketDAO {
 		return ticketSeatInfor;
 	}
 
+	public List<String> reservedSeats(int cinema_showing_id) {
+		List<String> reservedSeats = session.selectList(ticketMapper + ".reservedSeats", cinema_showing_id);
+		return reservedSeats;
+	}
+
 }
