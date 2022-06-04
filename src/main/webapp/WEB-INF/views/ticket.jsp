@@ -101,7 +101,6 @@
 						<input type="number" class="youth" value="0" min="0" max="10" /> 
 						<p>성인</p> 
 						<input type="number" class="adult" value="0" min="0" max="10"/>
-						
 					</div>
 					<p class="num">총 0명</p>
 					<button class="price-button" disabled="disabled">금액 : 0원 <p>결제하기 →</p></button>
@@ -132,7 +131,7 @@ var row = 0
 var column = 0
 var select_seat_num = 0
 var seat_nums = new Array()
-var row_name = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
+var row_name = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 var cinema_seat_id = 0
 var cinema_showing_id = 0
 var cinema_showing_id_bool = false
@@ -285,6 +284,9 @@ $(document).on("propertychange change keyup paste input", ".youth", function() {
 	$(".num").text("총 " + people + "명")
 	$(".price-button").text("금액: " + price + "원")
 	$(".price-button").append("<p>결제하기 →</p>")
+	
+	// 좌석 선택 후 수량 변경
+	price_button_active()
 });
 
 // 어른 수 입력에 따른 가격 변동
@@ -295,32 +297,51 @@ $(document).on("propertychange change keyup paste input", ".adult", function() {
 	people = Number(youth) + Number(adult)
 	$(".num").text("총 " + people + "명")
 	$(".price-button").text("금액: " + price + "원")
-	$(".price-button").append("<p>결제하기 →</p>")
+	$(".price-button").append("<p>결제하기 →</p>")	
 	
+	// 좌석 선택 후 수량 변경
+	price_button_active()
 });
 
-// 좌석 선택 완료
+// 좌석 선택
 $(document).on("click", ".rect", function() {
 	
 	if (people == 0) {
 		return alert("수량을 먼저 선택해주세요.")
 	}
 	
+	var num = $(".rect").index(this)
 	if (select_seat_num < people) {
 		if ($(this).hasClass("active")) {
 			$(this).removeClass("active")
 			select_seat_num -= 1
+			for (var i=0; i < seat_nums.length; i++) {
+				if (seat_nums[i] == num) {
+					seat_nums.splice(i, 1)
+					i--
+				}
+			}
 		} else {
 			$(this).addClass("active")
 			select_seat_num += 1
+			seat_nums.push(num)
 		}
 	} else {
 		if ($(this).hasClass("active")) {
 			$(this).removeClass("active")
 			select_seat_num -= 1
+			for (var i=0; i < seat_nums.length; i++) {
+				if (seat_nums[i] == num) {
+					seat_nums.splice(i, 1)
+					i--
+				}
+			}
 		}
 	}
-	
+	price_button_active()
+});
+
+function price_button_active() {
 	if (select_seat_num == people) {
 		$(".price-button").prop("disabled", false)
 		$(".price-button").css("background", "#f16a1a")	
@@ -328,18 +349,17 @@ $(document).on("click", ".rect", function() {
 		$(".price-button").prop("disabled", true)
 		$(".price-button").css("background", "#ccc")	
 	}
-	
-	var num = $(".rect").index(this)
-	seat_nums.push(num)
-});
+}
 
 // 결제하기 버튼: DB에 예매 정보 저장
 $(".price-button").click(function() {
+	seat = ""
 	for (var i = 0; i < seat_nums.length; i++) {
-		seat += row_name[seat_nums[i] / column] + String(seat_nums[i] % column + 1) + ", "
+		seat += row_name[parseInt(seat_nums[i] / column)] + String(seat_nums[i] % column + 1) + ", "
 	}
 	seat = seat.slice(0, -2)
-	console.log(seat)
+	console.log("선택한 좌석정보: " + seat)
+	confirm(seat + "좌석을 선택하셨습니다. 결제하시겠습니까?")
 	
  	$.ajax ({
 	    method: 'GET',
@@ -350,7 +370,7 @@ $(".price-button").click(function() {
 			alert("결제되었습니다.")
 			location.href = "mypage"
 	   	} 
-	})	
+	}) 
 });
 </script>
 </html>
