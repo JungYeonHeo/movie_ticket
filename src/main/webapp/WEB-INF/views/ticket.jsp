@@ -306,7 +306,7 @@ $(document).on("propertychange change keyup paste input", ".adult", function() {
 // 좌석 선택
 $(document).on("click", ".rect", function() {
 	
-	if (people == 0) {
+	if (people == 0 && select_seat_num == 0) {
 		return alert("수량을 먼저 선택해주세요.")
 	}
 	
@@ -342,7 +342,7 @@ $(document).on("click", ".rect", function() {
 });
 
 function price_button_active() {
-	if (select_seat_num == people) {
+	if (select_seat_num == people && people > 0) {
 		$(".price-button").prop("disabled", false)
 		$(".price-button").css("background", "#f16a1a")	
 	} else {
