@@ -383,8 +383,14 @@ $(".price-button").click(function() {
 		    data: {"cinema_showing_id": cinema_showing_id, "youth": youth, "adult": adult, "seat": seat, "price": price},
 		    contentType: "application/json; charset:UTF-8", 
 		    success: function(resultData) { 
-				alert("결제되었습니다.")
-				location.href = "mypage"
+		    	if (resultData == 0) {
+		    		alert("로그인을 해주세요.")
+		    		location.href = "login"
+		    	} 
+		    	if (resultData == 1) {
+					alert("결제되었습니다.")
+					location.href = "mypage"
+		    	}
 		   	} 
 		}) 
 	} 

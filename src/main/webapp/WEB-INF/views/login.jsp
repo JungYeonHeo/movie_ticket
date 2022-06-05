@@ -51,8 +51,8 @@
 					if (resultData == 1) {
 						alert('로그인 실패')
 					} else {
-						alert('로그인 성공')
-						location.href = "index"
+						alert('로그인되었습니다')
+						history.go(-1)
 					}
 				}
 			})

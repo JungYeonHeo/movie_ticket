@@ -316,18 +316,22 @@ public class IndexController {
 	}
 		
 	@RequestMapping(value="/pay_action", method=RequestMethod.GET)
-	public @ResponseBody void pay_action(String cinema_showing_id, int youth, int adult, String seat, int price, HttpSession httpss) {
+	public @ResponseBody int pay_action(String cinema_showing_id, int youth, int adult, String seat, int price, HttpSession httpss) {
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		String member_id = (String) httpss.getAttribute("myinfo");
-		map.put("member_id",  member_id);
-		map.put("cinema_showing_id",  cinema_showing_id);
-		map.put("youth", youth);
-		map.put("adult", adult);
-		map.put("seat", seat);
-		map.put("price", price);
-		ticketdao.ticketInsert(map);
+		if (member_id == null) {
+			return 0;
+		} else {
+			map.put("member_id",  member_id);
+			map.put("cinema_showing_id",  cinema_showing_id);
+			map.put("youth", youth);
+			map.put("adult", adult);
+			map.put("seat", seat);
+			map.put("price", price);
+			ticketdao.ticketInsert(map);
+			return 1;
+		}
 	}
 
-	
 }
