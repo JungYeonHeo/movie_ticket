@@ -215,11 +215,11 @@ $(document).on("click", "li", function() {
 			       	$('.showing-time-slot-list').append(no_showing_time)
 		       	} else {
 		       		cinema_showing_id_bool = true
-		       		var add_showing_time_list = ''
+		       		var add_showing_time_list = ""
 		       		$.each(resultData, function(index, data) {
-			       		add_showing_time_list = "<div class='time-slot' onclick=\"time_slot_select(" + index + ", " + data['cinema_showing_id'] + ", " + data['cinema_seat_id'] + ");\"><b>" + data['showing_time'] + "</b></div>"
+			       		add_showing_time_list += "<div class='time-slot' onclick=\"time_slot_select(" + index + ", " + data['cinema_showing_id'] + ", " + data['cinema_seat_id'] + ");\"><b>" + data['showing_time'] + "</b></div>"
 		       		}) 
-			       	$('.showing-time-slot-list').append(add_showing_time_list)
+		       		$('.showing-time-slot-list').append(add_showing_time_list)
 		       	}
 		   	} 
 		})
@@ -376,19 +376,18 @@ $(".price-button").click(function() {
 		seat += row_name[parseInt(seat_nums[i] / column)] + String(seat_nums[i] % column + 1) + ", "
 	}
 	seat = seat.slice(0, -2)
-	console.log("선택한 좌석정보: " + seat)
-	confirm(seat + "좌석을 선택하셨습니다. 결제하시겠습니까?")
-	
- 	$.ajax ({
-	    method: 'GET',
-	    url: 'pay_action',
-	    data: {"cinema_showing_id": cinema_showing_id, "youth": youth, "adult": adult, "seat": seat, "price": price},
-	    contentType: "application/json; charset:UTF-8", 
-	    success: function(resultData) { 
-			alert("결제되었습니다.")
-			location.href = "mypage"
-	   	} 
-	}) 
+	if (confirm(seat + "좌석을 선택하셨습니다. 결제하시겠습니까?")) {
+	 	$.ajax ({
+		    method: 'GET',
+		    url: 'pay_action',
+		    data: {"cinema_showing_id": cinema_showing_id, "youth": youth, "adult": adult, "seat": seat, "price": price},
+		    contentType: "application/json; charset:UTF-8", 
+		    success: function(resultData) { 
+				alert("결제되었습니다.")
+				location.href = "mypage"
+		   	} 
+		}) 
+	} 
 });
 </script>
 </html>
