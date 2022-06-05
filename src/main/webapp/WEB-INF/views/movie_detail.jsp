@@ -163,7 +163,7 @@
 						</c:if>
 						<c:if test="${fn:length(cinemaShowingList) != 0}">
 							<c:forEach items="${cinemaShowingList}" var="list">
-			        		<div class="detail-contents-cinema-group" onclick="moveCinemaDetail(${list.cinema_id})">
+			        		<div class="detail-contents-cinema-group" onclick="moveCinemaDetail('${list.cinema_id}')">
 			        			<img class="detail-contents-cinema-img" src="${list.cinema_main_img}" alt="영화관대표이미지" />
 			        			<div class="detail-contents-subtitle">${list.cinema_name}</div>
 			        		</div>

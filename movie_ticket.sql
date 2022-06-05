@@ -290,7 +290,7 @@ values
 -- 영화_예고편 (영화ID, 영상, 영상설명, 날짜)
 insert into movie_trailer
 values
-('1001', 'rescinema_showingources/videos/1001_trailer1.mp4', '무삭제 클립', '2021.12.29'),
+('1001', 'resources/videos/1001_trailer1.mp4', '무삭제 클립', '2021.12.29'),
 ('1001', 'resources/videos/1001_trailer2.mp4', '2차 예고편', '2021.11.22'),
 ('1001', 'resources/videos/1001_trailer3.mp4', '티저 예고편', '2021.08.31'),
 ('1002', 'resources/videos/1002_trailer1.mp4', 'R.P.M 제작기 영상', '2022.01.06'),
