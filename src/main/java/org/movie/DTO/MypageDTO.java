@@ -8,6 +8,7 @@ public class MypageDTO {
 	private String poster_img;
 	private int g_rate_id;
 	private String cinema_name;
+	private String theater;
 	private String showing_date;
 	private String showing_time;
 	private int youth_count;
@@ -22,7 +23,7 @@ public class MypageDTO {
 	}
 
 	public MypageDTO(String ticket_id, String movie_id, String title_ko, String poster_img, int g_rate_id,
-			String cinema_name, String showing_date, String showing_time, int youth_count, int adult_count, String seat,
+			String cinema_name, String theater, String showing_date, String showing_time, int youth_count, int adult_count, String seat,
 			int total_price, String payment, String state, String ticket_date) {
 		super();
 		this.ticket_id = ticket_id;
@@ -31,6 +32,7 @@ public class MypageDTO {
 		this.poster_img = poster_img;
 		this.g_rate_id = g_rate_id;
 		this.cinema_name = cinema_name;
+		this.theater = theater;
 		this.showing_date = showing_date;
 		this.showing_time = showing_time;
 		this.youth_count = youth_count;
@@ -88,6 +90,14 @@ public class MypageDTO {
 
 	public void setCinema_name(String cinema_name) {
 		this.cinema_name = cinema_name;
+	}
+	
+	public String getTheater() {
+		return theater;
+	}
+
+	public void setTheater(String theater) {
+		this.theater = theater;
 	}
 
 	public String getShowing_date() {
@@ -165,7 +175,7 @@ public class MypageDTO {
 	@Override
 	public String toString() {
 		return "MypageDTO [ticket_id=" + ticket_id + ", movie_id=" + movie_id + ", title_ko=" + title_ko
-				+ ", poster_img=" + poster_img + ", g_rate_id=" + g_rate_id + ", cinema_name=" + cinema_name
+				+ ", poster_img=" + poster_img + ", g_rate_id=" + g_rate_id + ", cinema_name=" + cinema_name + "theater=" + theater
 				+ ", showing_date=" + showing_date + ", showing_time=" + showing_time + ", youth_count=" + youth_count
 				+ ", adult_count=" + adult_count + ", seat=" + seat + ", total_price=" + total_price + ", payment="
 				+ payment + ", state=" + state + ", ticket_date=" + ticket_date + "]";

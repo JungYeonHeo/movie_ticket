@@ -33,10 +33,11 @@
 							<div class="ticket-item-content">
 								<div class="ticket-item-content-text">제목: ${list.title_ko}</div>
 								<div class="ticket-item-content-text">영화관: ${list.cinema_name}</div>
+								<div class="ticket-item-content-text">상영관: ${list.theater}</div>
 								<div class="ticket-item-content-text">날짜 및 시간: ${list.showing_date} ${list.showing_time}</div>
 								<div class="ticket-item-content-text">자석: ${list.seat}</div>
 								<div class="ticket-item-content-text">일반: ${list.adult_count}명, 청소년: ${list.youth_count}명</div>
-								<div class="ticket-item-content-text">총 금액: ${list.total_price}</div>
+								<div class="ticket-item-content-text">총 금액: ${list.total_price}원</div>
 								<div class="ticket-item-content-text">결제정보: ${list.payment}</div>
 								<div class="ticket-item-content-text">상태: ${list.state}</div>
 							</div>

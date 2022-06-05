@@ -7,7 +7,7 @@
 	</select>
 
 	<select id="mypageTicketList" resultType="org.movie.DTO.MypageDTO">
-		select ticket.ticket_id, movie.movie_id, movie.title_ko, movie.poster_img, movie.g_rate_id, cinema.cinema_name, 
+		select ticket.ticket_id, movie.movie_id, movie.title_ko, movie.poster_img, movie.g_rate_id, cinema.cinema_name, cinema_seat.theater,
 		cinema_showing.showing_date, cinema_showing.showing_time, 
 		ticket.youth_count, ticket.adult_count, ticket.seat,
 		ticket.total_price, ticket.payment, ticket.state, ticket.ticket_date
