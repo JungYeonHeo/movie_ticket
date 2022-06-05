@@ -1,5 +1,9 @@
 package org.movie.ticket;
 
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,8 +16,6 @@ import org.movie.DAO.TicketDAO;
 import org.movie.DTO.CinemaDTO;
 import org.movie.DTO.MemberDTO;
 import org.movie.DTO.MypageDTO;
-import org.movie.DTO.ReviewDTO;
-import org.movie.DTO.TicketDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,37 +36,6 @@ public class MemberController {
 	@Autowired
 	private TicketDAO ticketdao = TicketDAO.getInstance();
 	
-	@RequestMapping(value="/login_action", method=RequestMethod.GET)
-	public @ResponseBody int login_action(String id, String pw, HttpSession httpss) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("id", id);
-		map.put("pw", pw);
-		
-		MemberDTO member = memberdao.login_action(map);
-		int result = 0;
-		if (member == null) {
-			result = 1;
-		} else {
-			result = 2;
-			httpss.setAttribute("myinfo", id);
-		}
-		return result;
-	}
-
-	@RequestMapping(value="/signup_action", method=RequestMethod.GET)
-	public @ResponseBody void signup_action(String id, String pw, String name, 
-			String phonenumber, String gender, String birth) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("member_id", id);
-		map.put("member_pw", pw);
-		map.put("member_name", name);
-		map.put("phone_number", phonenumber);
-		map.put("gender", gender);
-		map.put("birth", birth);
-		
-		memberdao.signup_action(map);
-	}
-
 	@RequestMapping(value="/login")
 	public String login(Model model) {
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -86,9 +57,57 @@ public class MemberController {
 		List<CinemaDTO> cinemaList = cinemadao.cinemaList(map);
 		model.addAttribute("cinemaList", cinemaList);
 		
+		// 회원가입 - 생년월일 날짜 
+		LocalDate now = LocalDate.now(); 
+		int year = now.getYear(); 
+		
+		String min_birth = String.valueOf(year-80) + "-01-01";
+		String max_birth = String.valueOf(year-8) + "-01-01";
+		
+		model.addAttribute("min_birth", min_birth);
+		model.addAttribute("max_birth", max_birth);
+		
 		return "signup";
 	}
 	
+	@RequestMapping(value="/login_action", method=RequestMethod.POST)
+	public @ResponseBody int login_action(String id, String pw, HttpSession httpss) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("id", id);
+		map.put("pw", pw);
+		
+		MemberDTO member = memberdao.login_action(map);
+		int result = 0;
+		if (member == null) {
+			result = 1;
+		} else {
+			result = 2;
+			httpss.setAttribute("myinfo", id);
+		}
+		return result;
+	}
+
+	@RequestMapping(value="/signup_action", method=RequestMethod.POST)
+	public @ResponseBody void signup_action(String id, String pw, String name, 
+			String phonenumber, String birth, String gender) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("member_id", id);
+		map.put("member_pw", pw);
+		map.put("member_name", name);
+		map.put("phone_number", phonenumber);
+		map.put("gender", gender);
+		map.put("birth", birth);
+		
+		memberdao.signup_action(map);
+	}
+	
+	public static String comma(String s) {
+		if (s.length() <= 3) {
+			return s;
+		} else 
+			return comma(s.substring(0, s.length()-3)) + ',' + s.substring(s.length()-3, s.length());
+	}
+
 	@RequestMapping(value="/mypage")
 	public String mypage(Model model, HttpSession httpss) {
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -100,6 +119,9 @@ public class MemberController {
 		
 		String id = (String) httpss.getAttribute("myinfo");
 		List<MypageDTO> mypageTicketList = ticketdao.mypageTicketList(id);
+		for (MypageDTO m : mypageTicketList) {
+			m.setTotal_price(comma(m.getTotal_price()));
+		}
 		model.addAttribute("mypageTicketList", mypageTicketList);
 		
 //		List<ReviewDTO> memberReviewList = reviewdao.memberReviewList(id);

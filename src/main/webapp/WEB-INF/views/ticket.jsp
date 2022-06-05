@@ -122,6 +122,7 @@ var youth = 0
 var adult = 0
 var people = 0
 var seat = ""
+var price_text = ""
 var price = 0;
 var title_ko = ""
 var cinema_name = ""
@@ -293,6 +294,15 @@ $(document).on("click", ".next-button", function() {
 	})
 });
 
+// 금액 3자리 마다 콤마 찍는 함수
+function comma(s) {
+	s = String(s)
+	if (s.length <= 3) 
+		return s
+	else 
+		return comma(s.slice(0, s.length-3)) + ',' + s.slice(-3)
+}
+
 // 청소년 수 입력에 따른 가격 변동
 $(document).on("propertychange change keyup paste input", ".youth", function() { 
 	youth = $(".youth").val()
@@ -300,7 +310,8 @@ $(document).on("propertychange change keyup paste input", ".youth", function() {
 	price = youth * 7000 + adult * 10000
 	people = Number(youth) + Number(adult)
 	$(".num").text("총 " + people + "명")
-	$(".price-button").text("금액: " + price + "원")
+	price_text = comma(price)
+	$(".price-button").text("금액: " + price_text + "원")
 	$(".price-button").append("<p>결제하기 →</p>")
 	
 	// 좌석 선택 후 수량 변경
@@ -314,7 +325,8 @@ $(document).on("propertychange change keyup paste input", ".adult", function() {
 	price = $(".youth").val() * 7000 + $(".adult").val() * 10000
 	people = Number(youth) + Number(adult)
 	$(".num").text("총 " + people + "명")
-	$(".price-button").text("금액: " + price + "원")
+	price_text = comma(price)
+	$(".price-button").text("금액: " + price_text + "원")
 	$(".price-button").append("<p>결제하기 →</p>")	
 	
 	// 좌석 선택 후 수량 변경

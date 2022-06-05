@@ -14,7 +14,7 @@ public class MypageDTO {
 	private int youth_count;
 	private int adult_count;
 	private String seat;
-	private int total_price;
+	private String total_price;
 	private String payment;
 	private String state;
 	private String ticket_date;
@@ -24,7 +24,7 @@ public class MypageDTO {
 
 	public MypageDTO(String ticket_id, String movie_id, String title_ko, String poster_img, int g_rate_id,
 			String cinema_name, String theater, String showing_date, String showing_time, int youth_count, int adult_count, String seat,
-			int total_price, String payment, String state, String ticket_date) {
+			String total_price, String payment, String state, String ticket_date) {
 		super();
 		this.ticket_id = ticket_id;
 		this.movie_id = movie_id;
@@ -140,11 +140,11 @@ public class MypageDTO {
 		this.seat = seat;
 	}
 
-	public int getTotal_price() {
+	public String getTotal_price() {
 		return total_price;
 	}
 
-	public void setTotal_price(int total_price) {
+	public void setTotal_price(String total_price) {
 		this.total_price = total_price;
 	}
 
