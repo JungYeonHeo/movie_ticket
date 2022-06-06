@@ -8,21 +8,20 @@ public class MemberDTO {
     private String member_pw; 
     private String member_name; 
     private String phone_number;
-    private String gender;
     private Date birth;
-    
+    private String gender;
+        
     public MemberDTO() {
 	}
 
-	public MemberDTO(String member_id, String member_pw, String member_name, String phone_number, String gender,
-			Date birth) {
+	public MemberDTO(String member_id, String member_pw, String member_name, String phone_number, Date birth, String gender) {
 		super();
 		this.member_id = member_id;
 		this.member_pw = member_pw;
 		this.member_name = member_name;
 		this.phone_number = phone_number;
-		this.gender = gender;
 		this.birth = birth;
+		this.gender = gender;
 	}
 
 	public String getMember_id() {
@@ -56,6 +55,14 @@ public class MemberDTO {
 	public void setPhone_number(String phone_number) {
 		this.phone_number = phone_number;
 	}
+	
+	public Date getBirth() {
+		return birth;
+	}
+
+	public void setBirth(Date birth) {
+		this.birth = birth;
+	}
 
 	public String getGender() {
 		return gender;
@@ -65,18 +72,10 @@ public class MemberDTO {
 		this.gender = gender;
 	}
 
-	public Date getBirth() {
-		return birth;
-	}
-
-	public void setBirth(Date birth) {
-		this.birth = birth;
-	}
-
 	@Override
 	public String toString() {
 		return "MemberDTO [member_id=" + member_id + ", member_pw=" + member_pw + ", member_name=" + member_name
-				+ ", phone_number=" + phone_number + ", gender=" + gender + ", birth=" + birth 
+				+ ", phone_number=" + phone_number + ", birth=" + birth + ", gender=" + gender  
 				+ "]";
 	}
     

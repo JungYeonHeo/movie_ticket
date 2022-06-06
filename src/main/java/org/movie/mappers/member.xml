@@ -5,15 +5,13 @@
 
 <mapper namespace="org.movie.mappers.member">
 
-	<!-- 회원 -->
-	<insert id="signup_action"
-		parameterType="org.movie.DTO.MemberDTO">
-		insert into member values (#{member_id}, #{member_pw},
-		#{member_name},
-		#{phone_number}, #{gender}, #{birth})
+	<!-- 회원가입 -->
+	<insert id="signup_action">
+		insert into member(member_id, member_pw, member_name, phone_number, birth, gender)
+		value (#{member_id}, #{member_pw}, #{member_name}, #{phone_number}, #{birth}, #{gender})
 	</insert>
 
-	<!-- 로그인기능 -->
+	<!-- 로그인 -->
 	<select id="login_action" resultType="org.movie.DTO.MemberDTO">
 		select * from member
 		where member_id=#{id} and member_pw=#{pw}

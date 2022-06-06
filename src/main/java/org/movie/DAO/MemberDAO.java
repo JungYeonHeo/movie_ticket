@@ -42,7 +42,7 @@ public class MemberDAO {
 	}
 
 	public void signup_action(HashMap<String, String> map) {
-		session.selectOne(memberMapper + ".signup_action", map);
+		session.insert(memberMapper + ".signup_action", map);
 	}
 	
 	public void memberUpdate(HashMap<String, String> map) {

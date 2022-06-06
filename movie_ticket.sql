@@ -6,8 +6,8 @@ create table member ( -- 회원
     member_pw varchar(20) not null,
     member_name varchar(50) not null,
     phone_number varchar(20) not null,
-    gender char(1) check (gender in('F', 'M')),
     birth date,
+    gender char(1) check (gender in('F', 'M')),
     primary key(member_id)
 );
 create table g_rate ( -- 관람 등급

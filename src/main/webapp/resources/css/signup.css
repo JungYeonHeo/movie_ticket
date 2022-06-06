@@ -71,7 +71,7 @@ input:focus {
 	margin: 30px 0;
 }
 
-.inputbirth {
+.input-birth {
 	position: absolute;
 	right: 0px;
 	width: 150px;
@@ -95,7 +95,7 @@ input:focus {
 	padding: 10px 0;
 }
 
-button {
+.signup-button {
 	width: 400px;
 	height: 60px;
 	background: #f16a1a;

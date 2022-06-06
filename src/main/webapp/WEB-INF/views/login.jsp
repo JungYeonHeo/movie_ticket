@@ -40,19 +40,23 @@
 			}
 		} else {
 			$.ajax({
-				method : 'GET',
-				url : 'login_action',
-				data : {
+				method: 'POST',
+				url: '${pageContext.request.contextPath}/login_action',
+				data: {
 					"id" : $(".inputid").val(),
 					"pw" : $(".inputpw").val()
 				},
-				contentType : "application/json; charset:UTF-8",
-				success : function(resultData) {
+				success: function(resultData) {
 					if (resultData == 1) {
-						alert('로그인 실패')
+						alert('없는 아이디와 비밀번호입니다.')
 					} else {
-						alert('로그인되었습니다')
-						history.go(-1)
+						alert('로그인되었습니다.')
+						var referrer = document.referrer
+						if (referrer == 'http://localhost:8080/ticket/ticket') {
+							history.go(-1)
+						} else {
+							location.href = "index"
+						} 
 					}
 				}
 			})
