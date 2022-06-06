@@ -40,6 +40,11 @@ public class MemberDAO {
 		MemberDTO member = session.selectOne(memberMapper + ".login_action", map);
 		return member;
 	}
+	
+	public MemberDTO signup_id_check(String id) {
+		MemberDTO member = session.selectOne(memberMapper + ".signup_id_check", id);
+		return member;
+	}
 
 	public void signup_action(HashMap<String, String> map) {
 		session.insert(memberMapper + ".signup_action", map);
@@ -48,4 +53,5 @@ public class MemberDAO {
 	public void memberUpdate(HashMap<String, String> map) {
 		session.selectOne(memberMapper + ".memberupdate", map);
 	}
+
 }

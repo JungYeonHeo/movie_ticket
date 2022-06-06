@@ -34,7 +34,7 @@
 	height: 80px;
 }
 
-.type {
+.type-text {
 	text-align: left;
 	font-size: 13pt;
 	font-weight: bold;
@@ -48,7 +48,26 @@
 	text-align: left;
 }
 
-input[type=text], input[type=password] {
+.input-id {
+	width: 300px;
+	height: 40px;
+	border-radius: 10px;
+	margin-bottom: 10px;
+}
+
+.id-duplication-check {
+	width: 80px;
+	height: 45px;
+	margin-left: 10px;
+	border-radius: 10px;
+	margin-bottom: 10px;
+	background: #fff;
+	color: #bbb;
+	font-size: 11pt;
+	border: 1px solid #bbb;
+}
+
+input[type=password], .input-name, .input-phonenumber {
 	width: 400px;
 	height: 40px;
 	border-radius: 10px;
@@ -99,7 +118,7 @@ input:focus {
 	width: 400px;
 	height: 60px;
 	background: #f16a1a;
-	color: #ffffff;
+	color: #fff;
 	font-size: 15pt;
 	font-weight: bold;
 	border-radius: 5px;

@@ -87,6 +87,19 @@ public class MemberController {
 		return result;
 	}
 
+	@RequestMapping(value="/signup_id_check", method=RequestMethod.POST)
+	public @ResponseBody int signup_id_check(String id) {
+		
+		MemberDTO member = memberdao.signup_id_check(id);
+		int result = 0;
+		if (member == null) {
+			result = 2;
+		} else {
+			result = 1;
+		}
+		return result;
+	}
+	
 	@RequestMapping(value="/signup_action", method=RequestMethod.POST)
 	public @ResponseBody void signup_action(String id, String pw, String name, 
 			String phonenumber, String birth, String gender) {
