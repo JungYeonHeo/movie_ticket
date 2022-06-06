@@ -52,7 +52,8 @@
 					} else {
 						alert('로그인되었습니다.')
 						var referrer = document.referrer
-						if (referrer == 'http://localhost:8080/ticket/ticket') {
+						referrer.split('/')
+						if (referrer.startsWith('http://localhost:8080/ticket/ticket')) {
 							history.go(-1)
 						} else {
 							location.href = "index"

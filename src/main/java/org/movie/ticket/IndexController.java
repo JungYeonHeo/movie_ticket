@@ -260,7 +260,8 @@ public class IndexController {
 	}
 	
 	@RequestMapping(value="/ticket", method=RequestMethod.GET)
-	public String ticket(Model model) { 
+	public String ticket(@RequestParam(value="movie", required=false) String movie, 
+			@RequestParam(value="cinema", required=false) String cinema, Model model) { 
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("target", "address");
 		map.put("search", "");
@@ -282,6 +283,10 @@ public class IndexController {
 		model.addAttribute("year", year);
 		model.addAttribute("month", month);
 		model.addAttribute("day", day);
+		
+		// 선택된 영화나 영화관이 있을 경우, 넘어온 값이 없으면 null
+		model.addAttribute("selectedMovieID", movie);
+		model.addAttribute("selectedCinemaID", cinema);
 
 		return "ticket";
 	}

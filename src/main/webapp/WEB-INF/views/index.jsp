@@ -40,8 +40,8 @@
 					<div class="contents-items-hidden">
 						<div class="contents-items-showing" style="transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
 							<c:forEach items="${movieShowingList}" var="list" varStatus="status">
-				                <div class="contents-item" onclick="moveMovieDetail(${list.movie_id})">
-				                	<div class="contents-item-infor">
+				                <div class="contents-item">
+				                	<div class="contents-item-infor" onclick="moveMovieDetail(${list.movie_id})">
 				                		<c:if test="${list.g_rate_id == 1}">
 						                	<img class="contents-item-grate" src="resources/images/전체.png" alt="관람등급이미지">
 				                		</c:if>
@@ -63,14 +63,14 @@
 					                	<div class="contents-item-review-member">일반</div>
 					                	<div class="contents-item-review-score">${list.gen_avg_rate}</div>
 				                	</div>
-				                	<button class="contents-item-btn">예매하기 →</button>
+				                	<button class="contents-item-btn" onclick="makingReservation(${list.movie_id})">예매하기 →</button>
 				                </div>
 			                </c:forEach>
 						</div>
 						<div class="contents-items-notshowing">
 							<c:forEach items="${movieNotShowingList}" var="list" varStatus="status">
 				                <div class="contents-item">
-				                	<div class="contents-item-infor">
+				                	<div class="contents-item-infor" onclick="moveMovieDetail(${list.movie_id})">
 				                		<c:if test="${list.g_rate_id == 1}">
 						                	<img class="contents-item-grate" src="resources/images/전체.png" alt="관람등급이미지">
 				                		</c:if>
@@ -92,7 +92,7 @@
 					                	<div class="contents-item-review-member">일반</div>
 					                	<div class="contents-item-review-score">${list.gen_avg_rate}</div>
 				                	</div>
-				                	<button class="contents-item-btn">예매하기 →</button>
+				                	<button class="contents-item-btn" onclick="makingReservation(${list.movie_id})">예매하기 →</button>
 				                </div>
 			                </c:forEach>
 						</div>
@@ -132,6 +132,10 @@ function moveMovie() {
 	location.href = "movie";
 }
 
+function makingReservation(movieID) {
+	location.href = "ticket?movie=" + movieID;
+}
+
 var value1 = 0;
 var value2 = 0;
 var prev1 = 0;
@@ -165,7 +169,6 @@ function movieNext() {
 		$(".contents-items-notshowing").css("transform", "translate3d(" + value2 + "px, 0px, 0px)");
 	}
 }
-
 </script>
 </html>
 

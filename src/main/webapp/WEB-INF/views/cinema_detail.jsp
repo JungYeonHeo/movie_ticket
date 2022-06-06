@@ -35,8 +35,8 @@
 						</c:if>
 						<c:if test="${fn:length(cinemaShowingMovieList) != 0}">
 							<c:forEach items="${cinemaShowingMovieList}" var="list">
-				                <div class="contents-item" onclick="moveMovieDetail(${list.movie_id})">
-				                	<div class="contents-item-infor">
+				                <div class="contents-item">
+				                	<div class="contents-item-infor" onclick="moveMovieDetail(${list.movie_id})">
 				                		<c:if test="${list.g_rate_id == 1}">
 						                	<img class="contents-item-grate" src="resources/images/전체.png" alt="관람등급이미지">
 				                		</c:if>
@@ -57,7 +57,7 @@
 					                	<div class="contents-item-review-member">일반</div>
 					                	<div class="contents-item-review-score">${list.gen_avg_rate}</div>
 				                	</div>
-				                	<button class="contents-item-btn">예매하기 →</button>
+				                	<button class="contents-item-btn" onclick="makingReservation(${list.movie_id}, '${cinema.cinema_id}')">예매하기 →</button>
 				                </div>
 			                </c:forEach>
    						</c:if>
@@ -69,7 +69,7 @@
 						<c:if test="${fn:length(cinemaNotShowingMovieList) != 0}">
 							<c:forEach items="${cinemaNotShowingMovieList}" var="list">
 				                <div class="contents-item">
-				                	<div class="contents-item-infor">
+				                	<div class="contents-item-infor" onclick="moveMovieDetail(${list.movie_id})">
 				                		<c:if test="${list.g_rate_id == 1}">
 						                	<img class="contents-item-grate" src="resources/images/전체.png" alt="관람등급이미지">
 				                		</c:if>
@@ -90,7 +90,7 @@
 					                	<div class="contents-item-review-member">일반</div>
 					                	<div class="contents-item-review-score">${list.gen_avg_rate}</div>
 				                	</div>
-				                	<button class="contents-item-btn">예매하기 →</button>
+				                	<button class="contents-item-btn" onclick="makingReservation(${list.movie_id}, '${cinema.cinema_id}')">예매하기 →</button>
 				                </div>
 			                </c:forEach>
    						</c:if>
@@ -152,11 +152,8 @@
 						</div>
 					</div>
 				</div>
-				
-				
 			</div>
 		</div>
-
         <%@ include file = "footer.jsp" %>
     </div>
 </body>
@@ -179,5 +176,12 @@ $("#notshowing").click(function () {
     selectBool = 2;
 });
 
+function moveMovieDetail(movieID) {
+	location.href = "movie_detail?no=" + movieID;
+}
+
+function makingReservation(movieID, cinemaID) {
+	location.href = "ticket?movie=" + movieID + "&cinema=" + cinemaID;
+}
 </script>
 </html>

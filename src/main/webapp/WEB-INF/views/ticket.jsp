@@ -8,6 +8,12 @@
 	<meta charset="UTF-8">
 	<link type="text/css" rel="stylesheet" href="resources/css/ticket.css">
 	<title>대체로 맑음 - 예매</title>
+	<script>
+		window.onload = function() {
+			var title_ko = ""
+			var cinema_name = ""
+		}
+	</script>
 </head>
 <body>
 	<%@ include file="header.jsp"%>
@@ -21,15 +27,34 @@
 					<h2>영화</h2>
 					<ul class="movie_list">
 						<c:forEach var="dto" items="${ticketMovieList}">
-							<li class="movie">
-								<span class="view_age a${dto.g_rate_id}">
-									<c:if test="${dto.g_rate_id eq 1}">전체</c:if> 
-									<c:if test="${dto.g_rate_id eq 2}">12</c:if>
-									<c:if test="${dto.g_rate_id eq 3}">15</c:if>
-									<c:if test="${dto.g_rate_id eq 4}">청불</c:if>
-								</span> 
-								${dto.title_ko}
-							</li>
+							<c:choose>
+								<c:when test="${dto.movie_id eq selectedMovieID}">
+									<li class="movie selecton">
+										<span class="view_age a${dto.g_rate_id}">
+											<c:if test="${dto.g_rate_id eq 1}">전체</c:if> 
+											<c:if test="${dto.g_rate_id eq 2}">12</c:if>
+											<c:if test="${dto.g_rate_id eq 3}">15</c:if>
+											<c:if test="${dto.g_rate_id eq 4}">청불</c:if>
+										</span> 
+										${dto.title_ko}
+									</li>
+									<script>
+										title_ko = "${dto.title_ko}"
+										console.log(title_ko)
+									</script>
+								</c:when>
+								<c:otherwise>
+									<li class="movie">
+										<span class="view_age a${dto.g_rate_id}">
+											<c:if test="${dto.g_rate_id eq 1}">전체</c:if> 
+											<c:if test="${dto.g_rate_id eq 2}">12</c:if>
+											<c:if test="${dto.g_rate_id eq 3}">15</c:if>
+											<c:if test="${dto.g_rate_id eq 4}">청불</c:if>
+										</span> 
+										${dto.title_ko}
+									</li>
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
 					</ul>
 				</div>
@@ -52,7 +77,18 @@
 					<div class="local_wrapper_2" style="position: relative;">
 						<ul class="cine_list">
 							<c:forEach var="dto" items="${ticketCinemaList}">
-								<li class="">${dto.cinema_name}</li>
+								<c:choose>
+									<c:when test="${dto.cinema_id eq selectedCinemaID}">
+										<li class="selecton">${dto.cinema_name}</li>
+										<script>
+											cinema_name = "${dto.cinema_name}"
+											console.log(cinema_name)
+										</script>
+									</c:when>
+									<c:otherwise>
+										<li class="">${dto.cinema_name}</li>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 						</ul>
 					</div>
@@ -124,8 +160,6 @@ var people = 0
 var seat = ""
 var price_text = ""
 var price = 0;
-var title_ko = ""
-var cinema_name = ""
 var showing_date = ""
 var month = ""
 var row = 0

@@ -32,8 +32,8 @@
 				<div class="contents-items">
 					<div class="contents-items-showing">
 						<c:forEach items="${movieShowingList}" var="list">
-			                <div class="contents-item" onclick="moveMovieDetail(${list.movie_id})">
-			                	<div class="contents-item-infor">
+			                <div class="contents-item">
+			                	<div class="contents-item-infor" onclick="moveMovieDetail(${list.movie_id})">
 			                		<c:if test="${list.g_rate_id == 1}">
 					                	<img class="contents-item-grate" src="resources/images/전체.png" alt="관람등급이미지">
 			                		</c:if>
@@ -54,14 +54,14 @@
 				                	<div class="contents-item-review-member">일반</div>
 				                	<div class="contents-item-review-score">${list.gen_avg_rate}</div>
 			                	</div>
-			                	<button class="contents-item-btn">예매하기 →</button>
+			                	<button class="contents-item-btn" onclick="makingReservation(${list.movie_id})">예매하기 →</button>
 			                </div>
 		                </c:forEach>
 					</div>
 					<div class="contents-items-notshowing">
 						<c:forEach items="${movieNotShowingList}" var="list">
 			                <div class="contents-item">
-			                	<div class="contents-item-infor">
+			                	<div class="contents-item-infor" onclick="moveMovieDetail(${list.movie_id})">
 			                		<c:if test="${list.g_rate_id == 1}">
 					                	<img class="contents-item-grate" src="resources/images/전체.png" alt="관람등급이미지">
 			                		</c:if>
@@ -82,7 +82,7 @@
 				                	<div class="contents-item-review-member">일반</div>
 				                	<div class="contents-item-review-score">${list.gen_avg_rate}</div>
 			                	</div>
-			                	<button class="contents-item-btn">예매하기 →</button>
+			                	<button class="contents-item-btn" onclick="makingReservation(${list.movie_id})">예매하기 →</button>
 			                </div>
 		                </c:forEach>
 					</div>
@@ -109,6 +109,10 @@ $("#notshowing").click(function () {
     $(".contents-items-notshowing").css("display", "flex");
     selectBool = 2;
 });
+
+function makingReservation(movieID) {
+	location.href = "ticket?movie=" + movieID;
+}
 
 $(document).on("propertychange change keyup paste input", ".movie-search-item", function(){ 
 	$('.contents-genre-item').each(function(){

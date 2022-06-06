@@ -61,7 +61,7 @@
 					<div class="summary-contents-review-headcount">${fn:length(reviewList)}명 참여</div>
 				</div>
 			</div>
-			<button class="summary-ticket-btn">예매하기</button>
+			<button class="summary-ticket-btn" onclick="makingReservation(${movieInfor.movie_id})">예매하기</button>
 		</div>
 		<div class="detail">
 			<div class="detail-all">
@@ -262,6 +262,10 @@
     </div>
 </body>
 <script type="text/javascript">
+function makingReservation(movieID) {
+	location.href = "ticket?movie=" + movieID;
+}
+
 $(document).on("click", ".detail-menu", function(){ 
     $('.detail-menu').each(function(){
   		if ($(this).hasClass('menu-on') == 1) { $(this).removeClass('menu-on'); }
