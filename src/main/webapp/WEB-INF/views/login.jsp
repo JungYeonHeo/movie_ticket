@@ -30,38 +30,38 @@
 	</div>
 </body>
 <script type="text/javascript">
-	$(".loginbutton").click(function() {
-		if ($(".inputid").val().trim() == "" || $(".inputpw").val().trim() == "") {
-			if ($(".inputid").val() == "") {
-				$(".warningid").css("display", "block");
-			}
-			if ($(".inputpw").val() == "") {
-				$(".warningpw").css("display", "block");
-			}
-		} else {
-			$.ajax({
-				method: 'POST',
-				url: '${pageContext.request.contextPath}/login_action',
-				data: {
-					"id" : $(".inputid").val(),
-					"pw" : $(".inputpw").val()
-				},
-				success: function(resultData) {
-					if (resultData == 1) {
-						alert('없는 아이디와 비밀번호입니다.')
-					} else {
-						alert('로그인되었습니다.')
-						var referrer = document.referrer
-						referrer.split('/')
-						if (referrer.startsWith('http://localhost:8080/ticket/ticket')) {
-							history.go(-1)
-						} else {
-							location.href = "index"
-						} 
-					}
-				}
-			})
+$(".loginbutton").click(function() {
+	if ($(".inputid").val().trim() == "" || $(".inputpw").val().trim() == "") {
+		if ($(".inputid").val() == "") {
+			$(".warningid").css("display", "block");
 		}
-	});
+		if ($(".inputpw").val() == "") {
+			$(".warningpw").css("display", "block");
+		}
+	} else {
+		$.ajax({
+			method: 'POST',
+			url: '${pageContext.request.contextPath}/login_action',
+			data: {
+				"id" : $(".inputid").val(),
+				"pw" : $(".inputpw").val()
+			},
+			success: function(resultData) {
+				if (resultData == 1) {
+					alert('없는 아이디와 비밀번호입니다.')
+				} else {
+					alert('로그인되었습니다.')
+					var referrer = document.referrer
+					referrer.split('/')
+					if (referrer.startsWith('http://localhost:8080/ticket/ticket')) {
+						history.go(-1)
+					} else {
+						location.href = "index"
+					} 
+				}
+			}
+		})
+	}
+})
 </script>
 </html>

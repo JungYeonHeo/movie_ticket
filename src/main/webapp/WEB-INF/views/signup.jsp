@@ -16,24 +16,24 @@
 			<div class="signup">
 				<div class="signuptext">회원가입</div>
 				<div class='type-text'>아이디</div>
-				<input class="input-id" type="text" autofocus required placeholder="ID를 입력해주세요.">
-				<button class="id-duplication-check">중복 확인</button>
-				<p class='p-warning' id="warning-id">아이디를 입력해주세요.</p>
+				<input class="input-id" type="text" name="input" autofocus required placeholder="이메일 아이디를 입력해주세요.">
+				<button class="id-duplication-check" disabled="disabled">중복 확인</button>
+				<p class='p-warning' id="warning-id">이메일 아이디를 입력해주세요.</p>
 				
 				<div class='type-text'>비밀번호</div>
-				<input class="input-pw" type="password" autofocus required placeholder="비밀번호를 입력해주세요.">
+				<input class="input-pw" type="password" name="input" autofocus required placeholder="비밀번호를 입력해주세요.">
 				<p class='p-warning' id="warning-pw">비밀번호를 입력해주세요.</p>
 				
 				<div class='type-text'>비밀번호 확인</div>
-				<input class="input-pw-check" type="password" autofocus required placeholder="비밀번호를 확인해주세요.">
+				<input class="input-pw-check" type="password" name="input" autofocus required placeholder="비밀번호를 확인해주세요.">
 				<p class='p-warning' id="warning-pw-check">비밀번호를 확인해주세요.</p>
 				
 				<div class='type-text'>이름</div>
-				<input class="input-name" type="text" autofocus required placeholder="이름을 확인해주세요.">
+				<input class="input-name" type="text" name="input" autofocus required placeholder="이름을 확인해주세요.">
 				<p class='p-warning' id="warning-name">이름을 입력해주세요.</p>
 				
 				<div class='type-text'>전화번호</div>
-				<input class="input-phonenumber" type="text" autofocus required placeholder="010-0000-0000 형식으로 입력해주세요.">
+				<input class="input-phonenumber" type="text" name="input" autofocus required placeholder="010-0000-0000 형식으로 입력해주세요.">
 				<p class='p-warning' id="warning-phonenumber">전화번호를 입력해주세요.</p>
 		
 				<div class='line'></div> 
@@ -64,6 +64,7 @@
 </body>
 <script type="text/javascript">
 var id_duplication = false
+var id_email_type = false
 var pw_type = false
 var pw_equal = false
 var tel_type = false
@@ -109,25 +110,38 @@ $(".signup-button").click(function() {
 	if (id == "" || pw == "" || pw2 == "" || name == "" || tel == "" || birth == "" || gender == undefined
 		|| !id_duplication || !pw_type  || !pw_equal || !tel_type) {
 		if (id == "") {
-			$("#warning-id").css("display", "block");
+			$("#warning-id").css("display", "block")
+			$(".input-id").focus()
 		}
 		if (pw == "") {
-			$("#warning-pw").css("display", "block");
+			$("#warning-pw").css("display", "block")
+			$(".input-pw").focus()
 		}
 		if (pw2 == "") {
+			$("#warning-pw-check").css("display", "block")
+			$(".input-pw-check").focus()
+		} else if (!pw_equal) {
 			$("#warning-pw-check").css("display", "block");
+			$("#warning-pw-check").text("비밀번호: 불일치");
+		} else {
+			$("#warning-pw-check").css("display", "block");
+			$("#warning-pw-check").text("비밀번호: 일치");
 		}
 		if (name == "") {
-			$("#warning-name").css("display", "block");
+			$("#warning-name").css("display", "block")
+			$(".input-name").focus()
 		}
 		if (tel == "") {
-			$("#warning-phonenumber").css("display", "block");
+			$("#warning-phonenumber").css("display", "block")
+			$(".input-phonenumber").focus()
 		}
 		if (birth == "") {
-			$("#warning-birth").css("display", "block");
+			$("#warning-birth").css("display", "block")
+			$(".input-birth").focus()
 		}
 		if (gender == undefined) {
-			$("#warning-gender").css("display", "block");
+			$("#warning-gender").css("display", "block")
+			$("input[name=gender]").focus()
 		}
 	} else {
 		$.ajax ({
@@ -144,6 +158,89 @@ $(".signup-button").click(function() {
 	        }
 	    })
 	}	
+})
+
+$(document).on("click propertychange change keyup paste input", "input[name=input]", function(){ 
+	var num = $("input[name=input]").index(this)
+
+	if (num == 0) {
+		var id = $(".input-id").val().trim()
+		var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/
+		if (regEmail.test(id)) {
+			$("#warning-id").text("이메일 중복을 확인해주세요.")
+			$("#warning-id").css("display", "block")
+			$(".id-duplication-check").attr("disabled", false)
+			$(".id-duplication-check").css("color", "#f16a1a")
+			$(".id-duplication-check").css("border", "1px solid #f16a1a")
+			id_email_type = true
+		} else {
+			$("#warning-id").text("이메일 형식: 부적합 (aaaa@naver.com)")
+			$("#warning-id").css("display", "block")
+			$(".id-duplication-check").attr("disabled", true)
+			$(".id-duplication-check").css("color", "#f16a1a")
+			$(".id-duplication-check").css("border", "1px solid #f16a1a")
+			$(".id-duplication-check").text("중복체크")
+			id_email_type = false
+		}
+	} else if (num == 1) {
+		var pw = $(".input-pw").val().trim()
+		var regPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,12}$/
+		if (regPw.test(pw)) {
+			$("#warning-pw").text("비밀번호 형식: 적합")
+			$("#warning-pw").css("display", "block")
+			$("#warning-pw").css("color", "green")
+			pw_type = true
+		} else {
+			$("#warning-pw").text("비밀번호 형식: 부적합 (대소문자, 숫자, 특수문자 세가지 조합으로 8자 이상)")
+			$("#warning-pw").css("display", "block")
+			$("#warning-pw").css("color", "#f16a1a")
+			pw_type = false
+		}
+	} else if (num == 2) {
+		var pw = $(".input-pw").val().trim()
+		var pw2 = $(".input-pw-check").val().trim()
+		if (pw == pw2 && pw != "") {
+			$("#warning-pw-check").text("비밀번호: 일치")
+			$("#warning-pw-check").css("display", "block")
+			$("#warning-pw-check").css("color", "green")
+			pw_equal = true
+		} else {
+			$("#warning-pw-check").text("비밀번호: 불일치")
+			$("#warning-pw-check").css("display", "block")
+			pw_equal = false
+		}
+	} else if (num == 3) {
+		var name = $(".input-name").val().trim()
+		if (name !== "") {
+			$("#warning-name").text("")
+			$("#warning-name").css("display", "none")
+		} else {
+			$("#warning-name").text("이름을 입력해주세요.")
+			$("#warning-name").css("display", "block")
+		}
+	} else if (num == 4) {
+		var tel = $(".input-phonenumber").val().trim()
+		var regtel = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/
+		if (regtel.test(tel)) {
+			$("#warning-phonenumber").text("핸드폰번호 형식: 적합")
+			$("#warning-phonenumber").css("display", "block")
+			$("#warning-phonenumber").css("color", "green")
+			tel_type = true
+		} else {
+			$("#warning-phonenumber").text("핸드폰번호 형식: 부적합")
+			$("#warning-phonenumber").css("display", "block")
+			$("#warning-phonenumber").css("color", "#f16a1a")
+			tel_type = false
+		}
+	}
+})
+
+$(".input-phonenumber").focusout(function() {
+	var tel = $(".input-phonenumber").val().trim()
+	var regNumber = /[^0-9]/g
+	tel = tel.replace(regNumber, "")
+	$(".input-phonenumber").val(tel)
+	
 })
 </script>
 </html>
