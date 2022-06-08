@@ -177,9 +177,9 @@ $(document).on("click propertychange change keyup paste input", "input[name=inpu
 			$("#warning-id").text("이메일 형식: 부적합 (aaaa@naver.com)")
 			$("#warning-id").css("display", "block")
 			$(".id-duplication-check").attr("disabled", true)
-			$(".id-duplication-check").css("color", "#f16a1a")
-			$(".id-duplication-check").css("border", "1px solid #f16a1a")
-			$(".id-duplication-check").text("중복체크")
+			$(".id-duplication-check").css("color", "#bbb")
+			$(".id-duplication-check").css("border", "1px solid #bbb")
+			$(".id-duplication-check").text("중복확인")
 			id_email_type = false
 		}
 	} else if (num == 1) {
