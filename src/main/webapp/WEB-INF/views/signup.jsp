@@ -33,7 +33,7 @@
 				<p class='p-warning' id="warning-name">이름을 입력해주세요.</p>
 				
 				<div class='type-text'>전화번호</div>
-				<input class="input-phonenumber" type="text" name="input" autofocus required placeholder="010-0000-0000 형식으로 입력해주세요.">
+				<input class="input-phonenumber" type="text" name="input" autofocus required placeholder="전화번호를 입력해주세요.">
 				<p class='p-warning' id="warning-phonenumber">전화번호를 입력해주세요.</p>
 		
 				<div class='line'></div> 
@@ -144,7 +144,7 @@ $(".signup-button").click(function() {
 			$("input[name=gender]").focus()
 		}
 	} else {
-		$.ajax ({
+ 		$.ajax ({
 	        method: "POST",
 	        url: "${pageContext.request.contextPath}/signup_action",
 	        data: {"id": id, "pw": pw, "name": name, "phonenumber": tel, "birth": birth, "gender": gender},
@@ -156,11 +156,42 @@ $(".signup-button").click(function() {
 	        		location.href="login"
 		       	}
 	        }
-	    })
+	    }) 
 	}	
 })
 
-$(document).on("click propertychange change keyup paste input", "input[name=input]", function(){ 
+$(document).on("click", "input[name=input]", function(){ 
+	var num = $("input[name=input]").index(this)
+	
+	var id = $(".input-id").val().trim()
+	var pw = $(".input-pw").val().trim()
+	var pw2 = $(".input-pw-check").val().trim()
+	var name = $(".input-name").val().trim()
+	var tel = $(".input-phonenumber").val().trim()
+	var birth = $(".input-birth").val()
+	var gender = $('input[name=gender]:checked').val()
+
+	if (num == 0 && id == "") {
+		$("#warning-id").css("display", "block")
+		$("#warning-id").text("이메일 형식: 부적합 (aaaa@naver.com)")
+	} else if (num == 1 && pw == "") {
+		$("#warning-pw").css("display", "block")
+		$("#warning-pw").text("비밀번호 형식: 부적합 (대소문자, 숫자, 특수문자 세가지 조합으로 8자 이상)")
+	} else if (num == 2 && pw2 == "") {
+		$("#warning-pw-check").css("display", "block")
+		$("#warning-pw-check").text("비밀번호: 불일치")
+	} else if (num == 3 && name == "") {
+		$("#warning-name").css("display", "block")
+		$("#warning-name").text("이름 형식: 부적합 (한글자 이상)")
+	} else if (num == 4 && tel == "") {
+		$(".input-phonenumber").val("010")
+		$("#warning-phonenumber").css("display", "block")
+		$("#warning-phonenumber").text("핸드폰번호 형식: 부적합")
+	}
+	
+})
+
+$(document).on("propertychange change keyup paste input", "input[name=input]", function(){ 
 	var num = $("input[name=input]").index(this)
 
 	if (num == 0) {
@@ -207,20 +238,33 @@ $(document).on("click propertychange change keyup paste input", "input[name=inpu
 		} else {
 			$("#warning-pw-check").text("비밀번호: 불일치")
 			$("#warning-pw-check").css("display", "block")
+			$("#warning-pw-check").css("color", "#f16a1a")
 			pw_equal = false
 		}
 	} else if (num == 3) {
 		var name = $(".input-name").val().trim()
 		if (name !== "") {
-			$("#warning-name").text("")
-			$("#warning-name").css("display", "none")
+			$("#warning-name").text("이름: 적합")
+			$("#warning-name").css("display", "block")
+			$("#warning-name").css("color", "green")
 		} else {
 			$("#warning-name").text("이름을 입력해주세요.")
 			$("#warning-name").css("display", "block")
+			$("#warning-name").css("color", "#f16a1a")
 		}
 	} else if (num == 4) {
 		var tel = $(".input-phonenumber").val().trim()
-		var regtel = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/
+		tel = tel.replace(/\-/g, "")
+		if (tel.length <= 3) {
+			$(".input-phonenumber").val(tel.substr(0))
+		} else if (tel.length <= 7) {
+			$(".input-phonenumber").val(tel.substr(0, 3) + "-" + tel.substr(3, 4))
+		} else {
+			$(".input-phonenumber").val(tel.substr(0, 3) + "-" + tel.substr(3, 4) + "-" + tel.substr(7, 4))
+		} 
+		
+		tel = $(".input-phonenumber").val().trim()
+		var regtel = /^01([0|1|6|7|8|9])-?([0-9]{4})-?([0-9]{4})$/
 		if (regtel.test(tel)) {
 			$("#warning-phonenumber").text("핸드폰번호 형식: 적합")
 			$("#warning-phonenumber").css("display", "block")
@@ -233,14 +277,6 @@ $(document).on("click propertychange change keyup paste input", "input[name=inpu
 			tel_type = false
 		}
 	}
-})
-
-$(".input-phonenumber").focusout(function() {
-	var tel = $(".input-phonenumber").val().trim()
-	var regNumber = /[^0-9]/g
-	tel = tel.replace(regNumber, "")
-	$(".input-phonenumber").val(tel)
-	
 })
 </script>
 </html>
