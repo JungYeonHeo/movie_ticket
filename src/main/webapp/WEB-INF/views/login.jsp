@@ -14,15 +14,15 @@
 		<%@ include file="header.jsp"%>
 		<div class="container">
 			<div class="login">
-				<div class="logintext">로그인</div>
-				<input class="inputid" type="text" autofocus required placeholder="ID를 입력해주세요.">
-				<p class="warningid">id값을 입력해주세요.</p>
-				<input class="inputpw" type="password" autofocus required placeholder="비밀번호를 입력해주세요.">
-				<p class="warningpw">비밀번호를 입력해주세요.</p>
-				<button class="loginbutton">로그인 하기</button>
+				<div class="login-text">로그인</div>
+				<input class="input-id" type="text" autofocus required placeholder="이메일 아이디 입력해주세요.">
+				<p class="warning-id">이메일 아이디를 입력해주세요.</p>
+				<input class="input-pw" type="password" autofocus required placeholder="비밀번호를 입력해주세요.">
+				<p class="warning-pw">비밀번호를 입력해주세요.</p>
+				<button class="login-button">로그인 하기</button>
 				<div style="width: 160px; display: flex; margin: 0 auto;">
-					<a class="findid">아이디 찾기</a> | 
-					<a class="findpw">비밀번호 찾기</a>
+					<a class="find-id">아이디 찾기</a> | 
+					<a class="find-pw">비밀번호 찾기</a>
 				</div>
 			</div>
 		</div>
@@ -30,21 +30,24 @@
 	</div>
 </body>
 <script type="text/javascript">
-$(".loginbutton").click(function() {
-	if ($(".inputid").val().trim() == "" || $(".inputpw").val().trim() == "") {
-		if ($(".inputid").val() == "") {
-			$(".warningid").css("display", "block");
+$(".login-button").click(function() {
+	var id = $(".input-id").val().trim()
+	var pw = $(".input-pw").val().trim()
+	
+	if (id == "" || pw == "") {
+		if (id == "") {
+			$(".warning-id").css("display", "block");
 		}
-		if ($(".inputpw").val() == "") {
-			$(".warningpw").css("display", "block");
+		if (pw == "") {
+			$(".warning-pw").css("display", "block");
 		}
 	} else {
 		$.ajax({
 			method: 'POST',
 			url: '${pageContext.request.contextPath}/login_action',
 			data: {
-				"id" : $(".inputid").val(),
-				"pw" : $(".inputpw").val()
+				"id" : id,
+				"pw" : pw
 			},
 			success: function(resultData) {
 				if (resultData == 1) {
@@ -52,7 +55,6 @@ $(".loginbutton").click(function() {
 				} else {
 					alert('로그인되었습니다.')
 					var referrer = document.referrer
-					referrer.split('/')
 					if (referrer.startsWith('http://localhost:8080/ticket/ticket')) {
 						history.go(-1)
 					} else {
