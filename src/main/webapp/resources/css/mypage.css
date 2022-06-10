@@ -15,11 +15,55 @@
 	position: relative;  
 	padding-bottom: 100px;
 	background: #fff;
+	margin: 0 auto;
 }
 
-.content {
+.align {
+    width: 1124px; 
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+/* 왼쪽 메뉴 */
+.fL {
+    float: left;
+}
+
+.mypage-left-menu {
+    width: 200px;
+    margin: 50px 60px 0 0;
+    color: #010101;
+    font-size: 14px;
+}
+
+.mypage-sub-menu {
+    list-style: none;
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+
+.ticket, .review, .qa, .user {
+    display: block;
+    height: 30px;
+    width: 130px;
+    padding: 15px 0 10px 0;
+    font-weight: bold;
+    background: #f9f9fa;
+}
+
+/* 내용 */
+/* 예매 목록 */
+.ticket-menu {
 	width: 700px;
 	margin: 0 auto;
+	float: right;
 	text-align: center;
 	padding-top: 100px;
 	position: relative;
