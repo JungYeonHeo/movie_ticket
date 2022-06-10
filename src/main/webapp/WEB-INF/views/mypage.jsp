@@ -13,7 +13,6 @@
 <body>
     <div id="wrap">
 		<%@ include file="header.jsp"%>
-		
 		<div class="container">
 			<div class="content">
 				<div class="reslist-text">예매 목록</div>
@@ -51,10 +50,8 @@
 					</div>
 					</c:forEach>
 				</c:if>
-				
 			</div>
 		</div>
-
        <%@ include file = "footer.jsp" %>
     </div>
 </body>
