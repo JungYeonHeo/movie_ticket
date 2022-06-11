@@ -25,10 +25,15 @@
 	<!-- 마이페이지 - 사용자가 작성한 리뷰 목록 --> 
 	<select id="mypageReviewList" resultType="org.movie.DTO.MypageReviewDTO">
 		select movie.title_ko, movie.title_en, movie.poster_img, movie.g_rate_id, 
-		review.review_rate, review.review_text, review.write_time, review.recommend_count
+		review.review_id, review.review_rate, review.review_text, review.write_time, review.recommend_count
 		from review inner join movie
 		on review.movie_id = movie.movie_id
 		where member_id = #{member_id}
 	</select>
+	
+	<!-- 작성한 리뷰 삭제 -->
+	<delete id="reviewDelete">
+		delete from review where review_id = #{review_id}
+	</delete>
 	
 </mapper>

@@ -90,8 +90,8 @@
 				                	</div>
 									<div class="review-item-content">
 										<div class="review-item-buttons">
-					                		<button class="review-item-update-button">수정</button> | 
-					                		<button class="review-item-delete-button">삭제</button>
+					                		<button class="review-item-update-button" onclick="reviewUpdate('${list.review_id}')">수정</button> | 
+					                		<button class="review-item-delete-button" onclick="reviewDelete('${list.review_id}')">삭제</button>
 					                	</div>
 										<div class="review-item-score-text">
 											<div style="width: 15%; display: flex;">
@@ -138,7 +138,30 @@ $(".menu").click(function(){
 
 // 리뷰쓰기
 function moveReviewWrite(no){
-	location.href= "review_write?no=" + String(no);
+	location.href= "review_write?no=" + String(no)
 }
+
+// 리뷰 수정 
+function reviewUpdate(no){
+	location.href= "review_update?no=" + String(no)
+
+}
+
+// 리뷰 삭제 
+function reviewDelete(review_id){
+	if (confirm("리뷰를 삭제하시겠습니까?")) {
+	 	$.ajax ({
+		    method: 'GET',
+		    url: 'review_delete_action',
+		    data: {"review_id": review_id},
+		    contentType: "application/json; charset:UTF-8", 
+		    success: function(resultData) { 
+	    		alert("삭제되었습니다.")
+	    		location.reload()
+		   	} 
+		}) 
+	} 
+}
+
 </script>
 </html>

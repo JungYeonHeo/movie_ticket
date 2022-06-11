@@ -179,4 +179,9 @@ public class MemberController {
 		reviewdao.reviewInsert(map);
 	}
 	
+	@RequestMapping(value="/review_delete_action", method=RequestMethod.GET)
+	public @ResponseBody void review_delete_action(String review_id) {
+		reviewdao.reviewDelete(review_id);
+	}
+	
 }

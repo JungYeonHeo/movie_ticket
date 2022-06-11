@@ -48,4 +48,8 @@ public class ReviewDAO {
 		return mypageReviewList;
 	}
 
+	public void reviewDelete(String review_id) {
+		session.delete(reviewMapper + ".reviewDelete", review_id);
+	}
+
 }
