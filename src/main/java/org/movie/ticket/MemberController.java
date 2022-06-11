@@ -78,7 +78,7 @@ public class MemberController {
 		map.put("id", id);
 		map.put("pw", pw);
 		
-		MemberDTO member = memberdao.login_action(map);
+		MemberDTO member = memberdao.login(map);
 		int result = 0;
 		if (member == null) {
 			result = 1;
@@ -92,7 +92,7 @@ public class MemberController {
 	@RequestMapping(value="/signup_id_check", method=RequestMethod.POST)
 	public @ResponseBody int signup_id_check(String id) {
 		
-		MemberDTO member = memberdao.signup_id_check(id);
+		MemberDTO member = memberdao.signupIdCheck(id);
 		int result = 0;
 		if (member == null) {
 			result = 2;
@@ -113,7 +113,7 @@ public class MemberController {
 		map.put("gender", gender);
 		map.put("birth", birth);
 		
-		memberdao.signup_action(map);
+		memberdao.signup(map);
 	}
 	
 	public static String comma(String s) {

@@ -6,21 +6,21 @@
 <mapper namespace="org.movie.mappers.member">
 
 	<!-- 로그인 -->
-	<select id="login_action" resultType="org.movie.DTO.MemberDTO">
+	<select id="login" resultType="org.movie.DTO.MemberDTO">
 		select * from member
 		where member_id=#{id} and member_pw=#{pw}
 	</select>
 
-	<!-- 회원가입 -->
-	<insert id="signup_action">
-		insert into member(member_id, member_pw, member_name, phone_number, birth, gender)
-		value (#{member_id}, #{member_pw}, #{member_name}, #{phone_number}, #{birth}, #{gender})
-	</insert>
-	
 	<!-- 회원가입 : 아이디 중복 확인 -->
-	<select id="signup_id_check" resultType="org.movie.DTO.MemberDTO">
+	<select id="signupIdCheck" resultType="org.movie.DTO.MemberDTO">
 		select * from member
 		where member_id=#{id}
 	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="signup">
+		insert into member(member_id, member_pw, member_name, phone_number, birth, gender)
+		value (#{member_id}, #{member_pw}, #{member_name}, #{phone_number}, #{birth}, #{gender})
+	</insert>
 
 </mapper>

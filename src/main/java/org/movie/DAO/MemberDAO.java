@@ -31,23 +31,18 @@ public class MemberDAO {
 		return member;
 	}
 
-	public String idcheck(String inputid) {
-		String id = session.selectOne(memberMapper + ".selectid", inputid);
-		return id;
-	}
-
-	public MemberDTO login_action(HashMap<String, String> map) {
-		MemberDTO member = session.selectOne(memberMapper + ".login_action", map);
+	public MemberDTO login(HashMap<String, String> map) {
+		MemberDTO member = session.selectOne(memberMapper + ".login", map);
 		return member;
 	}
 	
-	public MemberDTO signup_id_check(String id) {
-		MemberDTO member = session.selectOne(memberMapper + ".signup_id_check", id);
+	public MemberDTO signupIdCheck(String id) {
+		MemberDTO member = session.selectOne(memberMapper + ".signupIdCheck", id);
 		return member;
 	}
 
-	public void signup_action(HashMap<String, String> map) {
-		session.insert(memberMapper + ".signup_action", map);
+	public void signup(HashMap<String, String> map) {
+		session.insert(memberMapper + ".signup", map);
 	}
 	
 	public void memberUpdate(HashMap<String, String> map) {
