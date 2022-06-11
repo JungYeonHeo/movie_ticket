@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.movie.DTO.MypageReviewDTO;
 import org.movie.DTO.ReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -42,9 +43,9 @@ public class ReviewDAO {
 		session.insert(reviewMapper + ".reviewInsert", map);
 	}
 
-	public List<ReviewDTO> memberReviewList(String id) {
-		List<ReviewDTO> memberReviewList = session.selectList(reviewMapper + ".memberReviewSelect", id);
-		return memberReviewList;
+	public List<MypageReviewDTO> mypageReviewList(String id) {
+		List<MypageReviewDTO> mypageReviewList = session.selectList(reviewMapper + ".mypageReviewList", id);
+		return mypageReviewList;
 	}
 
 }

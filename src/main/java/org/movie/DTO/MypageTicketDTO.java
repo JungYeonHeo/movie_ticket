@@ -1,6 +1,6 @@
 package org.movie.DTO;
 
-public class MypageDTO {
+public class MypageTicketDTO {
 	
 	private String ticket_id;
 	private String movie_id;
@@ -19,10 +19,10 @@ public class MypageDTO {
 	private String state;
 	private String ticket_date;
 	
-	public MypageDTO() {
+	public MypageTicketDTO() {
 	}
 
-	public MypageDTO(String ticket_id, String movie_id, String title_ko, String poster_img, int g_rate_id,
+	public MypageTicketDTO(String ticket_id, String movie_id, String title_ko, String poster_img, int g_rate_id,
 			String cinema_name, String theater, String showing_date, String showing_time, int youth_count, int adult_count, String seat,
 			String total_price, String payment, String state, String ticket_date) {
 		super();

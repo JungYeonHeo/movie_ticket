@@ -8,7 +8,7 @@ import org.movie.DTO.ShowingTimeDTO;
 import org.movie.DTO.CinemaDTO;
 import org.movie.DTO.MemberDTO;
 import org.movie.DTO.MovieDTO;
-import org.movie.DTO.MypageDTO;
+import org.movie.DTO.MypageTicketDTO;
 import org.movie.DTO.ReviewDTO;
 import org.movie.DTO.SeatInforDTO;
 import org.movie.DTO.TicketDTO;
@@ -41,8 +41,8 @@ public class TicketDAO {
 		return ticketMemberList;
 	}
 
-	public List<MypageDTO> mypageTicketList(String id) {
-		List<MypageDTO> mypageTicketList = session.selectList(ticketMapper + ".mypageTicketList", id);
+	public List<MypageTicketDTO> mypageTicketList(String id) {
+		List<MypageTicketDTO> mypageTicketList = session.selectList(ticketMapper + ".mypageTicketList", id);
 		return mypageTicketList;
 	}
 	

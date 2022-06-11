@@ -15,7 +15,9 @@ import org.movie.DAO.ReviewDAO;
 import org.movie.DAO.TicketDAO;
 import org.movie.DTO.CinemaDTO;
 import org.movie.DTO.MemberDTO;
-import org.movie.DTO.MypageDTO;
+import org.movie.DTO.MypageReviewDTO;
+import org.movie.DTO.MypageTicketDTO;
+import org.movie.DTO.ReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -131,14 +133,14 @@ public class MemberController {
 		model.addAttribute("cinemaList", cinemaList);
 		
 		String id = (String) httpss.getAttribute("myinfo");
-		List<MypageDTO> mypageTicketList = ticketdao.mypageTicketList(id);
-		for (MypageDTO m : mypageTicketList) {
+		List<MypageTicketDTO> mypageTicketList = ticketdao.mypageTicketList(id);
+		for (MypageTicketDTO m : mypageTicketList) {
 			m.setTotal_price(comma(m.getTotal_price()));
 		}
 		model.addAttribute("mypageTicketList", mypageTicketList);
 		
-//		List<ReviewDTO> memberReviewList = reviewdao.memberReviewList(id);
-//		model.addAttribute("memberReviewList", memberReviewList);
+		List<MypageReviewDTO> mypageReviewList = reviewdao.mypageReviewList(id);
+		model.addAttribute("mypageReviewList", mypageReviewList);
 		
 		return "mypage";
 	}

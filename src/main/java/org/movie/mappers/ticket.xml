@@ -6,7 +6,7 @@
 		select * from member where member_id = any(select member_id from ticket where cinema_showing_id = any(select cinema_showing_id from cinema_showing where movie_id = #{movie_id}))
 	</select>
 
-	<select id="mypageTicketList" resultType="org.movie.DTO.MypageDTO">
+	<select id="mypageTicketList" resultType="org.movie.DTO.MypageTicketDTO">
 		select ticket.ticket_id, movie.movie_id, movie.title_ko, movie.poster_img, movie.g_rate_id, cinema.cinema_name, cinema_seat.theater,
 		cinema_showing.showing_date, cinema_showing.showing_time, 
 		ticket.youth_count, ticket.adult_count, ticket.seat,
