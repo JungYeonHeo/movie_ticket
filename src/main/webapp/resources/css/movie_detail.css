@@ -318,7 +318,7 @@ progress::-moz-progress-bar {
 }
 
 .detail-contents-review-id {
-	width: 70px;
+	width: 100px;
 	font-size: 12pt;
 	font-weight: bold;
 	padding: 10px 20px 0 0;
@@ -326,7 +326,7 @@ progress::-moz-progress-bar {
 
 .detail-contents-review {
 	position: relative;
-	width: 700px;
+	width: 800px;
 	float: right;
 }
 
@@ -348,6 +348,7 @@ progress::-moz-progress-bar {
 .detail-contents-review-score {
 	font-size: 15pt;
 	font-weight: bold;
+	padding: 3pt;
 }
 
 .detail-contents-review-write {
@@ -371,6 +372,7 @@ progress::-moz-progress-bar {
 	position: absolute;
 	right: 10px;
 	color: #bbb;
+	padding-top: 5px;
 }
 
 /* øπ∞Ì∆Ì */
