@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.movie.DTO.MovieDTO;
 import org.movie.DTO.MypageReviewDTO;
 import org.movie.DTO.ReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class ReviewDAO {
 	}
 	
 	public List<ReviewDTO> reviewList(String movie_id) {
-		List<ReviewDTO> reviewList = session.selectList(reviewMapper + ".reviewSelect", movie_id);
+		List<ReviewDTO> reviewList = session.selectList(reviewMapper + ".reviewList", movie_id);
 		return reviewList;
 	}
 
@@ -48,8 +49,27 @@ public class ReviewDAO {
 		return mypageReviewList;
 	}
 
+	public ReviewDTO reviewAlreadyWrite(HashMap<String, Object> map) {
+		ReviewDTO review = session.selectOne(reviewMapper + ".reviewAlreadyWrite", map);
+		return review;
+	}
+	
+	public ReviewDTO reviewSelect(String review_id) {
+		ReviewDTO review = session.selectOne(reviewMapper + ".reviewSelect", review_id);
+		return review;
+	}
+	
+	public void reviewUpdate(HashMap<String, Object> map) {
+		session.update(reviewMapper + ".reviewUpdate", map);
+	}
+	
 	public void reviewDelete(String review_id) {
 		session.delete(reviewMapper + ".reviewDelete", review_id);
+	}
+
+	public MovieDTO reviewMovieInfor(String cinema_showing_id) {
+		MovieDTO movieInfor = session.selectOne(reviewMapper + ".reviewMovieInfor", cinema_showing_id);
+		return movieInfor;
 	}
 
 }

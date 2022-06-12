@@ -4,21 +4,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@ include file="head.jsp"%>
-<meta charset="UTF-8">
-<link type="text/css" rel="stylesheet" href="resources/css/review_write.css">
-<title>대체로 맑음 - 리뷰 작성</title>
+	<%@ include file="head.jsp"%>
+	<meta charset="UTF-8">
+	<link type="text/css" rel="stylesheet" href="resources/css/review_write.css">
+	<title>대체로 맑음 - 리뷰 작성</title>
 </head>
 <body>
     <div id="wrap">
 		<%@ include file="header.jsp"%>
-		<div class="reviewwriteclass">
-			<form name="myform" id="myform" method="post" action="./save">
-				<br> <br>
-				<div class="reviewwritetitle">리뷰 작성하기</div>
-				<br> <br>
+		<div class="container">
+			<div class="review-write-title">리뷰 작성하기</div>
+			<img class="review-movie-poster" src="${movieInfor.poster_img}" alt="영화 포스터" />
+			<div class="review-movie-title-ko">${movieInfor.title_ko}</div>
+			<div class="review-movie-title-en">${movieInfor.title_en}</div>
+			<form id="myform">
 				<fieldset>
-					<legend id="startext"> </legend>
+					<legend class="star-text"></legend>
 					<input type="radio" name="rating" value="5" id="rate1">
 					<label for="rate1">⭐</label>
 					<input type="radio" name="rating" value="4" id="rate2">
@@ -29,34 +30,61 @@
 					<label for="rate4">⭐</label> 
 					<input type="radio" name="rating" value="1" id="rate5">
 					<label for="rate5">⭐</label>
+					<c:if test="${review.review_rate != null}">
+						<script>
+							$("input[type=radio]").eq(parseInt(5.0-${review.review_rate})).prop("checked", true)
+						</script>
+					</c:if>
 				</fieldset>
 			</form>
-			<input class="reviewtext" type="text" placeholder="리뷰를 입력해주세요.">
-			<div class="warningreviewtext">리뷰를 입력해주세요.</div>
-			<br> <br>
-			<button class="reviewwritebutton">리뷰 남기기</button>
-			<br><br>
+			<textarea class="review-text-input" rows="7" placeholder="리뷰를 입력해주세요.">${review.review_text}</textarea>
+			<div class="review-text-warning">평가를 다 남겨주세요.</div>
+			<br>
+			<button class="review-write-button">리뷰 남기기</button>
 		</div>
 		<%@ include file="footer.jsp"%>
 	</div>
 </body>
-
 <script type="text/javascript">
-$(".reviewwritebutton").click(function () {
-	var cinema_showing_id = String(${cinema_showing_id})
-	var text = $(".reviewtext").val();
-	var score = parseFloat($('input:radio[name="rating"]:checked').val());
+$(".review-write-button").click(function () {
 	
-	$.ajax ({
-	    method: 'GET',
-	    url: 'review_write_action',
-	    data: {"cinema_showing_id": cinema_showing_id, "text": text, "score": score},
-	    contentType: "application/json; charset:UTF-8", 
-	    success: function(resultData) { 
-			alert("리뷰가 등록되었습니다.");
-			location.href = "mypage";
-	   	} 
-	})
+	var text = $(".review-text-input").val()
+	var score = parseFloat($("input:radio[name='rating']:checked").val())
+	
+	if (text == "" || isNaN(score)) {
+		$(".review-text-warning").css("display", "block")
+	} else {
+		if ("${review.review_text}" == "") {
+			// 리뷰 입력
+			var cinema_showing_id = String(${cinema_showing_id})
+			console.log("상영정보: " + cinema_showing_id)
+			
+			$.ajax ({
+			    method: 'GET',
+			    url: 'review_write_action',
+			    data: {"cinema_showing_id": cinema_showing_id, "text": text, "score": score},
+			    contentType: "application/json; charset:UTF-8", 
+			    success: function(resultData) { 
+					alert("리뷰가 등록되었습니다.");
+					location.href = "mypage"
+			   	} 
+			})
+		} else {
+			// 리뷰 수정
+			var review_id = String(${review.review_id})
+			
+			$.ajax ({
+			    method: 'GET',
+			    url: 'review_update_action',
+			    data: {"review_id": review_id, "text": text, "score": score},
+			    contentType: "application/json; charset:UTF-8", 
+			    success: function(resultData) { 
+					alert("리뷰가 수정되었습니다.");
+					location.href = "mypage"
+			   	} 
+			})
+		}
+	}
 });
 </script>
 </html>

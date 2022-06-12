@@ -330,13 +330,18 @@ progress::-moz-progress-bar {
 	float: right;
 }
 
-.detail-contents-review-up {
+.detail-contents-review-background {
 	min-height: 60px;
 	position: relative;
 	background: #eeeeee;
 	padding: 20px;
 	display: flex;
 	border-radius: 20px;
+}
+
+.detail-contents-score-img {
+	margin-right: 20px;
+	display: flex;
 }
 
 .review-star-img {
@@ -355,6 +360,13 @@ progress::-moz-progress-bar {
 	font-size: 12pt;
 	margin-bottom: 10px;
 	word-break: break-all;
+}
+
+.detail-contents-review-sympathy {
+	display: flex; 
+	position: absolute; 
+	right: 15px; 
+	bottom: 10px;
 }
 
 .review-like-img {

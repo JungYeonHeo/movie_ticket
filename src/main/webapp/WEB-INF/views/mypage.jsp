@@ -53,7 +53,7 @@
 								</div>
 							</div>
 							<div class="ticket-item-footer">
-								<div class="btn-group">
+								<div class="tickets-footer-buttons">
 									<div class="ticket-QR-button">QR코드</div>
 									<div class="ticket-cancle-button">취소</div>
 								</div>
@@ -93,12 +93,12 @@
 					                		<button class="review-item-update-button" onclick="reviewUpdate('${list.review_id}')">수정</button> | 
 					                		<button class="review-item-delete-button" onclick="reviewDelete('${list.review_id}')">삭제</button>
 					                	</div>
-										<div class="review-item-score-text">
-											<div style="width: 15%; display: flex;">
-												<img class="review-item-star-img" src="resources/images/ic-star-small-on.png" alt="별모양" />
-												<div class="review-item-score">${list.review_rate}</div>
-											</div>
-											<div style="width: 85%; position: relative;">
+					                	<div class="review-item-background-group">
+											<div class="review-item-background">
+												<div class="review-item-score-img">
+													<img class="review-item-star-img" src="resources/images/ic-star-small-on.png" alt="별모양" />
+													<div class="review-item-score">${list.review_rate}</div>
+												</div>
 												<div class="review-item-write">${list.review_text}</div>
 												<div class="review-item-sympathy">
 													<img class="review-item-like-img" src="resources/images/btn-thumb-up-nor.svg" alt="추천" />
@@ -107,8 +107,8 @@
 													</div>
 												</div>
 											</div>
+											<div class="review-item-date">${list.write_time}</div>
 										</div>
-										<div class="review-item-date">${list.write_time}</div>
 									</div>
 								</div>
 							</div>
@@ -138,13 +138,24 @@ $(".menu").click(function(){
 
 // 리뷰쓰기
 function moveReviewWrite(cinema_showing_id){
-	location.href= "review_write?no=" + String(cinema_showing_id)
+  	$.ajax ({
+	    method: 'GET',
+	    url: 'review_already_write',
+	    data: {"cinema_showing_id": cinema_showing_id},
+	    contentType: "application/json; charset:UTF-8", 
+	    success: function(resultData) { 
+	    	if (resultData == 1) {
+				location.href= "review_write?no1=" + String(cinema_showing_id)
+	    	} else {
+	    		alert("이미 리뷰를 작성하였습니다.");
+	    	}
+	   	} 
+	})  
 }
 
 // 리뷰 수정 
-function reviewUpdate(no){
-	location.href= "review_update?no=" + String(no)
-	
+function reviewUpdate(review_id){
+	location.href= "review_write?no2=" + String(review_id)
 }
 
 // 리뷰 삭제 

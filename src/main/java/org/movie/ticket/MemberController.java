@@ -15,6 +15,7 @@ import org.movie.DAO.ReviewDAO;
 import org.movie.DAO.TicketDAO;
 import org.movie.DTO.CinemaDTO;
 import org.movie.DTO.MemberDTO;
+import org.movie.DTO.MovieDTO;
 import org.movie.DTO.MypageReviewDTO;
 import org.movie.DTO.MypageTicketDTO;
 import org.movie.DTO.ReviewDTO;
@@ -154,8 +155,26 @@ public class MemberController {
 		return "redirect:/"; 
 	}
 	
+	@RequestMapping(value="/review_already_write", method=RequestMethod.GET)
+	public @ResponseBody int review_already_write(String cinema_showing_id, HttpSession httpss) {
+		String member_id = (String) httpss.getAttribute("myinfo");
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("cinema_showing_id", cinema_showing_id);
+		
+		ReviewDTO review = reviewdao.reviewAlreadyWrite(map);
+		if (review == null) {
+			return 1;
+		} else {
+			return 2;
+		}
+	}
+	
 	@RequestMapping(value="/review_write")
-	public String review_write(@RequestParam String no, Model model) {
+	public String review_write(
+			@RequestParam(value="no1", required=false) String cinema_showing_id, 
+			@RequestParam(value="no2", required=false) String review_id, Model model) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("target", "address");
 		map.put("search", "");
@@ -163,7 +182,23 @@ public class MemberController {
 		List<CinemaDTO> cinemaList = cinemadao.cinemaList(map);
 		model.addAttribute("cinemaList", cinemaList);
 		
-		model.addAttribute("cinema_showing_id", no);
+		// 리뷰 처음 작성
+		model.addAttribute("cinema_showing_id", cinema_showing_id);
+		
+		// 리뷰 수정일 경우, 이미 작성한 리뷰 가져오기
+		ReviewDTO review = reviewdao.reviewSelect(review_id);
+		model.addAttribute("review", review);
+		
+		String id = "";
+		if (cinema_showing_id != null) {
+			id = cinema_showing_id; // 리뷰 처음 작성
+		} else {
+			id = review.getCinema_showing_id(); // 리뷰 수정
+		}
+		
+		MovieDTO movieInfor = reviewdao.reviewMovieInfor(id);
+		model.addAttribute("movieInfor", movieInfor);
+		
 		return "review_write"; 
 	}
 	
@@ -178,6 +213,16 @@ public class MemberController {
 		map.put("score", score);
 		
 		reviewdao.reviewInsert(map);
+	}
+	
+	@RequestMapping(value="/review_update_action", method=RequestMethod.GET, produces = "application/text; charset=utf8")
+	public @ResponseBody void review_update_action(String review_id, String text, double score) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("review_id", review_id);
+		map.put("text", text);
+		map.put("score", score);
+		
+		reviewdao.reviewUpdate(map);
 	}
 	
 	@RequestMapping(value="/review_delete_action", method=RequestMethod.GET)

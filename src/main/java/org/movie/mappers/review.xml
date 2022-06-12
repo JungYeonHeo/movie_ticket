@@ -3,7 +3,7 @@
 <mapper namespace="org.movie.mappers.review">
 
 	<!-- 영화 상세 - 리뷰 목록 --> 
-	<select id="reviewSelect" resultType="org.movie.DTO.ReviewDTO">
+	<select id="reviewList" resultType="org.movie.DTO.ReviewDTO">
 		select * from review where cinema_showing_id = any(select cinema_showing_id from cinema_showing where movie_id = #{movie_id})
 	</select>
 	
@@ -13,7 +13,7 @@
 	</update>
 	
 	<!-- 마이페이지 - 이미 영화의 리뷰를 작성했는지 확인 -->
- 	<select id="mypageReviewWriteYN" resultType="org.movie.DTO.ReviewDTO">
+ 	<select id="reviewAlreadyWrite" resultType="org.movie.DTO.ReviewDTO">
 		select * from review where member_id = #{member_id} and cinema_showing_id = #{cinema_showing_id}
 	</select>
 	
@@ -33,9 +33,28 @@
 		where member_id = #{member_id}
 	</select>
 	
+	<!-- 작성한 리뷰 조회 -->
+	<select id="reviewSelect" resultType="org.movie.DTO.ReviewDTO">
+		select * from review where review_id = #{review_id}
+	</select>
+	
+	<!-- 작성한 리뷰 수정 -->
+	<update id="reviewUpdate">
+		update review 
+		set review_text = #{text}, review_rate = #{score} 
+		where review_id = #{review_id}
+	</update>
+	
 	<!-- 작성한 리뷰 삭제 -->
 	<delete id="reviewDelete">
 		delete from review where review_id = #{review_id}
 	</delete>
+	
+	<!-- 작성한 리뷰의 영화 정보 -->
+	<select id="reviewMovieInfor" resultType="org.movie.DTO.MovieDTO">
+		select * from movie where 
+		movie_id = (select movie_id from cinema_showing where cinema_showing_id = #{cinema_showing})
+	</select>
+	
 	
 </mapper>

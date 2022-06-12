@@ -9,12 +9,10 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<%@ include file="head.jsp"%>
-<link type="text/css" rel="stylesheet"
-	href="resources/css/movie_detail.css">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-<title>대체로 맑음</title>
+	<%@ include file="head.jsp"%>
+	<link type="text/css" rel="stylesheet" href="resources/css/movie_detail.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+	<title>대체로 맑음</title>
 </head>
 <body>
 	<div id="wrap">
@@ -235,21 +233,15 @@
 							<div class="detail-contents-review-group">
 								<div class="detail-contents-review-id">${fn:substring(list.member_id, 0, 4)}******</div>
 								<div class="detail-contents-review">
-									<div class="detail-contents-review-up">
-										<div style="width: 15%; display: flex;">
-											<img class="review-star-img"
-												src="resources/images/ic-star-small-on.png" alt="별모양" />
+									<div class="detail-contents-review-background">
+										<div class="detail-contents-score-img">
+											<img class="review-star-img" src="resources/images/ic-star-small-on.png" alt="별모양" />
 											<div class="detail-contents-review-score">${list.review_rate}</div>
 										</div>
-										<div style="width: 85%; position: relative;">
-											<div class="detail-contents-review-write">${list.review_text}</div>
-											<div class="detail-contents-review-sympathy"
-												style="display: flex; position: absolute; right: 0; bottom: 0;">
-												<img class="review-like-img"
-													src="resources/images/btn-thumb-up-nor.svg" alt="추천" />
-												<div class="detail-contents-review-like">
-													공감 <span class="like-count">${list.recommend_count}</span>
-												</div>
+										<div class="detail-contents-review-write">${list.review_text}</div>
+										<div class="detail-contents-review-sympathy">
+											<img class="review-like-img" src="resources/images/btn-thumb-up-nor.svg" alt="추천" />
+											<div class="detail-contents-review-like">공감 <span class="like-count">${list.recommend_count}</span>
 											</div>
 										</div>
 									</div>
