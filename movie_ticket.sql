@@ -2,7 +2,7 @@ drop database movie_ticket;
 create database movie_ticket;
 use movie_ticket;
 create table member ( -- 회원
-    member_id varchar(20) not null,
+    member_id varchar(50) not null,
     member_pw varchar(20) not null,
     member_name varchar(50) not null,
     phone_number varchar(20) not null,
@@ -81,9 +81,9 @@ create table ticket ( -- 예매
     REFERENCES cinema_showing(cinema_showing_id) ON UPDATE CASCADE
 );
 create table review ( -- 리뷰
-    review_id varchar(40) not null, -- memberid + movieid 조합
+    review_id int not null auto_increment,
     member_id varchar(20) not null,
-    movie_id varchar(20) not null,
+    cinema_showing_id int not null,
     review_rate double(2, 1) default 0.0,
     review_text text not null,
     write_time datetime default now(),
@@ -91,8 +91,8 @@ create table review ( -- 리뷰
     primary key(review_id),
     constraint review_member_id FOREIGN KEY (member_id)
     REFERENCES member(member_id) ON UPDATE CASCADE,
-    constraint review_movie_id FOREIGN KEY (movie_id)
-    REFERENCES movie(movie_id) ON UPDATE CASCADE
+    constraint review_cinema_showing_id FOREIGN KEY (cinema_showing_id)
+    REFERENCES cinema_showing(cinema_showing_id) ON UPDATE CASCADE
 );
 create table question ( -- 일대일 문의
     question_id int not null auto_increment,
@@ -178,13 +178,24 @@ create table cinema_images ( -- 영화관 이미지
     REFERENCES cinema(cinema_id) ON UPDATE CASCADE
 );
 
+-- DELIMITER $$
+-- create trigger avg_rate_trg after insert on review
+-- for each row
+-- begin
+-- 	update movie set 
+-- 	movie.gen_avg_rate = (select avg(review_rate) from review where review.movie_id = NEW.movie_id) 
+--     where movie.movie_id = NEW.movie_id;
+-- END$$
+-- DELIMITER ;
+
+
 DELIMITER $$
 create trigger avg_rate_trg after insert on review
 for each row
 begin
 	update movie set 
-	movie.gen_avg_rate = (select avg(review_rate) from review where review.movie_id = NEW.movie_id) 
-    where movie.movie_id = NEW.movie_id;
+	movie.gen_avg_rate = (select avg(review_rate) from review where cinema_showing_id = any(select cinema_showing_id from cinema_showing where movie_id = (select movie_id from cinema_showing where cinema_showing.cinema_showing_id = NEW.cinema_showing_id)))
+    where movie.movie_id = (select movie_id from cinema_showing where cinema_showing.cinema_showing_id = NEW.cinema_showing_id);
 END$$
 DELIMITER ;
 
@@ -3262,59 +3273,25 @@ values
 ('2003', 63, '2022-01-25', '12:00 ~ 14:28'),
 ('2003', 64, '2022-01-25', '15:30 ~ 17:58');
 
-
 INSERT INTO member 
 values 
-('aaaa', 'aaaa', '박힘찬', '010-1111-1111', 'M', '2000-01-01'),
-('bbbb', 'bbbb', '손미르', '010-1111-1111', 'M', '2000-01-01'),
-('cccc', 'cccc', '황하늬', '010-1111-1112', 'F', '1990-01-01'),
-('dddd', 'dddd', '이초롱', '010-1111-1113', 'F', '1995-01-01'),
-('eeee', 'eeee', '추하은', '010-1111-1114', 'M', '1992-01-05'),
-('ffff', 'ffff', '정한철', '010-1111-1115', 'M', '1955-01-01'),
-('gggg', 'gggg', '장은채', '010-1111-1116', 'F', '1975-01-01'),
-('hhhh', 'hhhh', '문오득', '010-1111-1117', 'F', '1989-01-01'),
-('iiii', 'iiii', '금미래', '010-1111-1118', 'M', '1980-01-01');
+('aaaaaa@naver.com', 'qwer1234!', '박힘찬', '010-1111-1111', '2000-01-01', 'M'),
+('bbbbbb@naver.com', 'qwer1234!', '손미르', '010-1111-1111', '2000-01-01', 'M'),
+('cccccc@naver.com', 'qwer1234!', '황하늬', '010-1111-1112', '1990-01-01', 'F'),
+('dddddd@naver.com', 'qwer1234!', '이초롱', '010-1111-1113', '1995-01-01', 'F'),
+('eeeeee@naver.com', 'qwer1234!', '추하은', '010-1111-1114', '1992-01-05', 'M'),
+('ffffff@naver.com', 'qwer1234!', '정한철', '010-1111-1115', '1955-01-01', 'M'),
+('gggggg@naver.com', 'qwer1234!', '장은채', '010-1111-1116', '1975-01-01', 'F'),
+('hhhhhh@naver.com', 'qwer1234!', '문오득', '010-1111-1117', '1989-01-01', 'F'),
+('iiiiii@naver.com', 'qwer1234!', '금미래', '010-1111-1118', '1980-01-01', 'M');
 
-INSERT INTO `movie_ticket`.`review` (`review_id`, `member_id`, `movie_id`, `review_rate`, `review_text`) VALUES 
-('bbbb1002', 'bbbb', '1002', '3.9', '별 생각 없이 예매했는데 같이 본 친구들이 다 재밌대요. 새해에 보기 좋더라구요. 강추입니다.'), 
-('cccc1001', 'cccc', '1001', '3.5', '이 영화는 꼭 극장에서 보셔야 해요!'),
-('dddd1001', 'dddd', '1001', '4.3', '연출이 좋았습니다. '),
-('eeee1001', 'eeee', '1003', '2.9', '연출이 조금 아쉬웠지만 킬링타임용으로는 제격이었습니다.'),
-('ffff1002', 'ffff', '1002', '4.4', '올해 본 영화 중에 가장 좋았어요! 최고~'),
-('gggg1002', 'gggg', '1002', '4.5', '힐링무비ㅎㅎㅎ '),
-('hhhh1001', 'hhhh', '1001', '3.1', '간만에 영화관 나들이해서 좋았어요'),
-('iiii1001', 'iiii', '1001', '2.8', '애기들이 좋아했어요~');
 
--- insert into ticket(member_id, cinema_showing_id, youth_count, adult_count, seat, total_price, payment, state) 
--- values
--- ('aaaa', 7, 1, 1, 'A5, A6', 17000, '카카오페이', '예매완료'),
--- ('aaaa', 11, 1, 1, 'A5, A6', 17000, '카카오페이', '예매완료'),
--- ('aaaa', 17, 1, 1, 'A5, A6', 17000, '카카오페이', '예매완료'),
--- ('aaaa', 22, 1, 1, 'A5, A6', 17000, '카카오페이', '예매완료'),
--- ('bbbb', 1, 1, 1, 'B5, B6', 17000, '카카오페이', '예매완료'),
--- ('bbbb', 7, 1, 1, 'B5, B6', 17000, '카카오페이', '예매완료'),
--- ('bbbb', 11, 1, 1, 'B5, B6', 17000, '카카오페이', '예매완료'),
--- ('bbbb', 17, 1, 1, 'B5, B6', 17000, '카카오페이', '예매완료'),
--- ('bbbb', 22, 1, 1, 'B5, B6', 17000, '카카오페이', '예매완료'),
--- ('cccc', 1, 1, 1, 'C5, C6', 17000, '카카오페이', '예매완료'),
--- ('cccc', 7, 1, 1, 'C5, C6', 17000, '카카오페이', '예매완료'),
--- ('cccc', 11, 1, 1, 'C5, C6', 17000, '카카오페이', '예매완료'),
--- ('cccc', 17, 1, 1, 'C5, C6', 17000, '카카오페이', '예매완료'),
--- ('cccc', 22, 1, 1, 'C5, C6', 17000, '카카오페이', '예매완료'),
--- ('dddd', 1, 1, 1, 'D5, D6', 17000, '카카오페이', '예매완료'),
--- ('dddd', 7, 1, 1, 'D5, D6', 17000, '카카오페이', '예매완료'),
--- ('dddd', 11, 1, 1, 'D5, D6', 17000, '카카오페이', '예매완료'),
--- ('dddd', 17, 1, 1, 'D5, D6', 17000, '카카오페이', '예매완료'),
--- ('dddd', 22, 1, 1, 'D5, D6', 17000, '카카오페이', '예매완료'),
--- ('eeee', 1, 1, 1, 'E5, E6', 17000, '카카오페이', '예매완료'),
--- ('eeee', 7, 1, 1, 'E5, E6', 17000, '카카오페이', '예매완료'),
--- ('eeee', 11, 1, 1, 'E5, E6', 17000, '카카오페이', '예매완료'),
--- ('eeee', 17, 1, 1, 'E5, E6', 17000, '카카오페이', '예매완료'),
--- ('eeee', 22, 1, 1, 'E5, E6', 17000, '카카오페이', '예매완료'),
--- ('ffff', 1, 1, 1, 'F5, F6', 17000, '카카오페이', '예매완료'),
--- ('ffff', 7, 1, 1, 'F5, F6', 17000, '카카오페이', '예매완료'),
--- ('ffff', 11, 1, 1, 'F5, F6', 17000, '카카오페이', '예매완료'),
--- ('ffff', 17, 1, 1, 'F5, F6', 17000, '카카오페이', '예매완료'),
--- ('ffff', 22, 1, 1, 'F5, F6', 17000, '카카오페이', '예매완료'),
--- ('gggg', 1, 1, 1, 'F5, F6', 17000, '카카오페이', '예매완료'),
--- ('hhhh', 1, 1, 1, 'F5, F6', 17000, '카카오페이', '예매완료');
+insert into review(member_id, cinema_showing_id, review_rate, review_text)
+values
+('aaaaaa@naver.com', 1, 3.0, '재밌다'),
+('bbbbbb@naver.com', 1, 5.0, '재밌다');
+
+select * from cinema_showing;
+select * from movie;
+select * from review;
+select * from member where member_id = any(select member_id from ticket where cinema_showing_id = any(select cinema_showing_id from cinema_showing where movie_id = 'aaaa';

@@ -4,30 +4,32 @@
 
 	<!-- 영화 상세 - 리뷰 목록 --> 
 	<select id="reviewSelect" resultType="org.movie.DTO.ReviewDTO">
-		select * from review where movie_id = #{movie_id}
+		select * from review where cinema_showing_id = any(select cinema_showing_id from cinema_showing where movie_id = #{movie_id})
 	</select>
 	
 	<!-- 영화 상세 - 리뷰 좋아요 클릭 --> 
 	<update id="likeCountUpdate">
-		update review set recommend_count = #{count} where review_id = #{search}
+		update review set recommend_count = #{count} where review_id = #{review_id}
 	</update>
 	
 	<!-- 마이페이지 - 이미 영화의 리뷰를 작성했는지 확인 -->
-	<select id="mypageReviewWriteYN" resultType="org.movie.DTO.ReviewDTO">
-		select * from review where member_id = #{member_id} and movie_id = #{movie_id}
+ 	<select id="mypageReviewWriteYN" resultType="org.movie.DTO.ReviewDTO">
+		select * from review where member_id = #{member_id} and cinema_showing_id = #{cinema_showing_id}
 	</select>
 	
 	<!-- 마이페이지 - 예매 목록 리뷰 작성 --> 
 	<insert id="reviewInsert">
-		insert into review(review_id, member_id, movie_id, review_rate, review_text) value(#{review_id}, #{member_id}, #{movie_id}, #{score}, #{text})
+		insert into review(member_id, cinema_showing_id, review_rate, review_text) value(#{member_id}, #{cinema_showing_id}, #{score}, #{text})
 	</insert>
 	
 	<!-- 마이페이지 - 사용자가 작성한 리뷰 목록 --> 
 	<select id="mypageReviewList" resultType="org.movie.DTO.MypageReviewDTO">
 		select movie.title_ko, movie.title_en, movie.poster_img, movie.g_rate_id, 
 		review.review_id, review.review_rate, review.review_text, review.write_time, review.recommend_count
-		from review inner join movie
-		on review.movie_id = movie.movie_id
+		from review inner join cinema_showing
+		on review.cinema_showing_id = cinema_showing.cinema_showing_id
+		inner join movie
+		on cinema_showing.movie_id = movie.movie_id
 		where member_id = #{member_id}
 	</select>
 	

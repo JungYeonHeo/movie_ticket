@@ -35,24 +35,22 @@
 			<div class="warningreviewtext">리뷰를 입력해주세요.</div>
 			<br> <br>
 			<button class="reviewwritebutton">리뷰 남기기</button>
-			<input type="hidden" value="${review_id}"/>
-			<br> <br>
+			<br><br>
 		</div>
 		<%@ include file="footer.jsp"%>
 	</div>
 </body>
 
 <script type="text/javascript">
-
 $(".reviewwritebutton").click(function () {
-	var movie_id = String(${movie_id})
+	var cinema_showing_id = String(${cinema_showing_id})
 	var text = $(".reviewtext").val();
 	var score = parseFloat($('input:radio[name="rating"]:checked').val());
 	
 	$.ajax ({
 	    method: 'GET',
 	    url: 'review_write_action',
-	    data: {"movie_id": movie_id, "text": text, "score": score},
+	    data: {"cinema_showing_id": cinema_showing_id, "text": text, "score": score},
 	    contentType: "application/json; charset:UTF-8", 
 	    success: function(resultData) { 
 			alert("리뷰가 등록되었습니다.");

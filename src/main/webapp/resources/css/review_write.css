@@ -8,7 +8,7 @@
 .reviewwriteclass {
 	top: 100px;
 	position: relative;
-    padding-bottom: 100px;
+    margin-bottom: 100px;
 	background-color: white !important;
 	text-align: center;
 }

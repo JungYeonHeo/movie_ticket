@@ -35,7 +35,7 @@
 						<div class="ticket-item-group">
 							<div class="ticket-item-header">
 								<div class="ticket-date">${list.ticket_date}</div>
-								<div class="review-write-button" onclick="moveReviewWrite(${list.movie_id})">리뷰쓰기</div>
+								<div class="review-write-button" onclick="moveReviewWrite(${list.cinema_showing_id})">리뷰쓰기</div>
 							</div>
 							<hr>
 							<div class="ticket-item">
@@ -137,14 +137,14 @@ $(".menu").click(function(){
 })
 
 // 리뷰쓰기
-function moveReviewWrite(no){
-	location.href= "review_write?no=" + String(no)
+function moveReviewWrite(cinema_showing_id){
+	location.href= "review_write?no=" + String(cinema_showing_id)
 }
 
 // 리뷰 수정 
 function reviewUpdate(no){
 	location.href= "review_update?no=" + String(no)
-
+	
 }
 
 // 리뷰 삭제 
@@ -156,12 +156,11 @@ function reviewDelete(review_id){
 		    data: {"review_id": review_id},
 		    contentType: "application/json; charset:UTF-8", 
 		    success: function(resultData) { 
-	    		alert("삭제되었습니다.")
+	    		alert("삭제되었습니다.");
 	    		location.reload()
 		   	} 
 		}) 
 	} 
 }
-
 </script>
 </html>

@@ -132,6 +132,7 @@ public class MemberController {
 		List<CinemaDTO> cinemaList = cinemadao.cinemaList(map);
 		model.addAttribute("cinemaList", cinemaList);
 		
+		// 예매 목록
 		String id = (String) httpss.getAttribute("myinfo");
 		List<MypageTicketDTO> mypageTicketList = ticketdao.mypageTicketList(id);
 		for (MypageTicketDTO m : mypageTicketList) {
@@ -139,8 +140,10 @@ public class MemberController {
 		}
 		model.addAttribute("mypageTicketList", mypageTicketList);
 		
+		// 리뷰 목록
 		List<MypageReviewDTO> mypageReviewList = reviewdao.mypageReviewList(id);
 		model.addAttribute("mypageReviewList", mypageReviewList);
+		
 		
 		return "mypage";
 	}
@@ -160,19 +163,17 @@ public class MemberController {
 		List<CinemaDTO> cinemaList = cinemadao.cinemaList(map);
 		model.addAttribute("cinemaList", cinemaList);
 		
-		model.addAttribute("movie_id", no);
+		model.addAttribute("cinema_showing_id", no);
 		return "review_write"; 
 	}
 	
 	@RequestMapping(value="/review_write_action", method=RequestMethod.GET, produces = "application/text; charset=utf8")
-	public @ResponseBody void review_write_action(String movie_id, String text, double score, HttpSession httpss) {
+	public @ResponseBody void review_write_action(String cinema_showing_id, String text, double score, HttpSession httpss) {
 		String member_id = (String) httpss.getAttribute("myinfo");
-		String review_id = member_id + movie_id;
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("review_id", review_id);
 		map.put("member_id", member_id);
-		map.put("movie_id", movie_id);
+		map.put("cinema_showing_id", cinema_showing_id);
 		map.put("text", text);
 		map.put("score", score);
 		

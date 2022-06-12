@@ -3,6 +3,7 @@ package org.movie.DTO;
 public class MypageTicketDTO {
 	
 	private String ticket_id;
+	private String cinema_showing_id;
 	private String movie_id;
 	private String title_ko;
 	private String poster_img;
@@ -22,11 +23,13 @@ public class MypageTicketDTO {
 	public MypageTicketDTO() {
 	}
 
-	public MypageTicketDTO(String ticket_id, String movie_id, String title_ko, String poster_img, int g_rate_id,
-			String cinema_name, String theater, String showing_date, String showing_time, int youth_count, int adult_count, String seat,
-			String total_price, String payment, String state, String ticket_date) {
+	public MypageTicketDTO(String ticket_id, String cinema_showing_id, String movie_id, String title_ko,
+			String poster_img, int g_rate_id, String cinema_name, String theater, String showing_date,
+			String showing_time, int youth_count, int adult_count, String seat, String total_price, String payment,
+			String state, String ticket_date) {
 		super();
 		this.ticket_id = ticket_id;
+		this.cinema_showing_id = cinema_showing_id;
 		this.movie_id = movie_id;
 		this.title_ko = title_ko;
 		this.poster_img = poster_img;
@@ -50,6 +53,14 @@ public class MypageTicketDTO {
 
 	public void setTicket_id(String ticket_id) {
 		this.ticket_id = ticket_id;
+	}
+
+	public String getCinema_showing_id() {
+		return cinema_showing_id;
+	}
+
+	public void setCinema_showing_id(String cinema_showing_id) {
+		this.cinema_showing_id = cinema_showing_id;
 	}
 
 	public String getMovie_id() {
@@ -91,7 +102,7 @@ public class MypageTicketDTO {
 	public void setCinema_name(String cinema_name) {
 		this.cinema_name = cinema_name;
 	}
-	
+
 	public String getTheater() {
 		return theater;
 	}
@@ -174,11 +185,12 @@ public class MypageTicketDTO {
 
 	@Override
 	public String toString() {
-		return "MypageDTO [ticket_id=" + ticket_id + ", movie_id=" + movie_id + ", title_ko=" + title_ko
-				+ ", poster_img=" + poster_img + ", g_rate_id=" + g_rate_id + ", cinema_name=" + cinema_name + "theater=" + theater
-				+ ", showing_date=" + showing_date + ", showing_time=" + showing_time + ", youth_count=" + youth_count
-				+ ", adult_count=" + adult_count + ", seat=" + seat + ", total_price=" + total_price + ", payment="
-				+ payment + ", state=" + state + ", ticket_date=" + ticket_date + "]";
+		return "MypageTicketDTO [ticket_id=" + ticket_id + ", cinema_showing_id=" + cinema_showing_id + ", movie_id="
+				+ movie_id + ", title_ko=" + title_ko + ", poster_img=" + poster_img + ", g_rate_id=" + g_rate_id
+				+ ", cinema_name=" + cinema_name + ", theater=" + theater + ", showing_date=" + showing_date
+				+ ", showing_time=" + showing_time + ", youth_count=" + youth_count + ", adult_count=" + adult_count
+				+ ", seat=" + seat + ", total_price=" + total_price + ", payment=" + payment + ", state=" + state
+				+ ", ticket_date=" + ticket_date + "]";
 	}
-
+	
 }

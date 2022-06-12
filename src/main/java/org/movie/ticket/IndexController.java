@@ -115,11 +115,10 @@ public class IndexController {
 	}
 	
 	@RequestMapping(value="/like_count_update", method=RequestMethod.GET, produces = "application/text; charset=utf8")
-	public @ResponseBody String like_count_update(String member_id, String movie_id, int count) {
-		String search = member_id + movie_id;
+	public @ResponseBody String like_count_update(String review_id, int count) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("count",  count);
-		map.put("search", search);
+		map.put("review_id", review_id);
 		reviewdao.likeCountUpdate(map);
 		return "수정되었습니다";
 	}

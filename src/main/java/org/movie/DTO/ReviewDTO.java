@@ -4,7 +4,7 @@ public class ReviewDTO {
 
 	private String review_id;
 	private String member_id;
-	private String movie_id;
+	private String cinema_showing_id;
 	private double review_rate;
 	private String review_text;
 	private String write_time;
@@ -13,12 +13,12 @@ public class ReviewDTO {
 	public ReviewDTO() {
 	}
 
-	public ReviewDTO(String review_id, String member_id, String movie_id, double review_rate, String review_text,
+	public ReviewDTO(String review_id, String member_id, String cinema_showing_id, double review_rate, String review_text,
 			String write_time, int recommend_count) {
 		super();
 		this.review_id = review_id;
 		this.member_id = member_id;
-		this.movie_id = movie_id;
+		this.cinema_showing_id = cinema_showing_id;
 		this.review_rate = review_rate;
 		this.review_text = review_text;
 		this.write_time = write_time;
@@ -41,12 +41,12 @@ public class ReviewDTO {
 		this.member_id = member_id;
 	}
 
-	public String getMovie_id() {
-		return movie_id;
+	public String getCinema_showing_id() {
+		return cinema_showing_id;
 	}
 
-	public void setMovie_id(String movie_id) {
-		this.movie_id = movie_id;
+	public void setCinema_showing_id(String cinema_showing_id) {
+		this.cinema_showing_id = cinema_showing_id;
 	}
 
 	public double getReview_rate() {
@@ -83,7 +83,7 @@ public class ReviewDTO {
 
 	@Override
 	public String toString() {
-		return "ReviewDTO [review_id=" + review_id + ", member_id=" + member_id + ", movie_id=" + movie_id
+		return "ReviewDTO [review_id=" + review_id + ", member_id=" + member_id + ", cinema_showing_id=" + cinema_showing_id
 				+ ", review_rate=" + review_rate + ", review_text=" + review_text + ", write_time=" + write_time
 				+ ", recommend_count=" + recommend_count + "]";
 	}

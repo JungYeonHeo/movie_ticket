@@ -254,6 +254,7 @@
 										</div>
 									</div>
 									<div class="detail-contents-review-date">${list.write_time}</div>
+									<input name="review_id" class="detail-contents-review-id" type="hidden" value="${list.review_id}" />
 								</div>
 							</div>
 						</c:forEach>
@@ -397,14 +398,14 @@ var myChart_gender = new Chart(ctx_gender, {
 
 // 리뷰 공감 버튼
 $(document).on("click", ".detail-contents-review-sympathy", function(){ 
-	var num = $(".detail-contents-review-sympathy").index(this); 
-	var member_id = $(".detail-contents-review-id").eq(num).text()
-	var movie_id = String(${reviewList[0].movie_id})
+ 	var num = $(".detail-contents-review-sympathy").index(this)
+	var review_id = $("input[name=review_id]").eq(num).val()
 	var count = parseInt($(".like-count").eq(num).text()) + 1
+	console.log(review_id)
     $.ajax ({
         method: 'GET',
         url: 'like_count_update',
-        data: {"member_id": member_id, "movie_id": movie_id, "count": count},
+        data: {"review_id": review_id, "count": count},
         success: function(data) {
 			$(".like-count").eq(num).text(count)
         }

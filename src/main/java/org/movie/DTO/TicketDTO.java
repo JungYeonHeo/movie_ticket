@@ -2,7 +2,6 @@ package org.movie.DTO;
 
 public class TicketDTO {
 
-	
  	private int ticket_id;
     private String member_id;
     private int cinema_showing_id;
