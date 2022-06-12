@@ -50,4 +50,10 @@
 		insert into ticket(member_id, cinema_showing_id, youth_count,  adult_count, seat, total_price) value(#{member_id}, #{cinema_showing_id}, #{youth}, #{adult}, #{seat}, #{price})
 	</insert>
 	
+	<update id="ticketCancel">
+		update ticket 
+		set state = #{state}
+		where ticket_id = #{ticket_id}
+	</update>
+	
 </mapper>

@@ -123,6 +123,12 @@ public class MemberController {
 		} else 
 			return comma(s.substring(0, s.length()-3)) + ',' + s.substring(s.length()-3, s.length());
 	}
+	
+	@RequestMapping(value="/logout")
+	public String logout(HttpSession httpss) {
+		httpss.removeAttribute("myinfo");
+		return "redirect:/"; 
+	}
 
 	@RequestMapping(value="/mypage")
 	public String mypage(Model model, HttpSession httpss) {
@@ -149,11 +155,14 @@ public class MemberController {
 		return "mypage";
 	}
 	
-	@RequestMapping(value="/logout")
-	public String logout(HttpSession httpss) {
-		httpss.removeAttribute("myinfo");
-		return "redirect:/"; 
+	@RequestMapping(value="/ticket_cancel_action", method=RequestMethod.GET)
+	public @ResponseBody void ticket_cancel_action(String ticket_id, String state) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("ticket_id", ticket_id);
+		map.put("state", state);
+		ticketdao.ticketCancel(map);
 	}
+	
 	
 	@RequestMapping(value="/review_already_write", method=RequestMethod.GET)
 	public @ResponseBody int review_already_write(String cinema_showing_id, HttpSession httpss) {

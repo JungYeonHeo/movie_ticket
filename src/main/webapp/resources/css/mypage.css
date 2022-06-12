@@ -27,6 +27,10 @@
     margin-bottom: 40px;
 }
 
+button {
+	border: 0;
+}
+
 /* -- 왼쪽 메뉴 -- */
 .fL {
     float: left;
@@ -122,7 +126,7 @@
 }
 
 .review-write-button {
-	padding: 10px 15px;
+	padding: 15px;
 	background: #cccccc;
 	color: #fff;
 	border-radius: 10px;
@@ -154,6 +158,10 @@
 	line-height: 25px;
 }
 
+.state-cancel {
+	color: red;
+}
+
 .ticket-item-footer {
 	width: 100%;
 }
@@ -167,16 +175,16 @@
 
 .ticket-QR-button {
 	width: 100px;
-	padding: 10px 15px;
+	padding: 15px;
 	margin-right: 20px;
 	background: #f16a1a;
 	color: #fff;
 	border-radius: 10px;
 } 
 
-.ticket-cancle-button {
+.ticket-cancel-button {
 	width: 100px;
-	padding: 10px 15px;
+	padding: 15px;
 	background: #cccccc;
 	color: #fff;
 	border-radius: 10px;
@@ -242,7 +250,6 @@
 .review-item-update-button, .review-item-delete-button {
 	height: 30px;
 	background: #fff;
-	border: 0;
 	font-size: 12pt;
 	font-weight: bold;
 }

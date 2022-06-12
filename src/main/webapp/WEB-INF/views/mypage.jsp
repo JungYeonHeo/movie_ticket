@@ -35,7 +35,9 @@
 						<div class="ticket-item-group">
 							<div class="ticket-item-header">
 								<div class="ticket-date">${list.ticket_date}</div>
-								<div class="review-write-button" onclick="moveReviewWrite(${list.cinema_showing_id})">리뷰쓰기</div>
+								<c:if test="${list.state != '취소'}">
+									<button class="review-write-button" onclick="moveReviewWrite(${list.cinema_showing_id}, '${list.showing_date} ${list.showing_time}')">리뷰쓰기</button>
+								</c:if>
 							</div>
 							<hr>
 							<div class="ticket-item">
@@ -49,13 +51,20 @@
 									<div class="ticket-item-content-text">일반: ${list.adult_count}명, 청소년: ${list.youth_count}명</div>
 									<div class="ticket-item-content-text">총 금액: ${list.total_price}원</div>
 									<div class="ticket-item-content-text">결제정보: ${list.payment}</div>
-									<div class="ticket-item-content-text">상태: ${list.state}</div>
+									<c:if test="${list.state == '취소'}">
+										<div class="ticket-item-content-text state">상태: <span class="state-cancel">${list.state}</span></div>
+									</c:if>
+									<c:if test="${list.state != '취소'}">
+										<div class="ticket-item-content-text state">상태: ${list.state}</div>
+									</c:if>
 								</div>
 							</div>
 							<div class="ticket-item-footer">
 								<div class="tickets-footer-buttons">
-									<div class="ticket-QR-button">QR코드</div>
-									<div class="ticket-cancle-button">취소</div>
+									<c:if test="${list.state != '취소'}">
+										<button class="ticket-QR-button">QR코드</button>
+										<button class="ticket-cancel-button" onclick="ticketCancel(${list.ticket_id}, '${list.showing_date} ${list.showing_time}')">취소</button>
+									</c:if>
 								</div>
 							</div>
 						</div>
@@ -137,20 +146,63 @@ $(".menu").click(function(){
 })
 
 // 리뷰쓰기
-function moveReviewWrite(cinema_showing_id){
-  	$.ajax ({
-	    method: 'GET',
-	    url: 'review_already_write',
-	    data: {"cinema_showing_id": cinema_showing_id},
-	    contentType: "application/json; charset:UTF-8", 
-	    success: function(resultData) { 
-	    	if (resultData == 1) {
-				location.href= "review_write?no1=" + String(cinema_showing_id)
-	    	} else {
-	    		alert("이미 리뷰를 작성하였습니다.");
-	    	}
-	   	} 
-	})  
+function moveReviewWrite(cinema_showing_id, time_slot){
+	// 영화가 끝난 후 쓰기 가능
+	var today = new Date()
+	var year = time_slot.split('-')[0]
+	var month = time_slot.split('-')[1]
+	var day = time_slot.split('-')[2].split(' ')[0]
+	var hour = time_slot.split(' ~ ')[1].split(':')[0]
+	var min = time_slot.split(' ~ ')[1].split(':')[1]
+	var end_time = new Date(year, month, day, hour, min, 0, 0)
+	
+	if (today < end_time) {
+		alert("아직 시청 시간이 지나지 않은 영화입니다.");
+	} else {
+	  	$.ajax ({
+		    method: 'GET',
+		    url: 'review_already_write',
+		    data: {"cinema_showing_id": cinema_showing_id},
+		    contentType: "application/json; charset:UTF-8", 
+		    success: function(resultData) { 
+		    	if (resultData == 1) {
+					location.href= "review_write?no1=" + String(cinema_showing_id)
+		    	} else {
+		    		alert("이미 리뷰를 작성하였습니다.");
+		    	}
+		   	} 
+		}) 
+	}
+}
+
+// 예매 취소
+function ticketCancel(ticket_id, time_slot) {
+	// 현재 시간과 상영시간대 비교 (영화 시작 시간 1시간전까지만 취소 가능)
+	var today = new Date()
+	var year = time_slot.split('-')[0]
+	var month = time_slot.split('-')[1]
+	var day = time_slot.split('-')[2].split(' ')[0]
+	var hour = time_slot.split('-')[2].split(' ')[1].split(':')[0]
+	var min = time_slot.split('-')[2].split(' ')[1].split(':')[1]
+	var start_time = new Date(year, month, day, hour, min, 0, 0)
+	start_time.setHours(start_time.getHours() - 1)
+
+	if (start_time > today) {
+		var num = $(".ticket-cancel-button").index(this)
+	  	$.ajax ({
+		    method: 'GET',
+		    url: 'ticket_cancel_action',
+		    data: {"ticket_id": ticket_id, "state": "취소"},
+		    contentType: "application/json; charset:UTF-8", 
+		    success: function(resultData) { 
+	    		alert("티켓이 취소되었습니다.");
+	    		$(".state").eq(num).html("")
+	    		$(".state").eq(num).append("상태: <span class='state-cancel'>취소</span>")
+		   	} 
+		})	
+	} else {
+		alert("예매 취소는 시작시간 1시간전까지만 가능합니다.");	
+	}
 }
 
 // 리뷰 수정 

@@ -75,4 +75,8 @@ public class TicketDAO {
 		return reservedSeats;
 	}
 
+	public void ticketCancel(HashMap<String, String> map) {
+		session.update(ticketMapper + ".ticketCancel", map);
+	}
+
 }
