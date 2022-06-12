@@ -65,3 +65,9 @@ input:focus {
 	border: 0px;
 	margin-bottom: 20px;
 }
+
+@media screen and (max-width:1100px) {
+	.container {
+	    top: 65px;
+	}
+}
