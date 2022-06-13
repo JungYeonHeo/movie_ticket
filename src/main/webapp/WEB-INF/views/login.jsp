@@ -17,9 +17,9 @@
 				<div class="login-text">로그인</div>
 				<input class="input-id" type="text" autofocus required placeholder="이메일 아이디 입력해주세요.">
 				<p class="warning-id">이메일 아이디를 입력해주세요.</p>
-				<input class="input-pw" type="password" autofocus required placeholder="비밀번호를 입력해주세요.">
+				<input class="input-pw" type="password" onKeyPress="enter()" autofocus required placeholder="비밀번호를 입력해주세요.">
 				<p class="warning-pw">비밀번호를 입력해주세요.</p>
-				<button class="login-button">로그인 하기</button>
+				<button class="login-button" onclick="login()">로그인 하기</button>
 				<div style="width: 160px; display: flex; margin: 0 auto;">
 					<a class="find-id">아이디 찾기</a> | 
 					<a class="find-pw">비밀번호 찾기</a>
@@ -30,7 +30,11 @@
 	</div>
 </body>
 <script type="text/javascript">
-$(".login-button").click(function() {
+function enter() {
+	if (event.keyCode == 13) { login() }
+}
+
+function login() {
 	var id = $(".input-id").val().trim()
 	var pw = $(".input-pw").val().trim()
 	
@@ -64,6 +68,6 @@ $(".login-button").click(function() {
 			}
 		})
 	}
-})
+}
 </script>
 </html>
