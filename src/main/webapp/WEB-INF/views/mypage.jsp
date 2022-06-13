@@ -186,8 +186,11 @@ function ticketCancel(ticket_id, time_slot) {
 	var min = time_slot.split('-')[2].split(' ')[1].split(':')[1]
 	var start_time = new Date(year, month, day, hour, min, 0, 0)
 	start_time.setHours(start_time.getHours() - 1)
+	
+	console.log(today)
+	console.log(start_time)
 
-	if (start_time > today) {
+ 	if (start_time > today) {
 		var num = $(".ticket-cancel-button").index(this)
 	  	$.ajax ({
 		    method: 'GET',
@@ -198,11 +201,14 @@ function ticketCancel(ticket_id, time_slot) {
 	    		alert("티켓이 취소되었습니다.");
 	    		$(".state").eq(num).html("")
 	    		$(".state").eq(num).append("상태: <span class='state-cancel'>취소</span>")
+	    		$(".review-write-button").css("display", "none")
+	    		$(".ticket-QR-button").css("display", "none")
+	    		$(".ticket-cancel-button").css("display", "none")
 		   	} 
 		})	
 	} else {
 		alert("예매 취소는 시작시간 1시간전까지만 가능합니다.");	
-	}
+	} 
 }
 
 // 리뷰 수정 

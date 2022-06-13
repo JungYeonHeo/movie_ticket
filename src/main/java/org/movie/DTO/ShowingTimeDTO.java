@@ -38,5 +38,11 @@ public class ShowingTimeDTO {
 	public void setShowing_time(String showing_time) {
 		this.showing_time = showing_time;
 	}
+
+	@Override
+	public String toString() {
+		return "ShowingTimeDTO [cinema_showing_id=" + cinema_showing_id + ", cinema_seat_id=" + cinema_seat_id
+				+ ", showing_time=" + showing_time + "]";
+	}
 	
 }

@@ -312,19 +312,19 @@ public class IndexController {
 			int nowMin = nowTime.getMinute();
 			
 			if (nowDay == showingDay) { 
-				List<Integer> removeList = new ArrayList<Integer>();
+				List<ShowingTimeDTO> removeList = new ArrayList<ShowingTimeDTO>();
 				
-				for (int i = 0; i < ticketShowingTimeList.size(); i++) {
-					int startHour = Integer.parseInt(ticketShowingTimeList.get(i).getShowing_time().substring(0, 2));
-					int startMin = Integer.parseInt(ticketShowingTimeList.get(i).getShowing_time().substring(3, 5));
+				for (ShowingTimeDTO s : ticketShowingTimeList) {
+					int startHour = Integer.parseInt(s.getShowing_time().substring(0, 2));
+					int startMin = Integer.parseInt(s.getShowing_time().substring(3, 5));
 					
 					if (startHour < nowHour || (startHour == nowHour && startMin <= nowMin)) {
-						removeList.add(i);
+						removeList.add(s);
 					}
 				}
-				
-				for (int r: removeList) {
-					ticketShowingTimeList.remove(r);
+				for (ShowingTimeDTO s: removeList) {
+					System.out.println(s);
+					ticketShowingTimeList.remove(s);
 				}
 			}
 		}
