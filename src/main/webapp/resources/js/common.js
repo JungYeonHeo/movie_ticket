@@ -110,3 +110,12 @@ function toggleMenu() {
     $('body').css('overflow-y', 'auto')
   }
 }
+
+// 모바일 헤더 메뉴
+$(document).on('click', '.ico-m-mypage', function() { 
+	location.href= 'mypage'
+})
+
+$(document).on('click', '.ico-m-ticket', function() { 
+	location.href= 'ticket'
+})

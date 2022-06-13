@@ -1,6 +1,8 @@
 package org.movie.ticket;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -301,6 +303,30 @@ public class IndexController {
 		
 		if (ticketShowingTimeList == null) {
 			System.out.println("정보가 없습니다.");
+		} else {
+			LocalDate now = LocalDate.now(); 
+			int nowDay = now.getDayOfMonth(); 
+			int showingDay = Integer.parseInt(showing_date.substring(8, 10));
+			LocalTime nowTime = LocalTime.now(); 
+			int nowHour = nowTime.getHour();
+			int nowMin = nowTime.getMinute();
+			
+			if (nowDay == showingDay) { 
+				List<Integer> removeList = new ArrayList<Integer>();
+				
+				for (int i = 0; i < ticketShowingTimeList.size(); i++) {
+					int startHour = Integer.parseInt(ticketShowingTimeList.get(i).getShowing_time().substring(0, 2));
+					int startMin = Integer.parseInt(ticketShowingTimeList.get(i).getShowing_time().substring(3, 5));
+					
+					if (startHour < nowHour || (startHour == nowHour && startMin <= nowMin)) {
+						removeList.add(i);
+					}
+				}
+				
+				for (int r: removeList) {
+					ticketShowingTimeList.remove(r);
+				}
+			}
 		}
 		return ticketShowingTimeList;
 	}

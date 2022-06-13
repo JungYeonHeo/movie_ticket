@@ -10,8 +10,8 @@
 	<title>대체로 맑음 - 예매</title>
 	<script>
 		window.onload = function() {
-			var title_ko = ""
-			var cinema_name = ""
+			var title_ko = "";
+			var cinema_name = "";
 		}
 	</script>
 </head>
@@ -62,16 +62,16 @@
 					<h2>영화관</h2>
 					<div class="local_wrapper" style="position: relative;">
 						<ul class="local_list">
-							<li class="active" id="AreaCd_" style="cursor: pointer;" onclick="ticket_search_cinema('address', '', 0)">전체</li>
-							<li class="" id="AreaCd_KR-11" style="cursor: pointer;" onclick="ticket_search_cinema('address', '서울', 1)">서울</li>
-							<li class="" id="AreaCd_KR-41" style="cursor: pointer;" onclick="ticket_search_cinema('address', '경기', 2)">경기</li>
-							<li class="" id="AreaCd_KR-28" style="cursor: pointer;" onclick="ticket_search_cinema('address', '인천', 3)">인천</li>
-							<li class="" id="AreaCd_KR-44" style="cursor: pointer;" onclick="ticket_search_cinema('address', '충남', 4)">충남</li>
-							<li class="" id="AreaCd_KR-27" style="cursor: pointer;" onclick="ticket_search_cinema('address', '대구', 5)">대구</li>
-							<li class="" id="AreaCd_KR-47" style="cursor: pointer;" onclick="ticket_search_cinema('address', '경북', 6)">경북</li>
-							<li class="" id="AreaCd_KR-48" style="cursor: pointer;" onclick="ticket_search_cinema('address', '경상남도', 7)">경남</li>
-							<li class="" id="AreaCd_KR-45" style="cursor: pointer;" onclick="ticket_search_cinema('address', '전북', 8)">전북</li>
-							<li class="" id="AreaCd_KR-29" style="cursor: pointer;" onclick="ticket_search_cinema('address', '광주', 9)">광주</li>
+							<li class="active" id="AreaCd_" onclick="ticket_search_cinema('address', '', 0)">전체</li>
+							<li class="" id="AreaCd_KR-11" onclick="ticket_search_cinema('address', '서울', 1)">서울</li>
+							<li class="" id="AreaCd_KR-41" onclick="ticket_search_cinema('address', '경기', 2)">경기</li>
+							<li class="" id="AreaCd_KR-28" onclick="ticket_search_cinema('address', '인천', 3)">인천</li>
+							<li class="" id="AreaCd_KR-44" onclick="ticket_search_cinema('address', '충남', 4)">충남</li>
+							<li class="" id="AreaCd_KR-27" onclick="ticket_search_cinema('address', '대구', 5)">대구</li>
+							<li class="" id="AreaCd_KR-47" onclick="ticket_search_cinema('address', '경북', 6)">경북</li>
+							<li class="" id="AreaCd_KR-48" onclick="ticket_search_cinema('address', '경상남도', 7)">경남</li>
+							<li class="" id="AreaCd_KR-45" onclick="ticket_search_cinema('address', '전북', 8)">전북</li>
+							<li class="" id="AreaCd_KR-29" onclick="ticket_search_cinema('address', '광주', 9)">광주</li>
 						</ul>
 					</div>
 					<div class="local_wrapper_2" style="position: relative;">
@@ -95,10 +95,8 @@
 				</div>
 				<div class="date_box">
 					<h2>날짜</h2>
-					<div class="scroll-wrapper date_scroll_box scrollbar-macosx"
-						style="position: relative;">
-						<div class="date_scroll_box scrollbar-macosx scroll-content"
-							style="height: 550px; margin-bottom: 0px; margin-right: 0px; max-height: none;">
+					<div class="scroll-wrapper date_scroll_box scrollbar-macosx">
+						<div class="date_scroll_box scrollbar-macosx scroll-content">
 							<div class="date_list">
 								<span>
 									<h3>
@@ -107,7 +105,7 @@
 									</h3>
 								</span>
 								<c:set var="index" value="${day}"/>	
-								<ul style="cursor: pointer;">
+								<ul>
  									<c:forEach begin="1" end="7" step="1" > 
 										<li class="day">
 											<b><c:out value="${day}"/></b>
@@ -121,7 +119,7 @@
 				</div>
 				<div class="time_box">
 					<h2>상영시간</h2>
-					<ul class="showing-time-slot-list" style="cursor: pointer;">
+					<ul class="showing-time-slot-list">
 						<li>
 							<b>상영정보를 선택해주세요</b>
 						</li>
@@ -252,7 +250,7 @@ $(document).on("click", "li", function() {
 		       		cinema_showing_id_bool = true
 		       		var add_showing_time_list = ""
 		       		$.each(resultData, function(index, data) {
-			       		add_showing_time_list += "<div class='time-slot' onclick=\"time_slot_select(" + index + ", " + data['cinema_showing_id'] + ", " + data['cinema_seat_id'] + ");\"><b>" + data['showing_time'] + "</b></div>"
+		       			add_showing_time_list += "<div class='time-slot' onclick=\"time_slot_select(" + index + ", " + data['cinema_showing_id'] + ", " + data['cinema_seat_id'] + ");\"><b>" + data['showing_time'] + "</b></div>"
 		       		}) 
 		       		$('.showing-time-slot-list').append(add_showing_time_list)
 		       	}

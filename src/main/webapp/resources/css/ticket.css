@@ -63,7 +63,24 @@
 	width: 332px;
 	border-right: 1px solid #e1e1e1;
 	float: left;
-	overflow: auto;
+	overflow: hidden;
+}
+
+.wrapper .container .movie_box:hover {
+	overflow: scroll;
+}
+
+.wrapper .container .movie_box::-webkit-scrollbar {
+    width: 10px;
+}
+
+.wrapper .container .movie_box::-webkit-scrollbar-thumb {
+    background-color: #bbb;
+    border-radius: 5px;
+}
+
+.wrapper .container .movie_box::-webkit-scrollbar-track {
+    background-color: #fff;
 }
 
 .wrapper .container .movie_box h2 {
@@ -158,6 +175,7 @@
 
 .wrapper .container .cinema_box .local_wrapper .local_list li {
 	padding: 4px 0 6px;
+	cursor: pointer;
 }
 
 .wrapper .container .cinema_box .local_wrapper .local_list li.active {
@@ -207,6 +225,9 @@
 
 .wrapper .container .date_box .date_scroll_box {
     height: 550px;
+    margin-bottom: 0px; 
+    margin-right: 0px; 
+    max-height: none;
 }
 
 .scroll-wrapper>.scroll-content {
@@ -236,6 +257,10 @@
 .date_box .date_list {
     margin-bottom: 19px;
     text-align: center;
+}
+
+.date_box .date_list ul {
+	cursor: pointer;
 }
 
 .date_box .date_list li {

@@ -63,8 +63,8 @@
 		</div>
 	</div>
 	<div class="ticket_content">
+		<img class="ico-m-mypage" src="resources/images/ico_m_mypage.png" />
 		<img class="ico-m-ticket" src="resources/images/ico_m_ticket.png" />
-		<img class="ico-m-my" src="resources/images/ico_m_my.png" />
 	</div>
 	<div class="menu-collapse" id="sidebar">
 		<div class="menu-header">

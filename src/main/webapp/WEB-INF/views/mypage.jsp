@@ -39,7 +39,7 @@
 									<button class="review-write-button" onclick="moveReviewWrite(${list.cinema_showing_id}, '${list.showing_date} ${list.showing_time}')">리뷰쓰기</button>
 								</c:if>
 							</div>
-							<hr>
+							<div class="line"></div>
 							<div class="ticket-item">
 								<img class="ticket-img" src="${list.poster_img}" alt="영화 포스터" />
 								<div class="ticket-item-content">
@@ -121,7 +121,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="review-item-line"> </div>
+							<div class="line"></div>
 						</c:forEach>
 					</c:if>
 				</div>
