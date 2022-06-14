@@ -119,3 +119,12 @@ $(document).on('click', '.ico-m-mypage', function() {
 $(document).on('click', '.ico-m-ticket', function() { 
 	location.href= 'ticket'
 })
+
+// mypage post 
+//function goMypage() {
+//	var form = document.createElement('form')
+//	form.setAttribute('method', 'post')
+//	form.setAttribute('action', "/ticket/mypage")
+//	document.body.appendChild(form)
+//	form.submit()
+//}

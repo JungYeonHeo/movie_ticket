@@ -15,7 +15,7 @@
 					<a class="menu-item" href="signup">회원가입</a> 
 				</c:if>
 				<c:if test="${ sessionScope.myinfo != null }">
-					<a class="menu-item" href="mypage">마이페이지</a>
+					<a class="menu-item" href="mypage" onclick="goMypage()">마이페이지</a>
 					<a class="menu-item" href="logout">로그아웃</a> 
 				</c:if>
 				<a class="menu-item" id="quick-ticket" href="ticket">빠른예매</a>
@@ -102,7 +102,7 @@
 				<c:if test="${ sessionScope.myinfo != null }">
 					<div class="menu-items-img-text">
 						<img class="menu-item-img" src="resources/images/ico_aside_menu4.png" />
-						<a class="menu-item" href="mypage">마이페이지</a>
+						<a class="menu-item" href="mypage" onclick="goMypage()">마이페이지</a>
 					</div>
 					<div class="menu-items-img-text">
 						<img class="menu-item-img" src="resources/images/ico_aside_menu5.png" /> 

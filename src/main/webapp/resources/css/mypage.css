@@ -24,7 +24,7 @@
     text-align: center;
     display: flex;
     justify-content: center;
-    margin-bottom: 40px;
+    margin-bottom: 150px;
 }
 
 button {
@@ -38,7 +38,7 @@ button {
 
 .mypage-left-menu {
     width: 200px;
-    margin: 50px 60px 0 0;
+    margin: 120px 60px 0 0;
     color: #010101;
 }
 
@@ -70,6 +70,7 @@ button {
 
 /* -- 내용 -- */
 .content {
+	width: 100%;
 	margin: 0 auto;
 	text-align: center;
 	padding: 100px 0 150px 0;
@@ -107,6 +108,7 @@ button {
 	font-weight: bold;
 	text-align: left;
 	line-height: 25px;
+	text-align: center;
 }
 
 /* 예매 목록 */
@@ -327,6 +329,42 @@ button {
 	padding: 5px 10px 5px 0;
 	text-align: right;
 	color: #bbb;
+}
+
+/* 1:1 문의 */
+.qa-menu #table {
+    width: 100%; 
+    display: grid;  
+    grid-template-columns: 10% 15% 50% 15% 10%;
+    color: #aaa; 
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+
+.qa-menu .col 
+{ 
+    background-color: #e8e8e8; 
+    font-weight: bolder; 
+    vertical-align: middle; 
+    padding-top: 13px;
+}
+
+.qa-menu #table > div {
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+.qa-menu .qa-write-button {
+	height: 50px;
+	font-size: 12pt;
+	font-weight: bold;
+	background: #f16a1a;
+	color: #fff;
+	border-radius: 10px;
+	padding: 10px 15px; 
+	float: right;
+	margin: 10px 0;
 }
 
 @media screen and (max-width:1100px) {

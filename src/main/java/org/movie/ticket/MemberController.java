@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.movie.DAO.CinemaDAO;
 import org.movie.DAO.MemberDAO;
+import org.movie.DAO.QuestionDAO;
 import org.movie.DAO.ReviewDAO;
 import org.movie.DAO.TicketDAO;
 import org.movie.DTO.CinemaDTO;
@@ -18,6 +19,7 @@ import org.movie.DTO.MemberDTO;
 import org.movie.DTO.MovieDTO;
 import org.movie.DTO.MypageReviewDTO;
 import org.movie.DTO.MypageTicketDTO;
+import org.movie.DTO.QuestionDTO;
 import org.movie.DTO.ReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +40,8 @@ public class MemberController {
 	private ReviewDAO reviewdao = ReviewDAO.getInstance();
 	@Autowired
 	private TicketDAO ticketdao = TicketDAO.getInstance();
+	@Autowired
+	private QuestionDAO questiondao = QuestionDAO.getInstance();
 	
 	@RequestMapping(value="/login")
 	public String login(Model model) {
@@ -130,7 +134,7 @@ public class MemberController {
 		return "redirect:/"; 
 	}
 
-	@RequestMapping(value="/mypage")
+	@RequestMapping(value="/mypage", method={RequestMethod.POST, RequestMethod.GET})
 	public String mypage(Model model, HttpSession httpss) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("target", "address");
@@ -151,6 +155,9 @@ public class MemberController {
 		List<MypageReviewDTO> mypageReviewList = reviewdao.mypageReviewList(id);
 		model.addAttribute("mypageReviewList", mypageReviewList);
 		
+		// 1:1 문의 내용
+		List<QuestionDTO> mypageQAList = questiondao.mypageQAList(id);
+		model.addAttribute("mypageQAList", mypageQAList);
 		
 		return "mypage";
 	}
@@ -237,6 +244,30 @@ public class MemberController {
 	@RequestMapping(value="/review_delete_action", method=RequestMethod.GET)
 	public @ResponseBody void review_delete_action(String review_id) {
 		reviewdao.reviewDelete(review_id);
+	}
+	
+	@RequestMapping(value="/question_write")
+	public String question_write(Model model) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("target", "address");
+		map.put("search", "");
+		
+		List<CinemaDTO> cinemaList = cinemadao.cinemaList(map);
+		model.addAttribute("cinemaList", cinemaList);
+		
+		return "question_write"; 
+	}
+	
+	@RequestMapping(value="/question_write_action", method=RequestMethod.POST)
+	public @ResponseBody void question_write_action(
+			String question_type, String question_title, String question_text, HttpSession httpss) {
+		String id = (String) httpss.getAttribute("myinfo");
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("member_id", id);
+		map.put("question_type", question_type);
+		map.put("question_title", question_title);
+		map.put("question_text", question_text);
+		questiondao.questionWrite(map);
 	}
 	
 }

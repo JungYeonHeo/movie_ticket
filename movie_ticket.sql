@@ -98,9 +98,10 @@ create table question ( -- 일대일 문의
     question_id int not null auto_increment,
     member_id varchar(20) not null,
     question_type varchar(20) not null,
+    question_title text not null,
     question_text text not null,
     reg_date datetime default now(),
-    answer_state varchar(20),
+    answer_state varchar(20) default "미답변",
     primary key(question_id),
     constraint question_member_id FOREIGN KEY (member_id)
     REFERENCES member(member_id) ON UPDATE CASCADE
@@ -3284,14 +3285,3 @@ values
 ('gggggg@naver.com', 'qwer1234!', '장은채', '010-1111-1116', '1975-01-01', 'F'),
 ('hhhhhh@naver.com', 'qwer1234!', '문오득', '010-1111-1117', '1989-01-01', 'F'),
 ('iiiiii@naver.com', 'qwer1234!', '금미래', '010-1111-1118', '1980-01-01', 'M');
-
-
-insert into review(member_id, cinema_showing_id, review_rate, review_text)
-values
-('aaaaaa@naver.com', 1, 3.0, '재밌다'),
-('bbbbbb@naver.com', 1, 5.0, '재밌다');
-
-select * from cinema_showing;
-select * from movie;
-select * from review;
-select * from member where member_id = any(select member_id from ticket where cinema_showing_id = any(select cinema_showing_id from cinema_showing where movie_id = 'aaaa';

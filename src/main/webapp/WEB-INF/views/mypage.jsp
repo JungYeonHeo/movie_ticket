@@ -32,42 +32,42 @@
 					</c:if>
 					<c:if test="${fn:length(mypageTicketList) != 0}">
 						<c:forEach items="${mypageTicketList}" var="list">
-						<div class="ticket-item-group">
-							<div class="ticket-item-header">
-								<div class="ticket-date">${list.ticket_date}</div>
-								<c:if test="${list.state != '취소'}">
-									<button class="review-write-button" onclick="moveReviewWrite(${list.cinema_showing_id}, '${list.showing_date} ${list.showing_time}')">리뷰쓰기</button>
-								</c:if>
-							</div>
-							<div class="line"></div>
-							<div class="ticket-item">
-								<img class="ticket-img" src="${list.poster_img}" alt="영화 포스터" />
-								<div class="ticket-item-content">
-									<div class="ticket-item-content-text">제목: ${list.title_ko}</div>
-									<div class="ticket-item-content-text">영화관: ${list.cinema_name}</div>
-									<div class="ticket-item-content-text">상영관: ${list.theater}</div>
-									<div class="ticket-item-content-text">날짜 및 시간: ${list.showing_date} ${list.showing_time}</div>
-									<div class="ticket-item-content-text">자석: ${list.seat}</div>
-									<div class="ticket-item-content-text">일반: ${list.adult_count}명, 청소년: ${list.youth_count}명</div>
-									<div class="ticket-item-content-text">총 금액: ${list.total_price}원</div>
-									<div class="ticket-item-content-text">결제정보: ${list.payment}</div>
-									<c:if test="${list.state == '취소'}">
-										<div class="ticket-item-content-text state">상태: <span class="state-cancel">${list.state}</span></div>
-									</c:if>
+							<div class="ticket-item-group">
+								<div class="ticket-item-header">
+									<div class="ticket-date">${list.ticket_date}</div>
 									<c:if test="${list.state != '취소'}">
-										<div class="ticket-item-content-text state">상태: ${list.state}</div>
+										<button class="review-write-button" onclick="moveReviewWrite(${list.cinema_showing_id}, '${list.showing_date} ${list.showing_time}')">리뷰쓰기</button>
 									</c:if>
 								</div>
-							</div>
-							<div class="ticket-item-footer">
-								<div class="tickets-footer-buttons">
-									<c:if test="${list.state != '취소'}">
-										<button class="ticket-QR-button">QR코드</button>
-										<button class="ticket-cancel-button" onclick="ticketCancel(${list.ticket_id}, '${list.showing_date} ${list.showing_time}')">취소</button>
-									</c:if>
+								<div class="line"></div>
+								<div class="ticket-item">
+									<img class="ticket-img" src="${list.poster_img}" alt="영화 포스터" />
+									<div class="ticket-item-content">
+										<div class="ticket-item-content-text">제목: ${list.title_ko}</div>
+										<div class="ticket-item-content-text">영화관: ${list.cinema_name}</div>
+										<div class="ticket-item-content-text">상영관: ${list.theater}</div>
+										<div class="ticket-item-content-text">날짜 및 시간: ${list.showing_date} ${list.showing_time}</div>
+										<div class="ticket-item-content-text">자석: ${list.seat}</div>
+										<div class="ticket-item-content-text">일반: ${list.adult_count}명, 청소년: ${list.youth_count}명</div>
+										<div class="ticket-item-content-text">총 금액: ${list.total_price}원</div>
+										<div class="ticket-item-content-text">결제정보: ${list.payment}</div>
+										<c:if test="${list.state == '취소'}">
+											<div class="ticket-item-content-text state">상태: <span class="state-cancel">${list.state}</span></div>
+										</c:if>
+										<c:if test="${list.state != '취소'}">
+											<div class="ticket-item-content-text state">상태: ${list.state}</div>
+										</c:if>
+									</div>
+								</div>
+								<div class="ticket-item-footer">
+									<div class="tickets-footer-buttons">
+										<c:if test="${list.state != '취소'}">
+											<button class="ticket-QR-button">QR코드</button>
+											<button class="ticket-cancel-button" onclick="ticketCancel(${list.ticket_id}, '${list.showing_date} ${list.showing_time}')">취소</button>
+										</c:if>
+									</div>
 								</div>
 							</div>
-						</div>
 						</c:forEach>
 					</c:if>
 				</div>
@@ -124,6 +124,31 @@
 							<div class="line"></div>
 						</c:forEach>
 					</c:if>
+				</div>
+				<!-- 1:1 문의 -->
+				<div class="content qa-menu">
+					<div class="content-list-text">1:1 문의</div>
+					<button class="qa-write-button">1:1 문의하기</button>
+					<div id="table">
+                        <div class="col">번호</div>
+                        <div class="col">문의유형</div>
+                        <div class="col">제목</div>
+                        <div class="col">등록일</div>
+                        <div class="col">답변상태</div>
+                        
+          				<c:if test="${fn:length(mypageQAList) == 0}">
+							<div class="value" style="grid-column: 1/6;">1:1 문의한 내용이 없습니다.</div>
+						</c:if>
+						<c:if test="${fn:length(mypageQAList) != 0}">
+	                        <c:forEach items="${mypageQAList}" var="list" varStatus="status">
+		                        <div class="value" style="grid-column: 1/2;">${status.count}</div>
+		                        <div class="value" style="grid-column: 2/3;">${list.question_type}</div>  
+		                        <div class="value" style="grid-column: 3/4;">${list.question_title}</div>
+		                        <div class="value" style="grid-column: 4/5;">${list.reg_date}</div>
+		                        <div class="value" style="grid-column: 5/6;">${list.answer_state}</div>
+	                        </c:forEach>
+                        </c:if>
+                    </div>
 				</div>
 			
 			
@@ -231,5 +256,10 @@ function reviewDelete(review_id){
 		}) 
 	} 
 }
+
+// 1:1 문의하기
+$(".qa-write-button").click(function(){
+	location.href = "question_write"
+})
 </script>
 </html>
