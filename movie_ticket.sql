@@ -189,7 +189,7 @@ create table cinema_images ( -- 영화관 이미지
 -- END$$
 -- DELIMITER ;
 
-
+-- 리뷰 입력되면 영화 평균 평점 내주는 트리거
 DELIMITER $$
 create trigger avg_rate_trg after insert on review
 for each row
@@ -197,6 +197,17 @@ begin
 	update movie set 
 	movie.gen_avg_rate = (select avg(review_rate) from review where cinema_showing_id = any(select cinema_showing_id from cinema_showing where movie_id = (select movie_id from cinema_showing where cinema_showing.cinema_showing_id = NEW.cinema_showing_id)))
     where movie.movie_id = (select movie_id from cinema_showing where cinema_showing.cinema_showing_id = NEW.cinema_showing_id);
+END$$
+DELIMITER ;
+
+-- 문의 답변완료 상태로 변경하는 트리거
+DELIMITER $$
+create trigger answer_completion_trg after insert on answer
+for each row
+begin
+	update question set 
+	question.answer_state = "답변 완료"
+    where question.question_id = NEW.question_id;
 END$$
 DELIMITER ;
 
@@ -3285,3 +3296,7 @@ values
 ('gggggg@naver.com', 'qwer1234!', '장은채', '010-1111-1116', '1975-01-01', 'F'),
 ('hhhhhh@naver.com', 'qwer1234!', '문오득', '010-1111-1117', '1989-01-01', 'F'),
 ('iiiiii@naver.com', 'qwer1234!', '금미래', '010-1111-1118', '1980-01-01', 'M');
+
+insert into answer(question_id, answer_text, writer)
+value
+(1, '카드사에 따라 다를 수 있지만 보통 2-3일정도 소요됩니다.', 'santa');

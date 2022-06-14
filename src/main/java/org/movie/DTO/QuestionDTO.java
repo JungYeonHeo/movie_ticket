@@ -1,7 +1,5 @@
 package org.movie.DTO;
 
-import java.util.Date;
-
 public class QuestionDTO {
 	private String question_id;
 	private String member_id;

@@ -14,6 +14,7 @@ import org.movie.DAO.MemberDAO;
 import org.movie.DAO.QuestionDAO;
 import org.movie.DAO.ReviewDAO;
 import org.movie.DAO.TicketDAO;
+import org.movie.DTO.AnswerDTO;
 import org.movie.DTO.CinemaDTO;
 import org.movie.DTO.MemberDTO;
 import org.movie.DTO.MovieDTO;
@@ -28,6 +29,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 @Controller
 public class MemberController {
@@ -268,6 +272,20 @@ public class MemberController {
 		map.put("question_title", question_title);
 		map.put("question_text", question_text);
 		questiondao.questionWrite(map);
+	}
+	
+	@RequestMapping(value="/get_question_answer", method=RequestMethod.GET, produces = "application/text; charset=utf8")
+	public @ResponseBody String get_qa_answer(String question_id) {
+		QuestionDTO question = questiondao.getQuestion(question_id);
+		AnswerDTO answer = questiondao.getAnswer(question_id);
+		
+		JsonObject qaResult = new JsonObject();
+		Gson gson = new Gson();
+		qaResult.addProperty("question", gson.toJson(question));
+		qaResult.addProperty("answer", gson.toJson(answer));
+		String result = gson.toJson(qaResult);
+		
+		return result;
 	}
 	
 }

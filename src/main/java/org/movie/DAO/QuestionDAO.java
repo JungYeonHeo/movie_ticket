@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.movie.DTO.AnswerDTO;
 import org.movie.DTO.QuestionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -37,6 +38,16 @@ public class QuestionDAO {
 
 	public void questionWrite(HashMap<String, String> map) {
 		session.insert(questionMapper + ".questionWrite", map);
+	}
+
+	public AnswerDTO getAnswer(String question_id) {
+		AnswerDTO answer = session.selectOne(questionMapper + ".getAnswer", question_id);
+		return answer;
+	}
+
+	public QuestionDTO getQuestion(String question_id) {
+		QuestionDTO question = session.selectOne(questionMapper + ".getQuestion", question_id);
+		return question;
 	}
 
 }

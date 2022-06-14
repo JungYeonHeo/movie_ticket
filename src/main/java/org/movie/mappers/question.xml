@@ -13,4 +13,14 @@
 		value (#{member_id}, #{question_type}, #{question_title}, #{question_text})
 	</insert>
 	
+	<!-- 답변 -->
+	<select id="getAnswer" resultType="org.movie.DTO.AnswerDTO">
+		select * from answer where question_id = #{question_id}
+	</select>
+	
+	<!-- 문의 -->
+	<select id="getQuestion" resultType="org.movie.DTO.QuestionDTO">
+		select * from Question where question_id = #{question_id}
+	</select>
+	
 </mapper>

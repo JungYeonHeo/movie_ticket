@@ -129,29 +129,59 @@
 				<div class="content qa-menu">
 					<div class="content-list-text">1:1 문의</div>
 					<button class="qa-write-button">1:1 문의하기</button>
-					<div id="table">
+					<div id="qa-table">
                         <div class="col">번호</div>
                         <div class="col">문의유형</div>
                         <div class="col">제목</div>
                         <div class="col">등록일</div>
                         <div class="col">답변상태</div>
+                        <div class="col">상세</div>
                         
           				<c:if test="${fn:length(mypageQAList) == 0}">
-							<div class="value" style="grid-column: 1/6;">1:1 문의한 내용이 없습니다.</div>
+							<div class="value" style="grid-column: 1/7;">1:1 문의한 내용이 없습니다.</div>
 						</c:if>
 						<c:if test="${fn:length(mypageQAList) != 0}">
 	                        <c:forEach items="${mypageQAList}" var="list" varStatus="status">
 		                        <div class="value" style="grid-column: 1/2;">${status.count}</div>
 		                        <div class="value" style="grid-column: 2/3;">${list.question_type}</div>  
 		                        <div class="value" style="grid-column: 3/4;">${list.question_title}</div>
-		                        <div class="value" style="grid-column: 4/5;">${list.reg_date}</div>
+		                        <div class="value" style="grid-column: 4/5;">${fn:substring(list.reg_date, 0, 10)}</div>
 		                        <div class="value" style="grid-column: 5/6;">${list.answer_state}</div>
+		                        <div class="value qa-detail" style="grid-column: 6/7;" onclick="goQADetail(${list.question_id})">></div>
 	                        </c:forEach>
                         </c:if>
                     </div>
 				</div>
-			
-			
+				<!-- 회원정보 수정 -->
+				<div class="content update-member">
+					<div class="content-list-text">회원정보 수정</div>
+				</div>
+				<!-- 1:1 문의 상세 -->
+				<div class="content qa-detail-menu">
+					<div class="content-list-text">1:1 문의 내용 상세보기</div>
+					<div class="content-list-text-sub">1:1 문의</div>
+					<div id="qa-detail-table">
+                        <div class="row" style="grid-row: 1/2;">문의 날짜</div>
+                        <div class="value qa-date"></div>
+                        <div class="row" style="grid-row: 2/3;">문의 유형</div>
+                        <div class="value qa-type"></div>  
+                        <div class="row" style="grid-row: 3/4;">문의 제목</div>
+                        <div class="value qa-title"></div>
+                        <div class="row" style="grid-row: 4/5;">문의 내용</div>
+                        <div class="value qa-text"></div>
+                        <div class="row" style="grid-row: 5/6;">문의 상태</div>
+                        <div class="value qa-state"></div>
+                    </div>
+                    <div class="answer">
+						<div class="content-list-text-sub">답변</div>
+						<div id="answer-table">
+	                        <div class="row" style="grid-row: 1/2;">답변 날짜</div>
+	                        <div class="value answer-date"></div>
+	                        <div class="row" style="grid-row: 2/3;">답변 내용</div>
+	                        <div class="value answer-text"></div>  
+	                    </div>
+                    </div>
+				</div>
 			</div>
 		</div>
        <%@ include file = "footer.jsp" %>
@@ -169,6 +199,36 @@ $(".menu").click(function(){
     $(".content").removeClass("content-active")
     $(".content").eq(num).addClass("content-active")
 })
+
+// 1:1 문의 상세보기
+function goQADetail(question_id) {
+    $(".content").removeClass("content-active")
+    $(".content").eq(4).addClass("content-active")
+    
+  	$.ajax ({
+	    method: 'GET',
+	    url: 'get_question_answer',
+	    data: {"question_id": question_id},
+	    contentType: "application/json; charset:UTF-8", 
+	    success: function(resultData) { 
+        	var result = JSON.parse(resultData)
+        	var question = JSON.parse(result.question)
+        	var answer = JSON.parse(result.answer)
+	    	
+		    $(".qa-date").text(question['reg_date'])
+		    $(".qa-type").text(question['question_type'])
+		    $(".qa-title").text(question['question_title'])
+		    $(".qa-text").text(question['question_text']) 
+		    $(".qa-state").text(question['answer_state']) 
+		    
+		    if (answer != null) {
+		    	$(".answer").css("display", "block")
+	        	$(".answer-date").text(answer['reg_date'])
+	        	$(".answer-text").text(answer['answer_text'])
+		    }
+	   	} 
+	}) 
+}
 
 // 리뷰쓰기
 function moveReviewWrite(cinema_showing_id, time_slot){
