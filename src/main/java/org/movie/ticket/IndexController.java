@@ -1,5 +1,7 @@
 package org.movie.ticket;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -171,7 +173,7 @@ public class IndexController {
 	}
 	
 	@RequestMapping(value="/movie_detail", method=RequestMethod.GET)
-	public String movie_detail(@RequestParam String no, Model model) { 
+	public String movie_detail(@RequestParam String no, Model model) throws ParseException { 
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("target", "address");
 		map.put("search", "");
@@ -246,11 +248,15 @@ public class IndexController {
 		return "movie_detail";
 	}
 	
-	public static int getAgeFromBirthday(Date birthday) {
+	public static int getAgeFromBirthday(String dateStr) throws ParseException {
 	    Calendar birth = new GregorianCalendar();
 	    Calendar today = new GregorianCalendar();
-
-	    birth.setTime(birthday);
+	    
+	    // String to date
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = format.parse(dateStr);
+        
+	    birth.setTime(date);
 	    today.setTime(new Date());
 
 	    int factor = 0;

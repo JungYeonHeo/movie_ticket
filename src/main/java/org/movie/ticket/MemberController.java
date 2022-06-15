@@ -1,9 +1,6 @@
 package org.movie.ticket;
 
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -163,6 +160,10 @@ public class MemberController {
 		List<QuestionDTO> mypageQAList = questiondao.mypageQAList(id);
 		model.addAttribute("mypageQAList", mypageQAList);
 		
+		// 회원 정보
+		MemberDTO member = memberdao.signupIdCheck(id);
+		model.addAttribute("member", member);
+		
 		return "mypage";
 	}
 	
@@ -288,4 +289,16 @@ public class MemberController {
 		return result;
 	}
 	
+	@RequestMapping(value="/update_member_action", method=RequestMethod.POST)
+	public @ResponseBody void update_member_action(
+			String name, String phonenumber, String birth, String gender, HttpSession httpss) {
+		String id = (String) httpss.getAttribute("myinfo");
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("member_id", id);
+		map.put("member_name", name);
+		map.put("phone_number", phonenumber);
+		map.put("gender", gender);
+		map.put("birth", birth);
+		memberdao.updateMember(map);
+	}
 }

@@ -375,6 +375,91 @@ button {
 	margin: 10px 0;
 }
 
+/* 회원정보 수정 */
+.update-member {
+	width: 400px;
+	margin: 0 auto;
+}
+
+.type-text {
+	text-align: left;
+	font-size: 13pt;
+	font-weight: bold;
+	padding: 10px 0;
+}
+
+.p-warning {
+	font-size: 12pt;
+	color: #f16a1a; 
+	display: none;
+	text-align: left;
+}
+
+#warning-id {
+	font-size: 12pt;
+	color: #f16a1a; 
+	text-align: left;
+}
+
+input[type=text], input[type=password]  {
+	width: 400px;
+	height: 40px;
+	border-radius: 10px;
+	margin-bottom: 10px;
+}
+
+input[type=radio] {
+	width: 20px;
+	height: 20px;
+}
+
+input:focus {
+	outline: none;
+}
+
+.line {
+	width: 100%;
+	height: 1px;
+	background-color: #ccc;
+	margin: 30px 0;
+}
+
+.input-birth {
+	position: absolute;
+	right: 0px;
+	width: 150px;
+	padding: 10px 0px;
+	border-radius: 10px;
+}
+
+.birth, .gender {
+	display: flex;
+	position: relative;
+	width: 100%;
+}
+
+.radio-group {
+	position: absolute;
+	right: 0px;
+	padding: 10px 0px;
+}
+
+.padding {
+	padding: 10px 0;
+}
+
+.update-member-button {
+	width: 400px;
+	height: 60px;
+	background: #f16a1a;
+	color: #fff;
+	font-size: 15pt;
+	font-weight: bold;
+	border-radius: 5px;
+	border: 0px;
+	margin-top: 20px;
+}
+
 /* 1:1 문의 상세 */
 .answer {
 	display: none;	
@@ -405,7 +490,6 @@ button {
     border-bottom: 1px solid #ccc;
     border-right: 1px solid #ccc;
 }
-
 
 @media screen and (max-width:1100px) {
 	.container {

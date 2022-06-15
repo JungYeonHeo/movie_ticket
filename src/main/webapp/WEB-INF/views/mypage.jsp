@@ -153,8 +153,51 @@
                     </div>
 				</div>
 				<!-- 회원정보 수정 -->
-				<div class="content update-member">
+				<div class="content update-member-menu">
 					<div class="content-list-text">회원정보 수정</div>
+					<div class="update-member">
+						<div class='type-text'>아이디</div>
+						<input class="input-id" type="text" value="${member.member_id}" disabled="disabled">
+						<p id="warning-id">* 아이디는 수정할 수 없습니다.</p>
+						<div class='type-text'>비밀번호</div>
+						<input class="input-pw" type="password" value="${member.member_pw}" name="input" autofocus required>
+						<p class='p-warning' id="warning-pw">비밀번호를 입력해주세요.</p>
+						<div class='type-text'>이름</div>
+						<input class="input-name" type="text" value="${member.member_name}" name="input" autofocus required placeholder="이름을 확인해주세요.">
+						<p class='p-warning' id="warning-name">이름을 입력해주세요.</p>
+						<div class='type-text'>전화번호</div>
+						<input class="input-phonenumber" type="text" value="${member.phone_number}" name="input" autofocus required placeholder="전화번호를 입력해주세요.">
+						<p class='p-warning' id="warning-phonenumber">전화번호를 입력해주세요.</p>
+						<div class='line'></div>
+						<div class='padding'>
+							<div class='birth'>
+								<div class='type-text'>생년월일</div>
+								<input class="input-birth" type="date" value="${member.birth}" min="${min_birth}" max="${max_birth}">
+							</div>
+							<p class='p-warning' id="warning-birth">생년월일을 입력해주세요.</p>
+						</div>
+						<div class='padding'>
+							<div class='gender'>
+								<div class='type-text'>성별</div>
+								<div class='radio-group'>
+									<c:if test="${member.gender == 'F'}">
+										<input class="input-gender" type="radio" name="gender" value='F' checked>
+										<label for='F'>여성</label> 
+										<input class="input-gender" type="radio" name="gender" value='M'>
+										<label for='M'>남성</label>
+									</c:if>
+									<c:if test="${member.gender == 'M'}">
+										<input class="input-gender" type="radio" name="gender" value='F'>
+										<label for='F'>여성</label> 
+										<input class="input-gender" type="radio" name="gender" value='M' checked>
+										<label for='M'>남성</label>
+									</c:if>
+								</div>
+							</div>
+							<p class='p-warning' id="warning-gender">성별을 체크해주세요.</p>
+						</div>
+						<button class="update-member-button">정보 수정</button>
+					</div>
 				</div>
 				<!-- 1:1 문의 상세 -->
 				<div class="content qa-detail-menu">
@@ -202,9 +245,6 @@ $(".menu").click(function(){
 
 // 1:1 문의 상세보기
 function goQADetail(question_id) {
-    $(".content").removeClass("content-active")
-    $(".content").eq(4).addClass("content-active")
-    
   	$.ajax ({
 	    method: 'GET',
 	    url: 'get_question_answer',
@@ -226,6 +266,9 @@ function goQADetail(question_id) {
 	        	$(".answer-date").text(answer['reg_date'])
 	        	$(".answer-text").text(answer['answer_text'])
 		    }
+        	
+            $(".content").removeClass("content-active")
+            $(".content").eq(4).addClass("content-active")
 	   	} 
 	}) 
 }
@@ -320,6 +363,78 @@ function reviewDelete(review_id){
 // 1:1 문의하기
 $(".qa-write-button").click(function(){
 	location.href = "question_write"
+})
+
+// 회원정보 수정
+$(".update-member-button").click(function(){
+	var pw = $(".input-pw").val().trim()
+	var name = $(".input-name").val().trim()
+	var tel = $(".input-phonenumber").val().trim()
+	var birth = $(".input-birth").val()
+	var gender = $('input[name=gender]:checked').val()
+	
+	$.ajax ({
+        method: "POST",
+        url: "${pageContext.request.contextPath}/update_member_action",
+        data: {"pw": pw, "name": name, "phonenumber": tel, "birth": birth, "gender": gender},
+        success: function(resultData) {
+       		alert("회원정보가 수정되었습니다.")
+        }
+    }) 
+})
+
+$(document).on("propertychange change keyup paste input", "input[name=input]", function(){ 
+	var num = $("input[name=input]").index(this)
+	if (num == 0) {
+		var pw = $(".input-pw").val().trim()
+		var regPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,12}$/
+		if (regPw.test(pw)) {
+			$("#warning-pw").text("비밀번호 형식: 적합")
+			$("#warning-pw").css("display", "block")
+			$("#warning-pw").css("color", "green")
+			pw_type = true
+		} else {
+			$("#warning-pw").text("비밀번호 형식: 부적합 (대소문자, 숫자, 특수문자 세가지 조합으로 8자 이상)")
+			$("#warning-pw").css("display", "block")
+			$("#warning-pw").css("color", "#f16a1a")
+			pw_type = false
+		}
+	} else if (num == 1) {
+		var name = $(".input-name").val().trim()
+		if (name !== "") {
+			$("#warning-name").text("이름: 적합")
+			$("#warning-name").css("display", "block")
+			$("#warning-name").css("color", "green")
+		} else {
+			$("#warning-name").text("이름을 입력해주세요.")
+			$("#warning-name").css("display", "block")
+			$("#warning-name").css("color", "#f16a1a")
+		}
+	} else if (num == 2) {
+		var tel = $(".input-phonenumber").val().trim()
+		tel = tel.replace(/\-/g, "")
+		if (tel.length <= 3) {
+			$(".input-phonenumber").val(tel.substr(0))
+		} else if (tel.length <= 7) {
+			$(".input-phonenumber").val(tel.substr(0, 3) + "-" + tel.substr(3, 4))
+		} else {
+			$(".input-phonenumber").val(tel.substr(0, 3) + "-" + tel.substr(3, 4) + "-" + tel.substr(7, 4))
+		} 
+		
+		tel = $(".input-phonenumber").val().trim()
+		var regtel = /^01([0|1|6|7|8|9])-?([0-9]{4})-?([0-9]{4})$/
+		if (regtel.test(tel)) {
+			$("#warning-phonenumber").text("핸드폰번호 형식: 적합")
+			$("#warning-phonenumber").css("display", "block")
+			$("#warning-phonenumber").css("color", "green")
+			tel_type = true
+		} else {
+			$("#warning-phonenumber").text("핸드폰번호 형식: 부적합")
+			$("#warning-phonenumber").css("display", "block")
+			$("#warning-phonenumber").css("color", "#f16a1a")
+			tel_type = false
+		}
+	}
 })
 </script>
 </html>

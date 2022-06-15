@@ -2,8 +2,6 @@ package org.movie.DAO;
 
 import java.util.HashMap;
 
-import javax.servlet.http.HttpSession;
-
 import org.apache.ibatis.session.SqlSession;
 import org.movie.DTO.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +43,8 @@ public class MemberDAO {
 		session.insert(memberMapper + ".signup", map);
 	}
 	
-	public void memberUpdate(HashMap<String, String> map) {
-		session.selectOne(memberMapper + ".memberupdate", map);
+	public void updateMember(HashMap<String, String> map) {
+		session.selectOne(memberMapper + ".updateMember", map);
 	}
 
 }

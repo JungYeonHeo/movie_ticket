@@ -22,5 +22,12 @@
 		insert into member(member_id, member_pw, member_name, phone_number, birth, gender)
 		value (#{member_id}, #{member_pw}, #{member_name}, #{phone_number}, #{birth}, #{gender})
 	</insert>
+	
+	<!-- 회원정보 수정 -->
+	<update id="updateMember">
+		update member
+		set member_pw = #{member_pw}, member_name = #{member_name}, phone_number = #{phone_number}, birth = #{birth}, gender = #{gender}
+		where member_id = #{member_id}
+	</update>
 
 </mapper>

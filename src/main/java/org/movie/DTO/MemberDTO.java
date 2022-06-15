@@ -1,20 +1,18 @@
 package org.movie.DTO;
 
-import java.util.Date;
-
 public class MemberDTO {
 
     private String member_id;
     private String member_pw; 
     private String member_name; 
     private String phone_number;
-    private Date birth;
+    private String birth;
     private String gender;
         
     public MemberDTO() {
 	}
 
-	public MemberDTO(String member_id, String member_pw, String member_name, String phone_number, Date birth, String gender) {
+	public MemberDTO(String member_id, String member_pw, String member_name, String phone_number, String birth, String gender) {
 		super();
 		this.member_id = member_id;
 		this.member_pw = member_pw;
@@ -56,11 +54,11 @@ public class MemberDTO {
 		this.phone_number = phone_number;
 	}
 	
-	public Date getBirth() {
+	public String getBirth() {
 		return birth;
 	}
 
-	public void setBirth(Date birth) {
+	public void setBirth(String birth) {
 		this.birth = birth;
 	}
 
