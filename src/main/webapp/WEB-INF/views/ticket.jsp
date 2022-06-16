@@ -7,6 +7,8 @@
 	<%@ include file="head.jsp"%>
 	<meta charset="UTF-8">
 	<link type="text/css" rel="stylesheet" href="resources/css/ticket.css">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 	<title>대체로 맑음 - 예매</title>
 	<script>
 		window.onload = function() {
@@ -421,19 +423,46 @@ $(".price-button").click(function() {
 	}
 	seat = seat.slice(0, -2)
 	if (confirm(seat + "좌석을 선택하셨습니다. 결제하시겠습니까?")) {
-	 	$.ajax ({
+		// 로그인 여부 확인
+		$.ajax ({
 		    method: 'GET',
-		    url: 'pay_action',
-		    data: {"cinema_showing_id": cinema_showing_id, "youth": youth, "adult": adult, "seat": seat, "price": price},
-		    contentType: "application/json; charset:UTF-8", 
-		    success: function(resultData) { 
-		    	if (resultData == 0) {
-		    		alert("로그인을 해주세요.")
-		    		location.href = "login"
-		    	} 
-		    	if (resultData == 1) {
-					alert("결제되었습니다.")
-					location.href = "mypage"
+		    url: 'login_check',
+		    success: function(member_id) {
+		    	if (member_id == "0") {
+					alert("로그인을 해주세요.");
+					location.href = "login"
+		    	} else {
+					// 카카오페이 결제
+			   		IMP.init("imp000000000")
+			   		IMP.request_pay({
+						pg: "kakao",
+						pay_method: "card",
+						merchant_uid : 'merchant_' + new Date().getTime(),
+						name: "영화 티켓 예매",
+						amount: price,
+						buyer_name: member_id,
+						buyer_postcode: "123-456",
+					}, function (rsp) {
+						console.log(rsp)
+						if (rsp.success) {	
+						 	$.ajax ({
+							    method: 'GET',
+							    url: 'pay_action',
+							    data: {"cinema_showing_id": cinema_showing_id, "youth": youth, "adult": adult, "seat": seat, "price": price},
+							    contentType: "application/json; charset:UTF-8", 
+							    success: function(resultData) { 
+							    	console.log("결제되었습니다")
+				    				if (confirm("결제되었습니다.")) {
+						    			location.href = "mypage"
+				    				}
+							   	} 
+							}) 
+						} else {
+							var msg = "결제에 실패하였습니다. "
+							msg += "에러내용 : " + rsp.error_msg
+							alert(msg)
+						}
+					})
 		    	}
 		   	} 
 		}) 

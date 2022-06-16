@@ -268,7 +268,7 @@ public class IndexController {
 	
 	@RequestMapping(value="/ticket", method=RequestMethod.GET)
 	public String ticket(@RequestParam(value="movie", required=false) String movie, 
-			@RequestParam(value="cinema", required=false) String cinema, Model model) { 
+			@RequestParam(value="cinema", required=false) String cinema, Model model, HttpSession httpss) { 
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("target", "address");
 		map.put("search", "");
@@ -351,23 +351,29 @@ public class IndexController {
 		return result;
 	}
 		
-	@RequestMapping(value="/pay_action", method=RequestMethod.GET)
-	public @ResponseBody int pay_action(String cinema_showing_id, int youth, int adult, String seat, int price, HttpSession httpss) {
+	@RequestMapping(value="/login_check", method=RequestMethod.GET)
+	public @ResponseBody String login_check(HttpSession httpss) {
 		
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		String member_id = (String) httpss.getAttribute("myinfo");
-		if (member_id == null) {
-			return 0;
+		String id = (String) httpss.getAttribute("myinfo");
+		if (id == null) {
+			return "0";
 		} else {
-			map.put("member_id",  member_id);
-			map.put("cinema_showing_id",  cinema_showing_id);
-			map.put("youth", youth);
-			map.put("adult", adult);
-			map.put("seat", seat);
-			map.put("price", price);
-			ticketdao.ticketInsert(map);
-			return 1;
+			return id;
 		}
+	}
+	
+	@RequestMapping(value="/pay_action", method=RequestMethod.GET)
+	public @ResponseBody void pay_action(String cinema_showing_id, int youth, int adult, String seat, int price, HttpSession httpss) {
+		
+		String member_id = (String) httpss.getAttribute("myinfo");
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id",  member_id);
+		map.put("cinema_showing_id",  cinema_showing_id);
+		map.put("youth", youth);
+		map.put("adult", adult);
+		map.put("seat", seat);
+		map.put("price", price);
+		ticketdao.ticketInsert(map);
 	}
 
 }
