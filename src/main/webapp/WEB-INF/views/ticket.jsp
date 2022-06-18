@@ -433,7 +433,7 @@ $(".price-button").click(function() {
 					location.href = "login"
 		    	} else {
 					// 카카오페이 결제
-			   		IMP.init("imp000000000")
+			   		IMP.init("imp00000000")
 			   		IMP.request_pay({
 						pg: "kakao",
 						pay_method: "card",
@@ -444,24 +444,23 @@ $(".price-button").click(function() {
 						buyer_postcode: "123-456",
 					}, function (rsp) {
 						console.log(rsp)
+						var msg = ""
 						if (rsp.success) {	
 						 	$.ajax ({
 							    method: 'GET',
 							    url: 'pay_action',
 							    data: {"cinema_showing_id": cinema_showing_id, "youth": youth, "adult": adult, "seat": seat, "price": price},
 							    contentType: "application/json; charset:UTF-8", 
-							    success: function(resultData) { 
-							    	console.log("결제되었습니다")
-				    				if (confirm("결제되었습니다.")) {
-						    			location.href = "mypage"
-				    				}
-							   	} 
+							    success: function(resultData) { } 
 							}) 
+					    	msg = "결제되었습니다."
 						} else {
-							var msg = "결제에 실패하였습니다. "
+							msg = "결제에 실패하였습니다. "
 							msg += "에러내용 : " + rsp.error_msg
 							alert(msg)
 						}
+						alert(msg)
+						location.href = "mypage"
 					})
 		    	}
 		   	} 
