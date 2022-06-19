@@ -44,26 +44,28 @@ public class MemberController {
 	@Autowired
 	private QuestionDAO questiondao = QuestionDAO.getInstance();
 	
-	@RequestMapping(value="/login")
-	public String login(Model model) {
+	// 헤더 영화관 메뉴 데이터 불러오기
+	public void cinemaMenu(Model model) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("target", "address");
 		map.put("search", "");
 		
 		List<CinemaDTO> cinemaList = cinemadao.cinemaList(map);
 		model.addAttribute("cinemaList", cinemaList);
+	}
+	
+	// 로그인 페이지 
+	@RequestMapping(value="/login")
+	public String login(Model model) {
+		cinemaMenu(model);
 		
 		return "login";
 	}
 	
+	// 회원가입 페이지 
 	@RequestMapping(value="/signup")
 	public String join(Model model) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("target", "address");
-		map.put("search", "");
-		
-		List<CinemaDTO> cinemaList = cinemadao.cinemaList(map);
-		model.addAttribute("cinemaList", cinemaList);
+		cinemaMenu(model);
 		
 		// 회원가입 - 생년월일 날짜 
 		LocalDate now = LocalDate.now(); 
@@ -78,6 +80,7 @@ public class MemberController {
 		return "signup";
 	}
 	
+	// 로그인 기능
 	@RequestMapping(value="/login_action", method=RequestMethod.POST)
 	public @ResponseBody int login_action(String id, String pw, HttpSession httpss) {
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -95,6 +98,7 @@ public class MemberController {
 		return result;
 	}
 
+	// 회원가입 - 아이디 중복 확인
 	@RequestMapping(value="/signup_id_check", method=RequestMethod.POST)
 	public @ResponseBody int signup_id_check(String id) {
 		
@@ -108,6 +112,7 @@ public class MemberController {
 		return result;
 	}
 	
+	// 회원가입 기능 
 	@RequestMapping(value="/signup_action", method=RequestMethod.POST)
 	public @ResponseBody void signup_action(String id, String pw, String name, 
 			String phonenumber, String birth, String gender) {
@@ -122,6 +127,14 @@ public class MemberController {
 		memberdao.signup(map);
 	}
 	
+	// 로그아웃 기능
+	@RequestMapping(value="/logout")
+	public String logout(HttpSession httpss) {
+		httpss.removeAttribute("myinfo");
+		return "redirect:/"; 
+	}
+
+	// 금액에 3자리마다 콤마찍는 함수
 	public static String comma(String s) {
 		if (s.length() <= 3) {
 			return s;
@@ -129,24 +142,16 @@ public class MemberController {
 			return comma(s.substring(0, s.length()-3)) + ',' + s.substring(s.length()-3, s.length());
 	}
 	
-	@RequestMapping(value="/logout")
-	public String logout(HttpSession httpss) {
-		httpss.removeAttribute("myinfo");
-		return "redirect:/"; 
-	}
-
+	// 마이페이지 
 	@RequestMapping(value="/mypage", method={RequestMethod.POST, RequestMethod.GET})
 	public String mypage(Model model, HttpSession httpss) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("target", "address");
-		map.put("search", "");
-		
-		List<CinemaDTO> cinemaList = cinemadao.cinemaList(map);
-		model.addAttribute("cinemaList", cinemaList);
+		cinemaMenu(model);
 		
 		// 예매 목록
 		String id = (String) httpss.getAttribute("myinfo");
 		List<MypageTicketDTO> mypageTicketList = ticketdao.mypageTicketList(id);
+		
+		// 금액 정보 형식 변경 
 		for (MypageTicketDTO m : mypageTicketList) {
 			m.setTotal_price(comma(m.getTotal_price()));
 		}
@@ -167,6 +172,8 @@ public class MemberController {
 		return "mypage";
 	}
 	
+	
+	// 마이페이지 - 티켓 취소
 	@RequestMapping(value="/ticket_cancel_action", method=RequestMethod.GET)
 	public @ResponseBody void ticket_cancel_action(String ticket_id, String state) {
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -175,7 +182,7 @@ public class MemberController {
 		ticketdao.ticketCancel(map);
 	}
 	
-	
+	// 마이페이지 - 리뷰 작성 여부 확인
 	@RequestMapping(value="/review_already_write", method=RequestMethod.GET)
 	public @ResponseBody int review_already_write(String cinema_showing_id, HttpSession httpss) {
 		String member_id = (String) httpss.getAttribute("myinfo");
@@ -192,16 +199,12 @@ public class MemberController {
 		}
 	}
 	
+	// 마이페이지 - 리뷰 작성 페이지 
 	@RequestMapping(value="/review_write")
 	public String review_write(
 			@RequestParam(value="no1", required=false) String cinema_showing_id, 
 			@RequestParam(value="no2", required=false) String review_id, Model model) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("target", "address");
-		map.put("search", "");
-		
-		List<CinemaDTO> cinemaList = cinemadao.cinemaList(map);
-		model.addAttribute("cinemaList", cinemaList);
+		cinemaMenu(model);
 		
 		// 리뷰 처음 작성
 		model.addAttribute("cinema_showing_id", cinema_showing_id);
@@ -223,6 +226,7 @@ public class MemberController {
 		return "review_write"; 
 	}
 	
+	// 마이페이지 - 리뷰 작성 기능
 	@RequestMapping(value="/review_write_action", method=RequestMethod.GET, produces = "application/text; charset=utf8")
 	public @ResponseBody void review_write_action(String cinema_showing_id, String text, double score, HttpSession httpss) {
 		String member_id = (String) httpss.getAttribute("myinfo");
@@ -236,6 +240,7 @@ public class MemberController {
 		reviewdao.reviewInsert(map);
 	}
 	
+	// 마이페이지 - 리뷰 수정 기능
 	@RequestMapping(value="/review_update_action", method=RequestMethod.GET, produces = "application/text; charset=utf8")
 	public @ResponseBody void review_update_action(String review_id, String text, double score) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -246,23 +251,21 @@ public class MemberController {
 		reviewdao.reviewUpdate(map);
 	}
 	
+	// 마이페이지 - 리뷰 삭제 기능
 	@RequestMapping(value="/review_delete_action", method=RequestMethod.GET)
 	public @ResponseBody void review_delete_action(String review_id) {
 		reviewdao.reviewDelete(review_id);
 	}
 	
+	// 마이페이지 - 1:1 문의 작성페이지 
 	@RequestMapping(value="/question_write")
 	public String question_write(Model model) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("target", "address");
-		map.put("search", "");
-		
-		List<CinemaDTO> cinemaList = cinemadao.cinemaList(map);
-		model.addAttribute("cinemaList", cinemaList);
+		cinemaMenu(model);
 		
 		return "question_write"; 
 	}
 	
+	// 마이페이지 - 1:1 문의 작성 기능 
 	@RequestMapping(value="/question_write_action", method=RequestMethod.POST)
 	public @ResponseBody void question_write_action(
 			String question_type, String question_title, String question_text, HttpSession httpss) {
@@ -275,6 +278,7 @@ public class MemberController {
 		questiondao.questionWrite(map);
 	}
 	
+	// 마의페이지  - 문의 답변 받아오기 
 	@RequestMapping(value="/get_question_answer", method=RequestMethod.GET, produces = "application/text; charset=utf8")
 	public @ResponseBody String get_qa_answer(String question_id) {
 		QuestionDTO question = questiondao.getQuestion(question_id);
@@ -289,6 +293,7 @@ public class MemberController {
 		return result;
 	}
 	
+	// 마이페이지 - 회원정보 수정 기능
 	@RequestMapping(value="/update_member_action", method=RequestMethod.POST)
 	public @ResponseBody void update_member_action(
 			String name, String phonenumber, String birth, String gender, HttpSession httpss) {

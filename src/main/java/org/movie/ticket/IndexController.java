@@ -55,14 +55,20 @@ public class IndexController {
 	@Autowired
 	private TicketDAO ticketdao = TicketDAO.getInstance();
 	
-	@RequestMapping({"/index", "/"})
-	public String index(Model model) {
+	// 헤더 영화관 메뉴 데이터 불러오기
+	public void cinemaMenu(Model model) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("target", "address");
 		map.put("search", "");
 		
 		List<CinemaDTO> cinemaList = cinemadao.cinemaList(map);
 		model.addAttribute("cinemaList", cinemaList);
+	}
+	
+	// 메인페이지 
+	@RequestMapping({"/index", "/"})
+	public String index(Model model) {
+		cinemaMenu(model);
 
 		List<MovieDTO> movieShowingList = moviedao.movieShowingListTop10();
 		model.addAttribute("movieShowingList", movieShowingList);
@@ -73,6 +79,7 @@ public class IndexController {
 		return "index";
 	}
 	
+	// 헤더 영화관 찾기 메뉴
 	@RequestMapping(value="/cinema_search_menu", method=RequestMethod.GET)
 	public @ResponseBody List<CinemaDTO> cinema_search_menu(String target, String search) {
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -83,6 +90,7 @@ public class IndexController {
 		return cinemaList;
 	}
 	
+	// 영화 검색 - 장르 검색
 	@RequestMapping(value="/movie_genre_search", method=RequestMethod.GET, produces = "application/text; charset=utf8")
 	public @ResponseBody String movie_genre_search(String search) {
 		List<MovieDTO> movieGenreSearchShowingList = null;
@@ -105,6 +113,7 @@ public class IndexController {
 		return result;
 	}
 	
+	// 영화 검색 - 제목 검색
 	@RequestMapping(value="/movie_title_search", method=RequestMethod.GET, produces = "application/text; charset=utf8")
 	public @ResponseBody String movie_title_search(String search) {
 		List<MovieDTO> movieTitleSearchShowingList = moviedao.movieTitleSearchShowingList(search);
@@ -118,6 +127,7 @@ public class IndexController {
 		return result;
 	}
 	
+	// 리뷰 좋아요 추가 
 	@RequestMapping(value="/like_count_update", method=RequestMethod.GET, produces = "application/text; charset=utf8")
 	public @ResponseBody String like_count_update(String review_id, int count) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -127,14 +137,10 @@ public class IndexController {
 		return "수정되었습니다";
 	}
 	
+	// 영화관 상세 페이지 
 	@RequestMapping(value="/cinema_detail", method=RequestMethod.GET)
 	public String cinema_detail(@RequestParam String no, Model model) { 
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("target", "address");
-		map.put("search", "");
-		
-		List<CinemaDTO> cinemaList = cinemadao.cinemaList(map);
-		model.addAttribute("cinemaList", cinemaList);
+		cinemaMenu(model);
 		
 		CinemaDTO cinema = cinemadao.selectOne(no);
 		model.addAttribute("cinema", cinema);
@@ -151,14 +157,10 @@ public class IndexController {
 		return "cinema_detail";
 	}
 	
+	// 영화 목록 페이지 
 	@RequestMapping(value="/movie", method=RequestMethod.GET)
 	public String movie(Model model) { 
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("target", "address");
-		map.put("search", "");
-		
-		List<CinemaDTO> cinemaList = cinemadao.cinemaList(map);
-		model.addAttribute("cinemaList", cinemaList);
+		cinemaMenu(model);
 
 		List<GenreDTO> genreList = genredao.genreList();
 		model.addAttribute("genreList", genreList);
@@ -172,15 +174,12 @@ public class IndexController {
 		return "movie";
 	}
 	
+	// 영화 상세 페이지 
 	@RequestMapping(value="/movie_detail", method=RequestMethod.GET)
 	public String movie_detail(@RequestParam String no, Model model) throws ParseException { 
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("target", "address");
-		map.put("search", "");
-		
-		List<CinemaDTO> cinemaList = cinemadao.cinemaList(map);
-		model.addAttribute("cinemaList", cinemaList);
+		cinemaMenu(model);
 
+		// 영화 정보
 		MovieDTO movieInfor = moviedao.movieSelectOne(no);
 		model.addAttribute("movieInfor", movieInfor);
 		
@@ -248,6 +247,7 @@ public class IndexController {
 		return "movie_detail";
 	}
 	
+	// 생일로 나이 반환 함수
 	public static int getAgeFromBirthday(String dateStr) throws ParseException {
 	    Calendar birth = new GregorianCalendar();
 	    Calendar today = new GregorianCalendar();
@@ -266,15 +266,11 @@ public class IndexController {
 	    return today.get(Calendar.YEAR) - birth.get(Calendar.YEAR) + factor;
 	}
 	
+	// 영화 예매 페이지 
 	@RequestMapping(value="/ticket", method=RequestMethod.GET)
 	public String ticket(@RequestParam(value="movie", required=false) String movie, 
 			@RequestParam(value="cinema", required=false) String cinema, Model model, HttpSession httpss) { 
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("target", "address");
-		map.put("search", "");
-		
-		List<CinemaDTO> cinemaList = cinemadao.cinemaList(map);
-		model.addAttribute("cinemaList", cinemaList);
+		cinemaMenu(model);
 		
 		List<MovieDTO> ticketMovieList = ticketdao.ticketMovieList();
 		model.addAttribute("ticketMovieList", ticketMovieList);
@@ -298,6 +294,7 @@ public class IndexController {
 		return "ticket";
 	}
 	
+	// 영화예매 - 영화 상영시간대  
 	@RequestMapping(value="/cinema_showing_action", method=RequestMethod.GET)
 	public @ResponseBody List<ShowingTimeDTO> cinema_showing_action(String title_ko, String cinema_name, String showing_date) {
 		
@@ -337,6 +334,7 @@ public class IndexController {
 		return ticketShowingTimeList;
 	}
 	
+	// 영화 예매 - 좌석 정보 
 	@RequestMapping(value="/seat_infor_action", method=RequestMethod.GET)
 	public @ResponseBody String seat_infor_action(int cinema_seat_id, int cinema_showing_id) {
 
@@ -350,7 +348,8 @@ public class IndexController {
 		String result = gson.toJson(seatResult);
 		return result;
 	}
-		
+	
+	// 영화 예매 - 로그인 여부 확인
 	@RequestMapping(value="/login_check", method=RequestMethod.GET)
 	public @ResponseBody String login_check(HttpSession httpss) {
 		
@@ -362,6 +361,7 @@ public class IndexController {
 		}
 	}
 	
+	// 영화 예매 - 결제 정보 저장
 	@RequestMapping(value="/pay_action", method=RequestMethod.GET)
 	public @ResponseBody void pay_action(String cinema_showing_id, int youth, int adult, String seat, int price, HttpSession httpss) {
 		
