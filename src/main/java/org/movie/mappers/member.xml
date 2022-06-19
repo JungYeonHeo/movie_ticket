@@ -12,7 +12,7 @@
 	</select>
 
 	<!-- 회원가입 : 아이디 중복 확인 -->
-	<select id="signupIdCheck" resultType="org.movie.DTO.MemberDTO">
+	<select id="idCheck" resultType="org.movie.DTO.MemberDTO">
 		select * from member
 		where member_id=#{id}
 	</select>

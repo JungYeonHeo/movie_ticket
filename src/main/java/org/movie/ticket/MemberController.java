@@ -20,6 +20,7 @@ import org.movie.DTO.MypageTicketDTO;
 import org.movie.DTO.QuestionDTO;
 import org.movie.DTO.ReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +44,8 @@ public class MemberController {
 	private TicketDAO ticketdao = TicketDAO.getInstance();
 	@Autowired
 	private QuestionDAO questiondao = QuestionDAO.getInstance();
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 	
 	// 헤더 영화관 메뉴 데이터 불러오기
 	public void cinemaMenu(Model model) {
@@ -83,17 +86,13 @@ public class MemberController {
 	// 로그인 기능
 	@RequestMapping(value="/login_action", method=RequestMethod.POST)
 	public @ResponseBody int login_action(String id, String pw, HttpSession httpss) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("id", id);
-		map.put("pw", pw);
-		
-		MemberDTO member = memberdao.login(map);
+		MemberDTO member = memberdao.idCheck(id);
 		int result = 0;
-		if (member == null) {
-			result = 1;
-		} else {
+		if (passwordEncoder.matches(pw, member.getMember_pw())) {
 			result = 2;
 			httpss.setAttribute("myinfo", id);
+		} else {
+			result = 1;
 		}
 		return result;
 	}
@@ -102,7 +101,7 @@ public class MemberController {
 	@RequestMapping(value="/signup_id_check", method=RequestMethod.POST)
 	public @ResponseBody int signup_id_check(String id) {
 		
-		MemberDTO member = memberdao.signupIdCheck(id);
+		MemberDTO member = memberdao.idCheck(id);
 		int result = 0;
 		if (member == null) {
 			result = 2;
@@ -116,9 +115,10 @@ public class MemberController {
 	@RequestMapping(value="/signup_action", method=RequestMethod.POST)
 	public @ResponseBody void signup_action(String id, String pw, String name, 
 			String phonenumber, String birth, String gender) {
+		String encoderPW = passwordEncoder.encode(pw); 
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("member_id", id);
-		map.put("member_pw", pw);
+		map.put("member_pw", encoderPW);
 		map.put("member_name", name);
 		map.put("phone_number", phonenumber);
 		map.put("gender", gender);
@@ -166,7 +166,7 @@ public class MemberController {
 		model.addAttribute("mypageQAList", mypageQAList);
 		
 		// 회원 정보
-		MemberDTO member = memberdao.signupIdCheck(id);
+		MemberDTO member = memberdao.idCheck(id);
 		model.addAttribute("member", member);
 		
 		return "mypage";
@@ -296,10 +296,12 @@ public class MemberController {
 	// 마이페이지 - 회원정보 수정 기능
 	@RequestMapping(value="/update_member_action", method=RequestMethod.POST)
 	public @ResponseBody void update_member_action(
-			String name, String phonenumber, String birth, String gender, HttpSession httpss) {
+			String pw, String name, String phonenumber, String birth, String gender, HttpSession httpss) {
 		String id = (String) httpss.getAttribute("myinfo");
+		String encoderPW = passwordEncoder.encode(pw); 
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("member_id", id);
+		map.put("member_pw", encoderPW);
 		map.put("member_name", name);
 		map.put("phone_number", phonenumber);
 		map.put("gender", gender);

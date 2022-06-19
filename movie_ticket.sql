@@ -3,7 +3,7 @@ create database movie_ticket;
 use movie_ticket;
 create table member ( -- 회원
     member_id varchar(50) not null,
-    member_pw varchar(20) not null,
+    member_pw varchar(100) not null,
     member_name varchar(50) not null,
     phone_number varchar(20) not null,
     birth date,

@@ -34,8 +34,8 @@ public class MemberDAO {
 		return member;
 	}
 	
-	public MemberDTO signupIdCheck(String id) {
-		MemberDTO member = session.selectOne(memberMapper + ".signupIdCheck", id);
+	public MemberDTO idCheck(String id) {
+		MemberDTO member = session.selectOne(memberMapper + ".idCheck", id);
 		return member;
 	}
 

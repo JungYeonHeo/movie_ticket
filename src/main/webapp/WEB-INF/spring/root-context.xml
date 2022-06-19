@@ -20,4 +20,7 @@
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 	  <constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
+	
+	<!-- spring security -->
+	<bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 </beans>

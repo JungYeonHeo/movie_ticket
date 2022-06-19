@@ -160,7 +160,7 @@
 						<input class="input-id" type="text" value="${member.member_id}" disabled="disabled">
 						<p id="warning-id">* 아이디는 수정할 수 없습니다.</p>
 						<div class='type-text'>비밀번호</div>
-						<input class="input-pw" type="password" value="${member.member_pw}" name="input" autofocus required>
+						<input class="input-pw" type="password" value="" name="input" autofocus required>
 						<p class='p-warning' id="warning-pw">비밀번호를 입력해주세요.</p>
 						<div class='type-text'>이름</div>
 						<input class="input-name" type="text" value="${member.member_name}" name="input" autofocus required placeholder="이름을 확인해주세요.">
