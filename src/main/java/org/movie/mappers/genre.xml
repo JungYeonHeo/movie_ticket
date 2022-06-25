@@ -2,14 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.movie.mappers.genre">
 
+	<!-- 장르 가져오기 -->
 	<select id="genreSelectAll" resultType="org.movie.DTO.GenreDTO">
 		select * from genre order by genre_id asc
 	</select>
 	
+	<!-- 장르의  genre_id 가져오기 -->
 	<select id="genreSelect" resultType="int">
 		select genre_id from genre where genre_ko = #{search}
 	</select>
 
+	<!-- 영화의 장르 가져오기 -->
 	<select id="movieSelectGenre" resultType="String">
 		select genre_ko from genre where genre_id = any(select genre_id from movie_genre where movie_id = #{movie_id}) 
 	</select>

@@ -30,10 +30,12 @@
 	</div>
 </body>
 <script type="text/javascript">
+// enter키로 로그인버튼 누르기
 function enter() {
 	if (event.keyCode == 13) { login() }
 }
 
+// 로그인 동작
 function login() {
 	var id = $(".input-id").val().trim()
 	var pw = $(".input-pw").val().trim()

@@ -2,10 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.movie.mappers.ticket">
 
+	<!-- 영화 상세페이지 - 예매한 사람의 정보 -->
 	<select id="ticketMemberSelect" resultType="org.movie.DTO.MemberDTO">
 		select * from member where member_id = any(select member_id from ticket where cinema_showing_id = any(select cinema_showing_id from cinema_showing where movie_id = #{movie_id}))
 	</select>
 
+	<!-- 마이페이지 예매 리스트 -->
 	<select id="mypageTicketList" resultType="org.movie.DTO.MypageTicketDTO">
 		select ticket.ticket_id, ticket.cinema_showing_id, movie.movie_id, movie.title_ko, movie.poster_img, movie.g_rate_id, cinema.cinema_name, cinema_seat.theater,
 		cinema_showing.showing_date, cinema_showing.showing_time, 
@@ -23,14 +25,17 @@
 		order by ticket_date desc
 	</select>
 	
+	<!-- 예매 영화 리스트 -->
 	<select id="ticketMovieList" resultType="org.movie.DTO.MovieDTO">
 		select * from movie where <![CDATA[opening_date <= now() and closing_date >= now()]]>
 	</select>
 	
+	<!-- 예매 영화관 리스트 -->
 	<select id="ticketCinemaList" resultType="org.movie.DTO.CinemaDTO">
 		select * from cinema order by cinema_name asc
 	</select>
 	
+	<!-- 상영정보 상영시간대 --> 
 	<select id="ticketShowingTimeList" resultType="org.movie.DTO.ShowingTimeDTO">
 		select cinema_showing_id, cinema_seat_id, showing_time from cinema_showing 
 		where movie_id = (select movie_id from movie where title_ko = #{title_ko}) 
@@ -38,18 +43,22 @@
 		and showing_date = #{showing_date}
 	</select>
 	
+	<!-- 상영관의 좌석 정보 -->
 	<select id="ticketSeatInfor" resultType="org.movie.DTO.SeatInforDTO">
 		select * from cinema_seat where cinema_seat_id = #{cinema_seat_id}
 	</select>
 	
+	<!-- 예약된 좌석 -->
 	<select id="reservedSeats" resultType="String">
 		select seat from ticket where cinema_showing_id = #{cinema_showing_id}
 	</select>
 	
+	<!-- 예매 --> 
 	<insert id="ticketInsert">
 		insert into ticket(member_id, cinema_showing_id, youth_count,  adult_count, seat, total_price) value(#{member_id}, #{cinema_showing_id}, #{youth}, #{adult}, #{seat}, #{price})
 	</insert>
 	
+	<!-- 예매 취소 -->
 	<update id="ticketCancel">
 		update ticket 
 		set state = #{state}
