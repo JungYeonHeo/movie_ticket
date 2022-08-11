@@ -87,28 +87,24 @@ public class MemberController {
 	@RequestMapping(value="/login_action", method=RequestMethod.POST)
 	public @ResponseBody int login_action(String id, String pw, HttpSession httpss) {
 		MemberDTO member = memberdao.idCheck(id);
-		int result = 0;
-		if (passwordEncoder.matches(pw, member.getMember_pw())) {
-			result = 2;
-			httpss.setAttribute("myinfo", id);
-		} else {
-			result = 1;
+		if (member == null) {
+			return 1;
 		}
-		return result;
+		if (passwordEncoder.matches(pw, member.getMember_pw())) {
+			httpss.setAttribute("myinfo", id);
+			return 2;
+		}
+		return 1;
 	}
 
 	// 회원가입 - 아이디 중복 확인
 	@RequestMapping(value="/signup_id_check", method=RequestMethod.POST)
 	public @ResponseBody int signup_id_check(String id) {
-		
 		MemberDTO member = memberdao.idCheck(id);
-		int result = 0;
 		if (member == null) {
-			result = 2;
-		} else {
-			result = 1;
+			return 2;
 		}
-		return result;
+		return 1;
 	}
 	
 	// 회원가입 기능 
@@ -138,8 +134,8 @@ public class MemberController {
 	public static String comma(String s) {
 		if (s.length() <= 3) {
 			return s;
-		} else 
-			return comma(s.substring(0, s.length()-3)) + ',' + s.substring(s.length()-3, s.length());
+		} 
+		return comma(s.substring(0, s.length()-3)) + ',' + s.substring(s.length()-3, s.length());
 	}
 	
 	// 마이페이지 

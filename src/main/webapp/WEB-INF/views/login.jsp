@@ -49,17 +49,17 @@ function login() {
 		}
 	} else {
 		$.ajax({
-			method: 'POST',
-			url: '${pageContext.request.contextPath}/login_action',
+			method: "POST",
+			url: "${pageContext.request.contextPath}/login_action",
 			data: {
 				"id" : id,
 				"pw" : pw
 			},
 			success: function(resultData) {
 				if (resultData == 1) {
-					alert('없는 아이디와 비밀번호입니다.')
-				} else {
-					alert('로그인되었습니다.')
+					alert("없는 아이디와 비밀번호입니다.")
+				} else if (resultData == 2) {
+					alert("로그인되었습니다.")
 					var referrer = document.referrer
 					if (referrer.startsWith('http://localhost:8080/ticket/ticket')) {
 						history.go(-1)

@@ -1,0 +1,8 @@
+.git
+.classpath
+.project
+.settings
+target
+/.metadata/
+*.pptx
+*.pdf
