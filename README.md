@@ -75,7 +75,7 @@
 
 #### **📌 로그인/회원가입**
 ![로그인](https://user-images.githubusercontent.com/94504613/184096175-9b05a034-d929-4a6c-8963-ea3fd1635513.png)
-![회원가입](https://user-images.githubusercontent.com/94504613/184096176-c6d0efec-f495-4f8a-9cb6-0cba1833e147.png)
+![회원가입](https://user-images.githubusercontent.com/94504613/184142176-f4819ae2-ae4f-4bd0-8e88-e30c857e7725.png)
 
 #### **📌 마이페이지**
 **예매 목록**
