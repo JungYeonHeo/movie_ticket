@@ -6,7 +6,8 @@
   <img src="https://img.shields.io/badge/css3-2891ca?style=flat&logo=css3&logoColor=white"/>
   <img src="https://img.shields.io/badge/jquery-0766a8?style=flat&logo=jquery&logoColor=white"/>
   <img src="https://img.shields.io/badge/ajax-448fc5?style=flat&logo=jquery&logoColor=white"/>
-  <img src="https://img.shields.io/badge/chart.js-fff000?style=flat&logo=javascript&logoColor=white"/>
+  <img src="https://img.shields.io/badge/javascript-f6dd40?style=flat&logo=javascript&logoColor=white"/>
+  <img src="https://img.shields.io/badge/chart.js-f67276?style=flat&logo=javascript&logoColor=white"/>
   <img src="https://img.shields.io/badge/tomcat-d1a62d?style=flat&logo=Apache&logoColor=white"/>
   <img src="https://img.shields.io/badge/spring-67b945?style=flat&logo=spring&logoColor=white"/>
   <img src="https://img.shields.io/badge/mybatis-000000?style=flat&logo=spring&logoColor=white"/>
@@ -25,6 +26,7 @@
 ## 구현화면
 #### **📌 메인페이지**
 ![main](https://user-images.githubusercontent.com/94504613/184093966-b7b03a08-15b6-4441-9840-4f5b1df0fdc1.png)
+![헤더메뉴_반응형](https://user-images.githubusercontent.com/94504613/184287909-2c64102f-aead-468c-bbed-d5a397501ce6.png)
 - [X] 배너 이미지 3개
 - [X] 인기있는 영화순으로 Top10 나열
 - [X] 영화관, 영화, 로그인, 회원가입, 마이페이지 빠른예매 메뉴
@@ -33,8 +35,10 @@
 
 #### **📌 영화관 메뉴**
 ![영화관_메뉴](https://user-images.githubusercontent.com/94504613/184094366-bdfab094-a250-452a-b42c-5506a858993d.png)
+![영화관메뉴_반응형](https://user-images.githubusercontent.com/94504613/184287905-052f7036-89a0-4ad2-9f96-37428aa12e61.png)
 - [X] Ajax를 사용하여 비동기 검색 ⇒ 검색어 입력시 바로 검색결과 확인
 - [X] 지역에 따른 영화관 확인
+- [X] 모바일, 태블릿을 위한 반응형 레이아웃
 
 #### **📌 영화관 상세**
 ![영화관_상세1](https://user-images.githubusercontent.com/94504613/184094829-11e6022d-f9d9-4e27-b6ff-f7c586c69c07.png)
@@ -71,6 +75,10 @@
 ![예매2](https://user-images.githubusercontent.com/94504613/184105266-b0497088-b09a-4edf-9fbb-1d060e841d8b.png)
 - [X] 인원을 먼저 지정하고 지정한 인원만큼 좌석을 클릭해야 결제 진행
 - [X] 이미 예매된 좌석은 회색으로 표시
+
+#### **📌 결제**
+![결제1](https://user-images.githubusercontent.com/94504613/184292963-ebff0c29-f8e9-4fa0-8d1a-1de31286f9c7.png)
+![결제2](https://user-images.githubusercontent.com/94504613/184292968-c3103ff1-8feb-46ed-8241-b88f2f49bc89.jpg)
 - [X] 아임포트를 이용한 카카오페이 결제를 진행 
 
 #### **📌 로그인/회원가입**
@@ -80,6 +88,9 @@
 #### **📌 마이페이지**
 **예매 목록**
 ![예매목록](https://user-images.githubusercontent.com/94504613/184097174-651f35a3-4017-4182-8dbc-52547c71c612.png)
+- [X] `취소`는 영화시작 1시간 전까지만 가능하도록 구현
+- [X] 영화시작 전에 `리뷰쓰기` 금지
+- [X] 이미 리뷰는 예매 당 1회 작성 가능  
 
 **리뷰 목록 및 리뷰 작성**
 ![리뷰목록](https://user-images.githubusercontent.com/94504613/184097181-3abf9a27-68ab-4cb8-a7f5-3d7f54e453c1.png)
